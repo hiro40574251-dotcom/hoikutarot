@@ -1,0 +1,1159 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保育プロンプト生成ツール ARCANA INFANTIA - AI連携タロット</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<script src="./hoikuisodic.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #009982;
+            --accent-orange: #EC7000;
+            --accent-blue: #0080FF;
+            --accent-pink: #F000F0;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-orange);
+        }
+
+        h2 {
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-orange);
+        }
+
+        .spread-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .spread-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .spread-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            margin: 0;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.4rem;
+        }
+
+        .card-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        .usage-tag {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            background: rgba(236, 112, 0, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .card-body {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .card-body {
+                grid-template-columns: 1fr;
+            }
+            .card-image-container {
+                order: -1;
+                text-align: center;
+            }
+        }
+
+        .positions {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        .features {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+            background: linear-gradient(transparent 70%, rgba(0, 153, 130, 0.1) 70%);
+        }
+
+        .card-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .algorithm {
+            font-size: 0.75rem;
+            color: var(--accent-pink);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .features-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .features-list li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links {
+            margin-top: 50px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .footer-links h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .footer-links li {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .footer-links li:hover {
+            background: #f9f9f9;
+        }
+
+        .footer-links a {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .footer-links span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+<div style="margin:0px;position: absolute;width:520px;height:570px;right: 0px; top: 0px;background-image: url(../img/rtop.jpg); z-index: -1;"></div>
+<div class="container">
+<img src="../img/marseille/hobaybnr.png">
+<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm">
+<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span><br>
+
+<img src="../img/hoikutarot.png" align="right" width="200"><h1>保育AIプロンプト生成ツール</h1><br><br>
+※ 占いではありません。タロット形式で、わかりやすい保育キーワード(保育象徴)を活用した、<ul><li>保育士用の便利ツール</li><li>保育の専門性を保つ実用的なAI連携ツール</li>
+です。<small>→…スプレッド集の下につづく</small></ul>
+</div>
+<div class="container">
+    <header>
+        <h2>保育タロットスプレッド紹介</h2>
+    </header>
+<small>次元定義：<img src="../img/feature.png" height="14">…feature空間（活動の性質・15次元）／<img src="../img/taikyoku.png" height="14">…polarity空間（価値観の方向・5次元）／<img src="../img/isou.png" height="14">…hue空間（生成段階・1次元の環）／<img src="../img/zpd.png" height="14">…ZPD空間（ヴィゴツキーの発達の最近接領域 Zone of Proximal Development の理論を応用・15次元）</small><br>
+<span class="card-title">スプレッド名</span><span class="usage-tag">用途</span>
+<span class="positions">ポジション配置</span>
+<span class="algorithm">アルゴリズム</span>
+
+    <div class="spread-grid">
+
+        <!-- ZPD発達ダイナミクス4 -->
+        <article class="spread-card" style="background-image: url('../img/tran.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./developmental_dynamics4.htm" target="_blank">発達ダイナミクス4スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">気になる子の理解・対応・支援</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①現在発達段階 ②発達の芽生え ③発達の壁 ④発達の橋
+                    </div>
+                    <div class="features">
+                        「今できる←→まだできない」の境界を精密に捉える。
+                        <ul class="features-list">
+                            <li>子どもの<span class="highlight">発達状態・発達プロセス</span>を把握し、適切な支援によって<span class="highlight">伸ばせる力</span>を見極める。</li>
+                            <li>ヴィコツキーの「<span class="highlight">発達の最近接領域</span>」の理論を応用。</li>
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>現在＝ポジ①のみ逆位置含む88枚採用のcosθ</li>
+<li>芽生え＝0.3オフセット</li>
+<li>壁＝「実り」カード方向射影</li>
+<li>橋＝②と③の中間ベクトル</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./developmental_dynamics4.htm" target="_blank">
+                        <img src="../img/zpd4.png" alt="発達ダイナミクス4スプレッド">
+                    </a>
+                    <div class="algorithm">ベクトル計算</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD「活動→子ども」逆引きスプレッド -->
+        <article class="spread-card" style="background-image: url('../img/gyak.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./reverse_spread.htm" target="_blank">「活動→子ども」逆引きスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"> <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <span class="usage-tag">活動から特定の子向け調整</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①この活動で育つ力 ②この子の「活動との接点」 ③この子に合わせた活動のアレンジ
+                    </div>
+                    <div class="features">
+                        活動で育つ力・接点を把握し、特定の子向けの工夫を考える。
+                        <ul class="features-list">
+                            <li>「選んだ<span class="highlight">活動がこの子のZPDにどう作用するか</span>」を読む。</li><li>通常は「Q(子どもの様子)からカードへ」だが、「<span class="highlight">活動からQへ</span>」の逆方向(活動をカードのように扱う発想×逆引き)。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>actZPD(活動ベクトルをZPDベクトルに変換) そのまま</li>
+<li>要素積ベクトル：match_vec[i] = max(0,Q[i]) × actZPD[i]</li>
+<li>deficit × actZPD の差分ベクトル + C3大人信頼×1.5</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./reverse_spread.htm" target="_blank">
+                        <img src="../img/rev.png" alt="「活動→子ども」逆引きスプレッド">
+                    </a>
+                    <div class="algorithm">活動を子どもQで評価</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD保育環境デザインスプレッド -->
+        <article class="spread-card" style="background-image: url('../img/envd.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./childcare_environment.htm" target="_blank">保育環境デザインスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">環境構成の場・関係・時間を設計</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①物的環境 ②人的環境 ③時間・流れ
+                    </div>
+                    <div class="features">
+                        保育の環境構成「物的・人的・時間的」3軸でどう場を整えるかを考える。
+                        <ul class="features-list">
+                            <li>D次元(<span class="highlight">環境・文脈</span>)が全カード選出の基底。発達状態よりも「<span class="highlight">場のデザイン余白</span>」に焦点を当てる。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：<br>「各軸の理想ベクトル」を基底に、Qの困難な次元ほど理想値を強く求める deficit補正方式
+<li>物的環境: D2クラス位置 × A3感覚統合 の合成ウェイト<br>
+   → 「この子が場に馴染めるか」「感覚的に安心できる空間か」</li>
+<li>人的: C3大人信頼 × C2他児関係 の合成ウェイト<br>
+   → 「誰とどう関わるか」「関係性の質」</li>
+<li>時間: B3見通し力×2.5 + ①②中間ベクトル30%補正<br>
+   → 3つの軸が独立しつつ、③が①②を統合する構造</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./childcare_environment.htm" target="_blank">
+                        <img src="../img/envd.png" alt="保育環境デザインスプレッド">
+                    </a>
+                    <div class="algorithm">D次元を起点に3軸展開</div>
+                </div>
+            </div>
+        </article>
+
+<!-- ★★★★★★★★★★★★★★★★★★★★★★★★ -->
+        <!-- ZPDスプレッド -->
+<!-- 
+        <article class="spread-card" style="background-image: url('../img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./daily_living_skills.htm" target="_blank">スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">援助法</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ① ② ③
+                    </div>
+                    <div class="features">
+                        「縮。
+                        <ul class="features-list">
+                            <li>子どもの<span class="highlight">今ある強み</span>る。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>で</li>
+<li>で</li>
+<li>援ト</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./daily_living_skills.htm" target="_blank">
+                        <img src="../img/lskill.png" alt="スプレッド">
+                    </a>
+                    <div class="algorithm">空間</div>
+                </div>
+            </div>
+        </article>
+ -->
+<!-- ★★★★★★★★★★★★★★★★★★★★★★★★ -->
+
+        <!-- ZPD遊びの拡張スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/plex.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./play_expand_spread.htm" target="_blank">遊びの拡張スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">援助法</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①今一番熱中している遊びのパターン ②その遊びから広がれる方向 ③保育者が仕掛ける「遊びの足場」
+                    </div>
+                    <div class="features">
+                        今の遊びパターンをどう広げるかを問う。
+                        <ul class="features-list">
+                            <li>子どもの<span class="highlight">今ある強み</span>を遊びの言語に変換。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>上位4次元に最近傍</li>
+<li>①を位相+60°回転</li>
+<li>①②の中間 + D2クラス位置×1.6 + C2他児関係×1.4</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./play_expand_spread.htm" target="_blank">
+                        <img src="../img/ply.png" alt="遊びの拡張スプレッド">
+                    </a>
+                    <div class="algorithm">A5運動意欲×C2他児関係×B2表出言語</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD保育者協働スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/col.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./collab_spread.htm" target="_blank">保育者協働スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">保育者チーム協働プラン</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①担任保育者の関わり方 ②副担任・保育補助の役割 ③家庭との連携ポイント ④チームへのヒント
+                    </div>
+                    <div class="features">
+                        保育チームの役割分担を問う。
+                        <ul class="features-list">
+                            <li><span class="highlight">チーム全体の関わり</span>を4枚に分けて可視化。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+アルゴリズム詳細： 理想ベクトル基底 × deficit補正
+<li>「感情・信頼」軸が高い状態<br>
+→ 「安全基地として最も深く関わる人」</li>
+<li>「活動・遊び・仲間」軸<br>
+→ 担任と「補完的な別軸」で関わる役割</li>
+<li>D1家庭連携が最大値付近</li>
+<li>①②③のベクトルの平均（重心）に最近傍</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./collab_spread.htm" target="_blank">
+                        <img src="../img/kyod.png" alt="保育者協働スプレッド">
+                    </a>
+                    <div class="algorithm">C3大人信頼・D1家庭連携を複数人格に分解</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD育ちの時系列スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/grow.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./timeline_spread.htm" target="_blank">育ちの時系列スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">子どもの育ちの時系列分析</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①育ちのルーツ ②今の姿 ③発達の芽生え ④目指す育ち ⑤大人の役割
+                    </div>
+                    <div class="features">
+                        長期的育ちを問う。
+                        <ul class="features-list">
+                            <li>ドラマチックな時間展開。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>Q×0.5縮小（過去仮想ベクトル）</li>
+<li>Qそのまま、逆位置解禁88枚扱いで困難もそのまま映す</li>
+<li>芽生え引力ベクトル / 困難次元→中間引き上げ / 得意次元維持</li>
+<li>実りと②カードの中間</li>
+<li>大人信頼・家庭連携強調 / deficit補正→子どもの困難ほど大人の役割が問われる</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./timeline_spread.htm" target="_blank">
+                        <img src="../img/grow.png" alt="育ちの時系列スプレッド">
+                    </a>
+                    <div class="algorithm">全次元×時間スケール変形</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD言語・コミュニケーションスプレッド -->
+        <article class="spread-card" style="background-image: url('../img/com.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./lang_spread.htm" target="_blank">言語・コミュニケーションスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">言葉の育ちに困難のある子への対応</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①今の言葉の世界 ②言葉が広がる入口 ③言葉を育てる関わり
+                    </div>
+                    <div class="features">
+                        言葉の育ち・伝えること・聞くことへの支援
+                        <ul class="features-list">
+                            <li><span class="highlight">B1理解言語とB2表出言語の「差」</span>に着目。<br>理解＞表出 → 「わかっているが言えない」タイプ<br>表出＞理解 → 「たくさん話すが伝わらない」タイプ<br>このアンバランスをベクトル化して選出に活かす。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>B次元重みつき</li>
+<li>B4模倣学習+A3感覚統合</li>
+<li>B1-B2差分に応じた選出</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./lang_spread.htm" target="_blank">
+                        <img src="../img/lang.png" alt="言語・コミュニケーションスプレッド">
+                    </a>
+                    <div class="algorithm">B次元主軸＋C3大人信頼補助</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD感覚・身体スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/kankaku.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./sensory_spread.htm" target="_blank">感覚・身体スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">感覚統合・身体発達に困難のある子への対応</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①今の身体感覚の状態 ②身体が「安心できる」状態 ③保育者・環境からの感覚サポート
+                    </div>
+                    <div class="features">
+                        <span class="highlight">感覚統合・身体発達</span>への特化支援。
+                        <ul class="features-list">
+                            <li>A次元専用で<span class="highlight">感覚過敏・鈍麻・協調運動困難などに特化</span></li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>A次元の重みつきQで選出</li>
+<li>A3感覚統合の理想ベクトル</li>
+<li>物的環境+人的環境を合成</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./sensory_spread.htm" target="_blank">
+                        <img src="../img/kank.png" alt="感覚・身体スプレッド">
+                    </a>
+                    <div class="algorithm">A次元（5次元）のみ＋A3感覚統合に超高ウェイト</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD情緒安定スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/emo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./emotion_spread.htm" target="_blank">情緒安定スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">感情的に不安定な子への対応</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①今の感情状態 ②安全基地(安定の核) ③自己調整の芽 ④保育者の言葉かけ
+                    </div>
+                    <div class="features">
+                        感情的に不安定な子の「今の状態→安全基地→自己調整の芽→言葉かけ」を読む。
+                        <ul class="features-list">
+                            <li><span class="highlight">C次元(情緒)</span>を主軸に据え、<span class="highlight">A3感覚統合</span>を補助軸に入れることで、<span class="highlight">感覚過敏・発達障害の子に対応可能</span>。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>C1感情調整次元に投影した1次元スコアが低いカード群から最近傍（壁の側）</li>
+<li>C3大人信頼・A3感覚統合が高いカードに最近傍（養護・安らぎ・根など）</li>
+<li>①の対極ベクトル方向に近く、かつC2他児・C4切替が中間値のカード</li>
+<li>②と③の中間ベクトルに最近傍</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./emotion_spread.htm" target="_blank">
+                        <img src="../img/joucho.png" alt="情緒安定スプレッド">
+                    </a>
+                    <div class="algorithm">C次元主軸で低スコア側から選出</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ZPD生活スキル習得スプレッド -->
+        <article class="spread-card" style="background-image: url('../img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./daily_living_skills.htm" target="_blank">生活スキル習得スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <span class="usage-tag">着替え・排泄・などの特定スキルに絞った援助法</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①今できている動作のパターン ②次の一歩(ZPD内の目標動作) ③具体的な援助のかたち
+                    </div>
+                    <div class="features">
+                        「A身体・運動×B認知・言語」次元の積空間で「できる/できそう/援助法」を3枚に凝縮。
+                        <ul class="features-list">
+                            <li>子どもの<span class="highlight">今ある強み</span>を起点に<span class="highlight">伸ばせる力</span>を見極める。</li>
+                            
+                        </ul><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>できる＝プラス次元のみ抽出 + ABウェイトの「強みベクトル」</li>
+<li>できそう＝①を位相+60°(Givens)回転 + A系合計スコアが①より高いカードにボーナス</li>
+<li>援助法＝①②の中間ベクトル + 大人信頼(C3)に×2ウェイト</li>
+</ol>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./daily_living_skills.htm" target="_blank">
+                        <img src="../img/lskill.png" alt="生活スキル習得スプレッド">
+                    </a>
+                    <div class="algorithm">A4協調×B4模倣 を強調したプラス次元抽出</div>
+                </div>
+            </div>
+        </article>
+
+
+        <!-- ケルト十字法 -->
+        <article class="spread-card" class="spread-card" style="background-image: url('../img/celt.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./hoikutarotceltic.htm" target="_blank">保育活動案生成 ケルト十字法 <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <span class="usage-tag">月案・行事・指導案・週案・日案</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①活動テーマ ②配慮事項 ③④ねらい ⑤導入 ⑥展開・発展 ⑦主体性の引き出し ⑧環境構成 ⑨評価 ⑩次への繋ぎ
+                    </div>
+                    <div class="features">
+                        どうすれば<span class="highlight">質の高い活動案</span>を、事前知識なしに<span class="highlight">AI生成</span>できるかを徹底的に考え尽くしたので、<span class="highlight">一番自信を持ってオススメ</span>できる精度です。<br>
+                        類似度、意味の質、確率更新、モンテカルロ解析などの複雑な計算を経て、深い活動案を作る数値パッケージ入りプロンプトを生成します。ケルト十字のポジションの力と計算を組み合わせることで、保育士の思考に近い一貫した物語が紡がれます。
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./hoikutarotceltic.htm" target="_blank">
+                        <img src="../img/marseille/celt.png" alt="保育ケルト十字法">
+                    </a>
+                    <div class="algorithm">ベイズ更新・モンテカルロ法</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 即興5枚引き -->
+        <article class="spread-card" class="spread-card" style="background-image: url('../img/sokyo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./hoikutarot5cards.htm" target="_blank">保育活動案 即興5枚引きスプレッド <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <span class="usage-tag">週案・日案・即興活動</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①ねらい → ②導入 → ③展開 → ④まとめ → ⑤評価
+                    </div>
+                    <div class="features">
+                        保育の流れそのものの明確な役割をもったポジションで、保育者が直感的に理解できます。
+                        <ul class="features-list">
+                            <li>仕組みは一番<span class="highlight">簡単で分かりやすい</span>です。</li>
+                            <li>各グループが保育実践の要素（ねらい、導入、展開、まとめ、評価・配慮）と対応し、妥当性の高いカードが引かれます。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./hoikutarot5cards.htm" target="_blank">
+                        <img src="../img/sokkyo5.png" alt="即興5枚引きスプレッド">
+                    </a>
+                    <div class="algorithm">グループ制御ランダム</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ズレ→環境構成 -->
+        <article class="spread-card" style="background-image: url('../img/zrk.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./hoikutarotzure.htm" target="_blank">ズレ→環境構成スプレッド <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <span class="usage-tag">環境構成の見落としチェック・気付き</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ① ズレの核（1～2枚） ② 子どもの姿 ③ 環境の弱点 ④ 環境の処方箋
+                    </div>
+                    <div class="features">
+                        保育者が選んだ活動環境と、カードの<span class="highlight">“ズレ”を環境構成の改善ポイントに変換</span>します。<br>
+                        保育活動プリセットを第2のカードデッキ（環境デッキ）として扱う斬新な発想で、見落としがちな視点を提供します。
+                    </div>
+<ul style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>カイ2乗の考え方を保育領域向けにカスタマイズした重み付き残差分析</li>
+</ul>                </div>
+                <div class="card-image-container">
+                    <a href="./hoikutarotzure.htm" target="_blank">
+                        <img src="../img/zk.png" alt="ズレ→環境構成">
+                    </a>
+                    <div class="algorithm">ベクトル内積計算</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 保育位相スペクトラム -->
+        <article class="spread-card" style="background-image: url('../img/isos.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./childcarephasespectrum.htm" target="_blank">保育位相スペクトラム ～6相診断～<br> <img alt="活動" src="../img/feature.png" height="20"> <img alt="対極性" src="../img/taikyoku.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> </a></h3>
+                <span class="usage-tag">活動の方向性確認・保育観共有・<br>子どもの欲求、ズレ、安全性整理</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ①現在 ②競合 ③ズレ核 ④ブリッジ ⑤安全策 ⑥位相補正
+                    </div>
+                    <div class="features">
+                        保育活動の6方向バリエーション掲示ツール。幼児に関わる仕事に携わる人にとって<span class="highlight">気付きや学び</span>になります。<br>
+                        AIが気分で適当に答えないよう、<span class="highlight">理論・数値・計算で制御</span>。保育や発達心理の専門的な内容を高い精度で出力します。
+                    </div><ol style="font-size: 0.75rem;color: var(--accent-pink);font-weight: bold;">アルゴリズム詳細：
+<li>現在＝保育文脈類似度＋観測ノイズ揺らぎ＋温度(保育の不確実性)</li>
+<li>競合＝極性(保育の価値観)距離＋Hue(象徴的色相)距離</li>
+<li>ズレ核＝文脈からの距離</li>
+<li>ブリッジ＝中間ベクトル</li>
+<li>安全策＝Hue安定＋多様性＋弱抑制</li>
+<li>位相補正＝Hue位相差60°のガウス</li></ol>
+                </div>
+                <div class="card-image-container">
+                    <a href="./childcarephasespectrum.htm" target="_blank">
+                        <img src="../img/6so.png" alt="保育位相スペクトラム">
+                    </a>
+                    <div class="algorithm">各ポジごと独自アルゴリズム＋弱揺らぎ</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- おはなし生成 -->
+        <article class="spread-card" class="spread-card" style="background-image: url('../img/ehon.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./story3actspread.htm" target="_blank">おはなし生成“3アクト法”フラクタルスプレッド<br><img alt="活動" src="../img/feature.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> → <img alt="物語" src="../img/story.png" height="20"></a></h3>
+                <span class="usage-tag">幼保で活用するお話の骨格作り</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        Act①種 Act②動力 Act③変容
+                    </div>
+                    <div class="features">
+                        3枚のカードからフラクタル的に補完して5シーンを生成します。<br>
+                        一貫性と緊張度の2軸でおはなしを分類し、ベクトル値を「物語の曲がり具合」や「エネルギーの変化」に変換。高度な計算に基づきつつも、<span class="highlight">生成されるお話は親しみやすい</span>ものです。
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./story3actspread.htm" target="_blank">
+                        <img src="../img/3act.png" alt="おはなし生成フラクタルスプレッド">
+                    </a>
+                    <div class="algorithm">ベクトル差分ベース・フラクタル展開</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 運動会種目生成 -->
+        <article class="spread-card" class="spread-card" style="background-image: url('../img/und.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./undokaiact3.htm" target="_blank">運動会種目生成おはなし“3アクト法”<br><img alt="活動" src="../img/feature.png" height="20"> → <img alt="物語" src="../img/story.png" height="20"> </a></h3>
+                <span class="usage-tag">運動会競技アイデア・意味付け</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        Act① → Act② → Act③
+                    </div>
+                    <div class="features">
+                        <ul class="features-list">
+                            <li><span class="highlight">運動会の競技</span>を単なる障害物ではなく、象徴ベクトル計算によって<span class="highlight">物語化・意味づけ</span>します。</li>
+                            <li>3枚のカードから「強調テーマ」を抽出し、3～4シーンの競技案を作成します。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./undokaiact3.htm" target="_blank">
+                        <img src="../img/undact.png" alt="運動会種目生成おはなし“3アクト法”">
+                    </a>
+                    <div class="algorithm">ベイズ更新</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- クロスオーバースプレッド -->
+        <article class="spread-card" style="background-image: url('../img/crov.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./crossoverspread.htm" target="_blank">クロスオーバースプレッド<br> <img alt="活動" src="../img/feature.png" height="20"> <img alt="対極性" src="../img/taikyoku.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> </a></h3>
+                <span class="usage-tag">保育アイデア・遊びの創出</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="positions">
+                        ｜★主プリセット - ★副プリセット｜ = Δ最大差分次元 → ①触媒カード
+                    </div>
+                    <div class="features">
+                        異なる視点を交差させ、<span class="highlight">斬新な保育アイデア</span>を生み出します。<br>
+                        保育活動プリセットをカードのように扱う設計で、既存の枠組みを超えた発想を支援します。
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./crossoverspread.htm" target="_blank">
+                        <img src="../img/covr.png" alt="クロスオーバースプレッド">
+                    </a>
+                    <div class="algorithm">差分次元計算</div>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <section class="footer-links" style="background-image: url('../img/foo.jpg'); background-repeat:no-repeat;background-size:cover ;">
+        <h2>おまけ・関連リソース</h2>
+        <ul>
+            <li>
+                <a href="./arcana-compatibility-matrix.htm">保育タロット象徴・ペア相性マトリックス</a>
+                <span>946通りのペアを掲載。連想ゲームのように楽しめます。</span>
+            </li>
+            <li>
+                <a href="./arcana-celtic-mvp.htm">活動案 ケルト十字法MVP版(反則)</a>
+                <span>初期のカード選出ロジックを採用した、最小機能版です。</span>
+            </li>
+            <li>
+                <a href="./zpd.htm"> 発達ダイナミクス4 プロトタイプ</a>
+                <span>初期のカード選出ロジック(①同。ただし逆位置なし, ②位相+60°回転→Givens回転の連鎖, ③符号反転, ④1と3の中間)を採用した、試作版。(要Claudeアカウント)</span>
+            </li>
+        </ul>
+    </section>
+</div>
+
+<hr>
+
+<hr>
+<div class="container">
+
+<small>→冒頭の続き</small>
+※ タロットと言っても、占いではなく、
+<ul>
+<li>ベテラン保育士の「経験則や優れた直感、保育のセンス」としか表現しようがなかった「保育の専門性」を、ざっくりとでいいからいったん数値化すると、数学的に根拠を持った計算ができ、それなりに正しい方向性の推測が出せる構造</li>
+<li>保育文脈と象徴の距離を推定し、ベクトルや類似度計算・ベイズ更新するだけで活動・アドバイス・分析が出てくる構造</li><li>保育専用計算論的AI連携推論エンジン</li><li>保育の専門性のレールを敷き、AIを制御して賢く使う保育専用の推論ツール</li><li>発達心理、保育観、活動の性質、数学、統計学、…などを統合した計算論的保育モデル</li><li>多次元の座標空間(15次元ベクトル + 5対極軸 + 1位相)で、次の最適解をシミュレートするエンジン</li><li>保育という極めて不確定な事象を、数学的に制御・支援可能にしたフレームワーク</li>
+です。</ul>
+
+実際に活用する際は、「タロット」「象徴」「カード」「ポジション」といった言葉は使わず「保育キーワード」か「キーワード」に変えると自然です。<ul>（例）：
+<li>発達の壁は「変容」のカード → 発達の壁のキーワードは「変容」</li><li>活動のねらいのポジションは「意欲」カード → 活動のねらいは「意欲」がキーワード。</li><li></li></ul>
+
+<br><br>
+
+事の始まりは、普通のタロットで保育活動案生成ができないか考えたことでした。試行錯誤の末、保育専用に象徴から定義したほうが良さそうなことに気付きました。<br>そこで、保育専用タロットの大・小アルカナ、22＋22枚・計44枚を作ってみました。<br><span style="color:#f7195c;font-weight:bold;">保育指針との親和性スコア0.82以上の実践的な象徴</span>です。
+
+<br><br>
+
+<span id="purs"></span><H2>基本的な使い方</H2>
+<script>
+const pupu=precadi("園周辺散歩", "right")
+document.getElementById("purs").innerHTML = pupu;
+</script>
+
+
+<ul>スプレッドにより違いはありますが、だいたいこのような流れです。
+<li><img alt="活動" src="../img/feature.png" height="20">ベクトルのスプレッド<ol>
+<li><span style="background:yellow;">年齢・月</span>を選択</li>
+<li><span style="background:yellow;">保育活動プリセット</span>を選択</li>
+<li><span style="background:yellow;">カードをひく</span>ボタン押下</li>
+<li><span style="background:yellow;">プロンプト</span>出力</li>
+<li>ChatGPTなどの<span style="background:yellow;">会話型AIに貼り付け</span></li>
+</ol>
+</li>
+<li><img alt="ZPD" src="../img/zpd.png" height="20">ベクトルのスプレッド<small>(AIによる自然言語のベクトル値解析が入ります。活動ベクトルのプリセット化と比べ、「子どもの事例の多様さ＆保育者の主観が入る」ため、個別の事例のベクトル化難易度が高い。)</small><ol>
+<li><span style="background:yellow;">年齢</span>(2～5歳児クラス)を選択</li>
+<li><span style="background:yellow;">似た事例</span>を選択</li>
+<li><span style="background:yellow;">自由テキスト</span>を編集</li>
+<li><span style="background:yellow;">数値解析プロンプト</span>出力</li>
+<li>ChatGPTなどの<span style="background:yellow;">会話型AIに貼り付け</span></li>
+<li>解析された<span style="background:yellow;">数値</span>読み込み</li>
+<li><span style="background:yellow;">カードをひく</span>ボタン押下</li>
+<li><span style="background:yellow;">リーディングプロンプト</span>出力</li>
+<li>ChatGPTなどの<span style="background:yellow;">会話型AIに貼り付け</span></li>
+</ol>
+</li></ul>
+<strong>そして、↓<H2>このグラデーションの線までで完結</H2>します。</strong>
+<span id="grkeisen"></span>
+<script>
+document.getElementById("grkeisen").innerHTML = grkei
+</script><br>線の下には、詳細な計算ログが出てきますが、難しい計算内容を理解しなくても見なくても活動案やZPDリーディングなどの生成に影響ありません。
+<br><br>
+タロット占い形式を応用していますが、占いではないので、直感や推測、未来予知とは違います。
+
+<br><br>
+
+<H2>4種の座標データ定義(“活動 / ZPD”15次元ベクトル + 5対極軸 + 1位相)</H2>
+
+<ol><!-- 1 -->
+<li><span style="color:green;font-weight:bold;font-size:20px;">数学的に根拠を持ったベクトル</span>
+
+<ul><!-- 2 --><li>
+
+<h3>【保育活動用】保育文脈における重要次元（15次元）(0～1の値)</h3>
+
+<ol><!-- 3 -->
+<h4>
+<span id="jg1"></span>
+<script>
+let jgn=Dcadi("表現性", "right")
+document.getElementById("jg1").innerHTML = jgn;
+</script>
+【発達支援次元】（5次元）</h4>
+
+<li>主体性 (Autonomy): 子どもの自己決定度</li>
+<li>探索性 (Exploration): 試行錯誤・発見の度合い</li>
+<li>協同性 (Cooperation): 他者との関わり度</li>
+<li>表現性 (Expression): 感情・思考の外化度</li>
+<li>身体性 (Physicality): 身体活動の関与度</li>
+
+<br clear="right">
+<h4>
+<span id="jg2"></span>
+<script>
+jgn=Dcadi("時間スケール", "right")
+document.getElementById("jg2").innerHTML = jgn;
+</script>
+【保育実践次元】（5次元）</h4>
+<li>計画性 (Planning): 事前準備の必要度</li>
+<li>柔軟性 (Flexibility): 即興・変更の許容度</li>
+<li>安全性 (Safety): リスク管理の重要度</li>
+<li>素材依存 (Material): 物的環境への依存度</li>
+<li>時間スケール (Duration): 短期/長期活動の適性</li>
+
+<br clear="right">
+<h4>
+<span id="jg3"></span>
+<script>
+jgn=Dcadi("繋がり性", "right")
+document.getElementById("jg3").innerHTML = jgn;
+</script>
+【情緒・関係次元】（5次元）</h4>
+<li>安定性 (Stability): 情緒的安心感の提供度</li>
+<li>刺激性 (Stimulation): 興奮・活性化の度合い</li>
+<li>葛藤性 (Conflict): トラブル発生の可能性</li>
+<li>達成感 (Achievement): 成功体験の明確さ</li>
+<li>繋がり性 (Connection): 関係性深化の度合い</li>
+</ol>
+</li><br><br clear="right">
+<span id="jgksk"></span>
+<script>
+document.getElementById("jgksk").innerHTML = jigenkaishaku;
+</script>
+<br><br>
+
+</li><!-- 2 -->
+<li><!-- 2 -->
+<img src="../img/vigo.jpg" align="right" alt="ヴィコツキー"><h3>【ZPD用】子どもの発達を捉える次元（15次元）(-1～1の値)<br><small>ヴィゴツキーの「発達の最近接領域」の理論を応用しています。</small></h3>
+<ul>
+<li>領域A 身体・運動（5次元）
+<ul>
+<li>A1: 粗大運動の安定性   <span style="color:blue;">低=-1</span>:転倒多い・ぎこちない動き     <span style="color:red;">高=+1</span>:動作が安定・着地が確実</li>
+<li>A2: バランス感覚       <span style="color:blue;">低=-1</span>:バランス崩れやすい <span style="color:red;">高=+1</span>:体幹安定</li>
+<li>A3: 感覚統合           <span style="color:blue;">低=-1</span>:過敏/鈍麻あり      <span style="color:red;">高=+1</span>:感覚処理安定</li>
+<li>A4: 協調運動（両手足） <span style="color:blue;">低=-1</span>:手足がバラバラ     <span style="color:red;">高=+1</span>:スムーズな協調</li>
+<li>A5: 運動への意欲       <span style="color:blue;">低=-1</span>:身体活動を避ける   <span style="color:red;">高=+1</span>:積極的に動く</li>
+</ul>
+</li>
+<li>領域B 認知・言語（4次元）
+<ul>
+<li>B1: 理解言語           <span style="color:blue;">低=-1</span>:指示が入りにくい   <span style="color:red;">高=+1</span>:理解が早い</li>
+<li>B2: 表出言語           <span style="color:blue;">低=-1</span>:言葉で伝えにくい   <span style="color:red;">高=+1</span>:豊かに表現できる</li>
+<li>B3: 見通し力（予測）   <span style="color:blue;">低=-1</span>:次が読めない       <span style="color:red;">高=+1</span>:先を見越せる</li>
+<li>B4: 模倣・学習スタイル <span style="color:blue;">低=-1</span>:真似が難しい       <span style="color:red;">高=+1</span>:見て素早く取り込む</li>
+</ul>
+</li>
+<li>領域C 社会・情緒（4次元）
+<ul>
+<li>C1: 感情調整           <span style="color:blue;">低=-1</span>:感情爆発/フリーズ  <span style="color:red;">高=+1</span>:気持ちを落ち着けられる</li>
+<li>C2: 他児との関係性     <span style="color:blue;">低=-1</span>:孤立/トラブル多い  <span style="color:red;">高=+1</span>:協働・仲良く遊べる</li>
+<li>C3: 大人への信頼       <span style="color:blue;">低=-1</span>:援助を拒否/依存過多 <span style="color:red;">高=+1</span>:適度に頼り受け入れる</li>
+<li>C4: 切り替えやすさ     <span style="color:blue;">低=-1</span>:固執・こだわり強い <span style="color:red;">高=+1</span>:柔軟に気持ちを変えられる</li>
+</ul>
+</li>
+<li>領域D 環境・文脈（2次元）
+<ul>
+<li>D1: 家庭との連携しやすさ <span style="color:blue;">低=-1</span>家庭と連携困難   <span style="color:red;">高=+1</span>:家庭と連携しやすい</li>
+<li>D2: クラス内の位置づけ   <span style="color:blue;">低=-1</span>:孤立・浮いている <span style="color:red;">高=+1</span>:クラスに溶け込んでいる</li>
+</ul>
+</li>
+</ul>
+</li><!-- 2 -->
+</ul><!-- 2 -->
+<br><br>
+
+<li><span style="color:green;font-weight:bold;font-size:20px;">5次元の対極軸</span>
+<h3>保育の価値観の方向性を表す（5次元）(-1～1の値)</h3>
+<ol><img src="../img/pol.png" align="right" alt="対極軸">
+<li>養護↔教育</li>
+子どもの安全・安心を守る←→発達・学びを促す
+<li>個別↔集団</li>
+1人ひとりのペース←→みんなで一緒に
+<li>静↔動</li>
+落ち着いた・じっくり←→活発な・ダイナミック
+<li>構造↔自由</li>
+ルール・枠組み←→自由・即興
+<li>安定↔挑戦</li>
+安心・慣れた←→新しい・冒険
+</ol>
+</li>
+<br><br>
+
+
+<li><span style="color:green;font-weight:bold;font-size:20px;">6位相環</span>
+
+<h3>活動の流れの可視化（1次元の環）(0°～360°)</h3>
+<ol><img src="../img/iso.png" align="right" alt="位相環">
+注：近傍区分での境界<li>きっかけ（中心0°: 330°～ 30°未満）trigger</li><li>模倣（中心60°: 30°～ 90°未満）imitation</li><li>構造化（中心120°: 90°～150°未満）structure</li><li>協働（中心180°: 150°～210°未満）  collaboration</li><li>創造（中心240°: 210°～270°未満）creation</li><li>省察（中心300°: 270°～330°未満）reflection</li>
+</ol>
+
+
+</li>
+</ol>
+
+
+
+
+
+
+
+<br>
+<h3>保育象徴の保育指針との親和性スコア</h3>
+<ul><li>スコア<span style="color:#f7195c;font-weight:bold;">0.95</span>以上 …5枚
+<table border=0>
+<tr><td width="80">象徴名</td><td width="90">主領域</td><td width="40">スコア</td><tr>
+<tr><td>養護</td><td>生命/情緒</td><td>0.98</td><tr>
+<tr><td>遊び</td><td>全般</td><td>0.97</td><tr>
+<tr><td>創造的自由</td><td>表現</td><td>0.96</td><tr>
+<tr><td>見守り</td><td>情緒</td><td>0.95</td><tr>
+<tr><td>素材</td><td>環境</td><td>0.95</td><tr>
+</table></li>
+
+<li>スコア<span style="color:#f7195c;font-weight:bold;">0.93～0.94</span> …7枚
+<table border=0>
+<tr><td width="80">対話</td><td width="90">言葉</td><td width="40">0.94</td><tr>
+<tr><td>身体</td><td>健康</td><td>0.94</td><tr>
+<tr><td>真似っこ</td><td>人間関係</td><td>0.94</td><tr>
+<tr><td>選択</td><td>情緒</td><td>0.93</td><tr>
+<tr><td>繋がり</td><td>人間関係</td><td>0.93</td><tr>
+<tr><td>安らぎ</td><td>情緒</td><td>0.93</td><tr>
+<tr><td>意欲</td><td>情緒</td><td>0.93</td><tr>
+</table></li>
+
+<li>スコア<span style="color:#f7195c;font-weight:bold;">0.90～0.92</span> …12枚
+<table border=0>
+<tr><td width="80">探索</td><td width="90">環境</td><td width="40">0.92</td><tr>
+<tr><td>慰め</td><td>情緒</td><td>0.92</td><tr>
+<tr><td>手</td><td>健康/表現</td><td>0.92</td><tr>
+<tr><td>育ち</td><td>全般</td><td>0.92</td><tr>
+<tr><td>バランス</td><td>健康</td><td>0.91</td><tr>
+<tr><td>物語</td><td>言葉/表現</td><td>0.91</td><tr>
+<tr><td>声</td><td>言葉</td><td>0.91</td><tr>
+<tr><td>温かさ</td><td>情緒</td><td>0.91</td><tr>
+<tr><td>思いやり</td><td>人間関係</td><td>0.91</td><tr>
+<tr><td>運動</td><td>健康</td><td>0.9</td><tr>
+<tr><td>調和</td><td>人間関係</td><td>0.9</td><tr>
+<tr><td>笑顔</td><td>情緒/人間関係</td><td>0.9</td><tr>
+</table></li>
+
+<li>スコア<span style="color:#f7195c;font-weight:bold;">0.87～0.89</span> …10枚
+<table border=0>
+<tr><td width="80">たくましさ</td><td width="90">健康</td><td width="40">0.89</td><tr>
+<tr><td>祝祭</td><td>表現</td><td>0.89</td><tr>
+<tr><td>共鳴</td><td>人間関係</td><td>0.89</td><tr>
+<tr><td>はじまり</td><td>情緒</td><td>0.88</td><tr>
+<tr><td>葛藤</td><td>人間関係</td><td>0.88</td><tr>
+<tr><td>小さな勇気</td><td>情緒/健康</td><td>0.88</td><tr>
+<tr><td>種</td><td>情緒/環境</td><td>0.88</td><tr>
+<tr><td>循環</td><td>環境</td><td>0.87</td><tr>
+<tr><td>響き</td><td>表現</td><td>0.87</td><tr>
+<tr><td>実り</td><td>情緒/環境</td><td>0.87</td><tr>
+</table></li>
+
+<li>スコア<span style="color:#f7195c;font-weight:bold;">0.82～0.86</span> …10枚
+<table border=0>
+<tr><td width="80">待つこと</td><td width="90">人間関係</td><td width="40">0.86</td><tr>
+<tr><td>学び</td><td>環境/言葉</td><td>0.86</td><tr>
+<tr><td>根</td><td>情緒/生命</td><td>0.86</td><tr>
+<tr><td>構造</td><td>環境</td><td>0.85</td><tr>
+<tr><td>収集</td><td>環境</td><td>0.85</td><tr>
+<tr><td>変容</td><td>全般</td><td>0.84</td><tr>
+<tr><td>思い</td><td>情緒/言葉</td><td>0.84</td><tr>
+<tr><td>雨</td><td>環境/表現</td><td>0.84</td><tr>
+<tr><td>省察</td><td>言葉</td><td>0.82</td><tr>
+<tr><td>風</td><td>環境</td><td>0.82</td><tr>
+</table></li></ul>
+
+<hr>
+<ul>
+<li>フォーム入力内容はサーバー等に送信することはありません。</li>
+<li>ただし、AIへの入力を前提としたプロンプトが出力されるので、個人情報を含めないようご注意ください。</li>
+</ul>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+</script>
+<div id="ksn" class="am2"></div>
+
+</body>
+</html>
