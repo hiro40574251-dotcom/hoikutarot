@@ -1,4 +1,4 @@
-// HTML側で var ksnum が定義されていればそれを使い、なければ0にする
+﻿// HTML側で var ksnum が定義されていればそれを使い、なければ0にする
 if (typeof ksnum === 'undefined') {
     var ksnum = 0; 
 }
