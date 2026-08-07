@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>大アルカナ・メモリーマッチ（スコアアタック）</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<style>
+    body {font-family: Arial, sans-serif; text-align: center; background:#1a1a2e; color:#fff; margin:0; padding:0px;background-image: url(../img/marseille/kabe2.jpg);}
+    #grid {display:grid; grid-template-columns:repeat(11,70px); gap:8px; margin:30px auto; justify-content:center; perspective:1000px;}
+    .card {width:70px; height:120px; position:relative; transition:transform 0.8s; transform-style:preserve-3d; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.6);}
+.am2 {background: #eaf4ff; padding: 10px 10px; opacity: 0.9;color:black !important;}
+.tarolin {color:black !important;background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+
+
+/* さらに「今めくってる感」を出すなら影も */
+.card.flipped {
+    transform: rotateY(180deg);
+     box-shadow: 0 10px 20px rgba(233, 69, 96, 0.5); 
+}
+
+/* めくった（選択中）のとき、裏面を暗くする  */
+.card.flipped .back {
+    filter: brightness(0.48) saturate(1.4);
+   transform: translateZ(1px);   /* ちょっと手前に浮く感じも追加 */
+}
+
+.container {
+  width: 100%;  height: 50px;
+  position: absolute; top: 0px; left: 100px;
+  display: flex;
+  justify-content: left;
+  align-items: start;
+}
+
+    .card.matched {animation:matchGlow 1.2s forwards; opacity:0; pointer-events:none;}
+.card.once-opened .back {filter:brightness(0.68) saturate(1.4);} /* 一度でもめくったら裏面はずっと暗いまま */
+    .card.hint {box-shadow:0 0 25px 4px gold !important; animation:hintPulse 1.5s infinite;}
+    .front,.back {position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:8px; overflow:hidden;}
+    .back {background:linear-gradient(135deg,#16213e,#0f3460); display:flex; align-items:center; justify-content:center; transition:all 0.4s;}
+    .back img {width:90%; height:90%; object-fit:cover; border-radius:6px;}
+    .front {transform:rotateY(180deg);}
+    .front img {width:100%; height:100%; object-fit:cover;}
+    #info {margin:15px; font-size:20px;}
+    #hintBtn {padding:10px 20px; font-size:18px; background:#ffd23f; color:#000; border:none; border-radius:8px; cursor:pointer; margin:0 10px;}
+    #hintBtn:disabled {background:#555; cursor:not-allowed;}
+    button {padding:12px 30px; font-size:18px; background:#e94560; color:white; border:none; border-radius:8px; cursor:pointer; margin:10px;}
+    button:hover:not(:disabled) {opacity:0.9;}
+    @keyframes matchGlow {0%{filter:brightness(1) drop-shadow(0 0 10px gold);} 50%{filter:brightness(2.8) drop-shadow(0 0 40px gold); transform:scale(1.2);} 100%{}}
+    @keyframes hintPulse {0%,100%{box-shadow:0 0 20px 4px gold;} 50%{box-shadow:0 0 35px 10px orange;}}
+</style>
+</head>
+<body>
+<!-- admax -->
+
+<img src="../img/ma1.png" style="position: absolute; top: 0px; left: 0px;"><img src="../img/ma2.png" style="position: absolute; top: 0px; right: 0px;">
+<div class="container">
+<h3 style="margin:0px;">大アルカナ・メモリーマッチ</h3><p style="font-size:12px">22枚の大アルカナ×2のペアを探せ！ マッチすると占いメッセージが出るよ</p></div>
+<div style="margin-top:30px;margin-bottom:3px;">
+    <span id="score">スコア: 0　｜　</span><span id="timer">⏰時間: 300秒</span>　｜　
+    🩷ライフ（ヒント）: <span id="life">5</span>　
+    <button id="hintBtn">ヒント</button>
+</div>
+
+
+<div id="message" style="background-image: url(../img/graa.gif); color:black; font-weight:bold;padding:10px;"></div>
+
+<div id="kuria"></div>
+
+<div id="grid"></div>
+<button onclick="startGame()">新しく始める</button>
+
+<script>
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+
+const arcana = [ /* 省略：前と同じ22枚の配列 */ 
+    {id:0,name:'愚者',img:'../img/marseille/00u.png'},{id:1,name:'魔術師',img:'../img/marseille/01u.png'},
+    {id:2,name:'女教皇',img:'../img/marseille/02u.png'},{id:3,name:'女帝',img:'../img/marseille/03u.png'},
+    {id:4,name:'皇帝',img:'../img/marseille/04u.png'},{id:5,name:'教皇',img:'../img/marseille/05u.png'},
+    {id:6,name:'恋人',img:'../img/marseille/06u.png'},{id:7,name:'戦車',img:'../img/marseille/07u.png'},
+    {id:8,name:'正義',img:'../img/marseille/08u.png'},{id:9,name:'隠者',img:'../img/marseille/09u.png'},
+    {id:10,name:'運命の輪',img:'../img/marseille/10u.png'},{id:11,name:'力',img:'../img/marseille/11u.png'},
+    {id:12,name:'吊るされた男',img:'../img/marseille/12u.png'},{id:13,name:'死神',img:'../img/marseille/13u.png'},
+    {id:14,name:'節制',img:'../img/marseille/14u.png'},{id:15,name:'悪魔',img:'../img/marseille/15u.png'},
+    {id:16,name:'塔',img:'../img/marseille/16u.png'},{id:17,name:'星',img:'../img/marseille/17u.png'},
+    {id:18,name:'月',img:'../img/marseille/18u.png'},{id:19,name:'太陽',img:'../img/marseille/19u.png'},
+    {id:20,name:'審判',img:'../img/marseille/20u.png'},{id:21,name:'世界',img:'../img/marseille/21u.png'}
+];
+
+        const messages = {
+            0: '愚者：新しい旅の始まり！ 恐れず一歩踏み出そう',
+            1: '魔術師：あなたの才能が今、輝きを放つとき',
+            2: '女教皇：直感を信じて。内なる声が道を示す',
+            3: '女帝：豊かさと愛があなたに訪れる',
+            4: '皇帝：リーダーシップを発揮するとき',
+            5: '教皇：伝統や教えがあなたを導く',
+            6: '恋人：大切な選択と深い絆',
+            7: '戦車：勝利はすぐそこに！ 前進せよ',
+            8: '正義：公平な判断が幸運を呼ぶ',
+            9: '隠者：内省の時。答えは自分の中にある',
+            10: '運命の輪：大きな変化とチャンスが巡ってきた',
+            11: '力：優しさと忍耐が試練を乗り越える',
+            12: '吊るされた男：視点を変えると道が開ける',
+            13: '死神：古いものが終わり、新しい自分が誕生する',
+            14: '節制：バランスが幸運を呼び込む',
+            15: '悪魔：誘惑や執着を手放すとき',
+            16: '塔：突然の変化。でもそれは必要な破壊',
+            17: '星：希望と癒しが降り注ぐ。願いが叶う前触れ',
+            18: '月：不安や幻想に惑わされないで',
+            19: '太陽：最高の幸福と成功の時期！',
+            20: '審判：再生と覚醒。新しい人生が始まる',
+            21: '世界：完成と達成！ 全てが調和する'
+        };
+
+let cards = [], flipped = [], matched = 0, timer, timeLeft = 300, life = 5, score=0;
+let onceOpened = new Set(); // 一度でもめくったカードのidを覚える
+
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
+function createDeck(){return shuffle([...arcana,...arcana]);}
+
+function renderGrid(){
+    const grid = document.getElementById('grid');
+    grid.innerHTML='';
+    cards.forEach((card,i)=>{
+        const div = document.createElement('div');
+        div.className='card';
+        div.dataset.index=i;
+
+        const back = document.createElement('div');
+        back.className='back';
+        back.innerHTML=`<img src="../img/ura.png" alt="裏">`;
+
+        const front = document.createElement('div');
+        front.className='front';
+        front.innerHTML=`<img src="${card.img}" alt="${card.name}">`;
+
+        div.appendChild(back);
+        div.appendChild(front);
+        div.addEventListener('click',flipCard);
+        grid.appendChild(div);
+
+        // 一度でも開いたことあるなら最初から暗く
+     //   if(onceOpened.has(card.id)) div.classList.add('once-opened');
+    });
+}
+
+function flipCard(e){
+    const card = e.currentTarget;
+    if(flipped.length>=2 || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+    card.classList.add('flipped');
+    // 一度でもめくったら記録＋暗くする
+    const cardId = cards[card.dataset.index].id;
+    onceOpened.add(cardId);
+    card.classList.add('once-opened');
+
+    flipped.push(card);
+    if(flipped.length===2) setTimeout(checkMatch,1200);
+}
+
+function checkMatch(){
+const kuriagamen = document.getElementById('kuria');const kuriagsg=null;
+    const [c1,c2] = flipped;
+    const id1 = cards[c1.dataset.index].id;
+    const id2 = cards[c2.dataset.index].id;
+
+    if(id1===id2){
+        c1.classList.add('matched');
+        c2.classList.add('matched');
+        matched++;score=score+500;
+        document.getElementById('message').innerHTML = messages[id1];
+    document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+        if(Math.random()<0.2){ // 50%でボーナスライフ
+            life++;
+            score=score+100;
+            document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+          document.getElementById('life').textContent = life;
+            document.getElementById('message').textContent += '  ボーナス！🩷ライフ＋1';
+            document.getElementById('hintBtn').disabled = false;
+        }
+        if(matched===22){
+            clearInterval(timer);
+               const saishuscore=score; score=timeLeft*1000+life*10000; const timebns=timeLeft*1000; const lifebns=life*10000;
+//            setTimeout(()=>alert('✨ 完全クリア！ あなたは真のタロットマスターです ✨\nスコア＝'+saishuscore+' ＋ (残り秒数 '+timeLeft+'s ×1000) ＋ (残りライフ'+life+' ×10000) ＝'+score ),500);
+    document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+
+kuriamsg = `<span style="font-size:20px;">最終スコア：`+score+`点</span><br>`+
+`👍マッチボーナス等：`+saishuscore+`点<br>`+
+`⏰タイムボーナス：`+timebns+`点 (`+timeLeft+`秒×1000)<br>`+
+`🩷ライフボーナス：`+lifebns+`点 (残りライフ`+life+`×10000)<br><br>`+
+`✨ 完全クリア！すごい！あなたは真のタロットマスターです！！ ✨`;
+document.getElementById('kuria').innerHTML = kuriamsg;
+    document.getElementById('hintBtn').disabled = true;
+
+// 視覚効果
+const canvas = document.createElement('canvas');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+canvas.style.position = 'fixed'; canvas.style.top = 0; canvas.style.left = 0; canvas.style.zIndex = 999;
+document.body.appendChild(canvas);
+const ctx = canvas.getContext('2d');
+const particles = [];
+for (let i = 0; i < 1000; i++) {
+    particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*2, vy: (Math.random()-0.5)*2, slife: 1 });
+}
+function storm() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.slife -= 0.01;
+        ctx.fillStyle = `rgba(255,255,255,${p.slife})`;
+        ctx.fillRect(p.x, p.y, 2, 2);
+    });
+    if (particles.some(p => p.slife > 0)) requestAnimationFrame(storm);
+    else {
+            // ★修正: 文字再構築時にフォント設定追加（オプション、簡易）
+            ctx.font = '20px Arial';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+       //     ctx.fillText(text.substring(0, 20), canvas.width/2, canvas.height/2);
+            setTimeout(() => canvas.remove(), 1000);
+    }
+}
+storm();
+        }
+    }else{
+        c1.classList.remove('flipped');
+        c2.classList.remove('flipped');
+        score=score+10;
+        document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+        document.getElementById('message').textContent = 'はずれ…';
+        if(Math.random()<0.3){ // 30%でボーナスライフ
+
+            life++;score=score+100;
+           document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+           document.getElementById('life').textContent = life;
+            document.getElementById('message').textContent += '  でもボーナス！🩷ライフ＋1';
+            document.getElementById('hintBtn').disabled = false;
+        }
+    }
+    flipped=[];
+}
+
+function hint(){
+    if(life<=0) return;
+    life--;
+    document.getElementById('life').textContent = life;
+    document.getElementById('hintBtn').disabled = life===0;
+
+    // まだマッチしてないカードの中から1組だけ光らせる
+    const remaining = cards.map((c,i)=>i).filter(i=>!document.querySelectorAll('.card')[i].classList.contains('matched'));
+    const pairs = {};
+    remaining.forEach(i=>{
+        const id = cards[i].id;
+        if(!pairs[id]) pairs[id]=[];
+        pairs[id].push(i);
+    });
+    const availablePairs = Object.values(pairs).filter(arr=>arr.length===2);
+    if(availablePairs.length===0) return;
+
+    const target = availablePairs[Math.floor(Math.random()*availablePairs.length)];
+    target.forEach(idx=>{
+        const card = document.querySelectorAll('.card')[idx];
+        card.classList.add('hint');
+        setTimeout(()=>card.classList.remove('hint'),3000);
+    });
+}
+
+function updateTimer(){
+    timeLeft--;
+    document.getElementById('timer').textContent = `時間: ${timeLeft}秒`;
+    if(timeLeft<=0){
+        clearInterval(timer);
+        document.getElementById('message').textContent = '⏰ 時間切れ…でもゲームは続けられるよ！';
+        // タイマーは止まるけどゲームは続けられる！
+    }
+}
+
+function startGame(){
+    cards = createDeck();
+    flipped = []; matched = 0; timeLeft = 300; life = 5; score = 0;
+    onceOpened = new Set();
+document.getElementById('kuria').innerHTML = "";
+        document.getElementById('score').textContent = `スコア: ${score}　｜　`;
+
+    document.getElementById('message').textContent = 'ゲームスタート！';
+    document.getElementById('life').textContent = 5;
+    document.getElementById('hintBtn').disabled = false;
+    renderGrid();
+    clearInterval(timer);
+    timer = setInterval(updateTimer,1000);
+}
+
+// ボタンに機能割り当て
+document.getElementById('hintBtn').addEventListener('click',hint);
+
+// 初回自動スタート
+startGame();
+
+
+</script>
+<br>
+<!-- admaxタロット/⑫神経衰弱PC -->
+<script src="https://adm.shinobi.jp/s/bb21b382901992164b94d86aaef624f8"></script>
+<!-- admax -->
+<div id="ksn" class="am2"></div>
+</body>
+</html>

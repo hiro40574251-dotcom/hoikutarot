@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>タロットで連載物語生成 - ナラティブ・ビルダー・リーディング</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+  <style>
+body {line-height:160%;}
+.am2 {background: #eaf4ff;
+padding: 10px 10px;
+  opacity: 0.9;
+}
+.tarolin {
+  background: #ebf4f8;
+  border-left: 12px solid #99BDDE;
+  margin-bottom: 3px;
+  padding: .5em;
+}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {
+    background: #eaf4ff;
+    padding: 10px 10px;
+}
+
+form dl dt {
+    width: 120px;
+    height: 30px;
+    padding: 10px 0;
+    line-height: 10px;
+    float: left;
+}
+
+form dl dd {
+    padding: 5px 0;
+    margin: 0;
+}
+
+.box {
+    box-sizing: border-box;
+    width: 70px !important;
+    height: 30px !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+}
+
+.calc-btn {width: 90px; height: 60px; border: 1px solid #333;}
+.calc-btn:hover { cursor: pointer; width: 90px; height: 60px;}
+
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#999999;margin:10px;line-height:190%;}
+
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+<img src="../img/marseille/title.png">
+<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm" target="_blank">
+<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+<h3>ナラティブ・ビルダー・リーディング (ストーリーテリング拡張)</h3>
+<img src="../img/ti1.jpg" align="right">
+マルセイユタロットの大アルカナ22枚のみで占い…じゃなくて、ストーリーを作ります。ストーリーのシード（テーマやプロットアイデア）を入力し、連載風ナラティブを生成しましょう。続きはlocalStorageで保存される点が特徴です。<br>続編は、ChatGPTの最後に出てくる｢クリフハンガー・エンディング｣をコピーし、またこちらに戻り、テキストエリアの冒頭に貼り付けて下さい。1話に書いたことは、基本設定は残しておきましょう。登場人物も書いておいたほうがいいです(登場人物を固定しないと新しい人物ばかり出てくる)。<br><br>
+<label>ストーリーシード：いろいろ試してみるとコツがつかめてきます。<br>
+<textarea id="question" name="q" rows="20" cols="40" placeholder="例1：私のファンタジー小説の始まり。主人公は失われた剣を探す冒険者アレン。旅に付き添う相棒ゴードンは、口数は少ないが、いざという時には身を挺して主人公を守る寡黙な戦士。冷静沈着な頭脳派セレーネは、冷静に状況を分析し、知恵で問題を解決する。古の魔法や歴史に精通しており、時には主人公よりも一枚上手な策士として活躍する。感情をあまり表に出さないが、芯は強く、主人公への信頼は揺るがない。　旅の途中で森の精霊ルナリアと出会う。テーマは友情と裏切り。登場人物:アレン、ゴードン、セレーネ、ルナリア。&#10;&#10;例2: とある高校の平凡な日常生活ドラマ。初々しい初恋と青春の、小さな変化と友情が絡み合う切ない物語。主人公はのりよし。クラスのムードメーカーだ。放課後、親友りょうが弾くエレキギターに合わせて即興で歌うのが日課だ。登場人物: のりよし、りょう、ひろこ。&#10;&#10;例3：錬金術師の遺産を巡る都市幻想。主人公レオは、古書店で偶然手に入れた錬金術師の手記に導かれ、都市の地下に眠る「変容の書」を探すことになる。彼の幼馴染であるミナは、現実主義者でありながらレオの奇妙な直感に付き合ってくれる。謎の案内人クロエは、過去と未来を行き来する存在で、タロットの象徴を使って物語の鍵を示す。テーマは「変容と選択」。登場人物：レオ、ミナ、クロエ。" style="line-height:160%;"></textarea></label><br>
+<button id="suggest-theme" class="calc-btn" onclick="suggestRandomTheme()">ランダムテーマ提案</button>
+<hr>
+<table border=0><tr><td>
+<button id="hiku" class="calc-btn" onclick="myFunction()">ストーリーを始める</button></td><td>
+<button id="continue-btn" class="calc-btn" onclick="continueStory()" style="display:none;">続きを引く</button></td><td>
+<button id="reset-btn" class="calc-btn" onclick="resetStory()" style="display:none; background-color: #ff6b6b;">ストーリー状態をリセット</button></td></tr></table>
+
+
+<span id="kekka"></span><script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+window.isContinuationMode = false; // 初期値
+
+const randomThemes = [
+    "王国崩壊後の旅路。かつて栄華を誇った王国が崩壊し、主人公エリスは放浪の旅に出る。彼女は元王家の血を引くが、その事実を隠して生きている。旅の途中で出会う盗賊の青年ライル、元神官の老女マグダ、そして謎の仮面の男ノクス。彼らはそれぞれ異なる目的で旅をしているが、運命の輪に導かれ、共に行動することになる。テーマは「アイデンティティと再生」。登場人物：エリス、ライル、マグダ、ノクス。",
+    "主人公ユウは、未来都市の記憶操作技術を使って人々の過去を編集する仕事をしている。ある日、彼の元に「自分の記憶を消してほしい」と依頼してきた少女ナナが現れる。彼女の記憶には、国家機密に関わる重大な情報が隠されていた。ユウは葛藤しながらも、真実を探るために彼女の記憶の奥へと潜っていく。テーマは「記憶と真実」。登場人物：ユウ、ナナ、上司のカシム。",
+    "猫と魔女の小さな町の物語。主人公マリは、祖母の遺言で田舎町に引っ越してきた高校生。そこには「猫と話せる魔女」が住んでいるという噂があった。ある日、黒猫のフィガロが突然マリに話しかけてくる。町には不思議な出来事が次々と起こり、マリは魔女の血を引いていることを知る。テーマは「日常と異界の境界」。登場人物：マリ、フィガロ、町の魔女クラリス。",
+    "主人公ハルは、夢の中でだけ活動する探偵。現実では平凡な大学生だが、眠ると「夢界」に入り、そこで起こる事件を解決する。夢界には、記憶の断片で構成された都市が広がっており、登場人物はすべて誰かの記憶の投影。相棒のミラは夢界の住人で、ハルの夢にだけ現れる存在。テーマは「無意識と真実の探求」。登場人物：ハル、ミラ、夢界の管理者アストラ。",
+    "高貴な出自を持つ「運命の継承者」セレスティア。王族の血を引く彼女が、その運命に抗ったり、受け入れたりしながら、国や世界を救う使命を背負う。圧倒的なカリスマ性を持つ場合もあれば、当初は重圧に苦しむ場合もある。主人公の支えになるのは知識豊富で博学な魔術師ゼノス。書物や古代の知識から、物語を解き明かすヒントを見つける。登場人物: セレスティア。",
+    "主人公カオルは演劇部所属の地味な女子高生。人前で目立つのが苦手。親友ミサトは主人公と同じ演劇部の部員。常に明るくポジティブで、主人公を引っ張る。演劇部は廃部の危機に瀕している。部長である主人公は、部員を増やすために、文化祭での公演を成功させなければならない。しかし、人前で話すことすら苦手な主人公は、うまく部員をまとめられない…というところから始まるドラマ。登場人物: カオル、ミサト。",
+    "謎を秘めた、異世界からの転生者の物語。主人公リクトは、元の現代世界での知識や経験を持つ。突然ファンタジー世界に転移し、当初は戸惑うものの、その知識を武器に困難を解決していく。元の世界に帰ることを目的とする中で、不思議な力を持つ異種族の少女シエルに出会い、新たな世界で生きていく道を選ぶか、葛藤を抱える。登場人物: リクト、シエル。",
+    "田舎で暮らす平凡な少年レオンが運命に立ち向かう成長譚。ある日、不思議な事件や予言に巻き込まれ、内に秘めた特別な力や血筋に目覚める。未熟だが、困難を乗り越えるたびに成長していく。仲間は、明るく陽気なムードメーカーのウィル。危険な状況でも、持ち前の楽天主義で仲間を励ます。ヴェインは主人公の才能を見抜き、導く存在。主人公の秘めた力を引き出す、引退した元英雄。過去の栄光と影を背負っている。登場人物: レオン、ウィル、ヴェイン。",
+    "過去の傷を抱える、影のある反逆者が主人公。過去に大切なものを失い、孤独に生きる追放された魔術師ゼイン。権力や体制に反感を抱き、皮肉屋だが、根底には正義感が残っている。物語の進行とともに心を開き、仲間と絆を築いていく。登場人物: ゼイン、セリナ。",
+    "探求心と好奇心が旺盛なリアムは、魔法や古代の遺跡、未知の生物などに強い興味を持つ冒険者。知識欲が非常に高く、その探求心が物語を動かすきっかけとなる。研究者肌だが、行動力も持ち合わせている。登場人物: リアム、レイラ。"
+];
+   // "",
+
+function suggestRandomTheme() {
+    const randomIndex = Math.floor(Math.random() * randomThemes.length);
+    const selectedTheme = randomThemes[randomIndex];
+    document.getElementById('question').value = selectedTheme;
+}
+
+const STORY_KEY = 'narrativeStoryState'; // localStorageキー
+
+// 状態ロード
+function loadStoryState() {
+    const saved = localStorage.getItem(STORY_KEY);
+    return saved ? JSON.parse(saved) : { chapters: [], currentChapter: 0 };
+}
+
+// 状態保存
+function saveStoryState(state) {
+    if (state.chapters.length > 10) state.chapters = state.chapters.slice(-10); // 最新10章のみ保持 (容量超過対策)
+    localStorage.setItem(STORY_KEY, JSON.stringify(state));
+    document.getElementById('continue-btn').style.display = state.chapters.length > 0 ? 'inline-block' : 'none';
+    document.getElementById('reset-btn').style.display = state.chapters.length > 0 ? 'inline-block' : 'none';
+}
+
+// 続き関数
+function continueStory() {
+
+// document.getElementById('question').value = '';  テキストエリアクリア　しない
+    window.isContinuationMode = true; // フラグセット
+    const state = loadStoryState();
+    state.currentChapter = state.chapters.length;
+    saveStoryState(state);
+    document.getElementById('hiku').disabled = false; // hikuボタン再有効化
+    myFunction(); // 再実行（続きモード）
+}
+
+// リセット関数
+function resetStory() {
+    if (confirm('保存されたストーリー状態をリセットしますか？')) {
+        localStorage.removeItem(STORY_KEY);
+        document.getElementById('question').value = '';
+        window.isContinuationMode = false; // フラグリセット
+        document.getElementById('continue-btn').style.display = 'none';
+        document.getElementById('reset-btn').style.display = 'none';
+        document.getElementById('kekka').innerHTML = '<p>ストーリー状態をリセットしました。新しく始めましょう！</p>';
+        document.getElementById('hiku').disabled = false;
+    }
+}
+
+// 22枚の大アルカナの名称をマルセイユタロット版で定義（0から21番）
+let cards = [
+    { name: '00愚者' },      // 0
+    { name: '01魔術師' },  // 1
+    { name: '02女教皇' }, // 2
+    { name: '03女帝' },   // 3
+    { name: '04皇帝' },   // 4
+    { name: '05教皇' }, // 5
+    { name: '06恋人' },    // 6
+    { name: '07戦車' },   // 7
+    { name: '08正義' },       // 8
+    { name: '09隠者' },    // 9
+    { name: '10運命の輪' }, // 10
+    { name: '11力' },      // 11
+    { name: '12吊られた男' }, // 12
+    { name: '13死神' },         // 13
+    { name: '14節制' },    // 14
+    { name: '15悪魔' },     // 15
+    { name: '16塔' },     // 16
+    { name: '17星' },      // 17
+    { name: '18月' },      // 18
+    { name: '19太陽' },       // 19
+    { name: '20審判' },     // 20
+    { name: '21世界' }      // 21
+];
+
+// Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function myFunction() {
+    // 質問の長さチェック
+    let text = document.getElementById('question').value;
+    if (!window.isContinuationMode && text.length < 15) { // 続きモード時はスキップ
+        const resultElement = document.getElementById('kekka');
+        resultElement.innerHTML = "ストーリーシードを詳しく入力してください（15文字以上）。";
+        document.getElementById('suggest-theme').disabled = false;
+        document.getElementById('hiku').disabled = false;
+        return;
+    }
+
+        document.getElementById('suggest-theme').disabled = true;
+
+    // 状態ロード
+    let storyState = loadStoryState();
+    const isContinuation = storyState.chapters.length > 0;
+
+    // 質問の改行をセミコロンに
+    const resultElement = document.getElementById('kekka');
+    let textArray = text.split('\n');
+    let newText = textArray.join(';');
+
+// スタイルを追加（一度だけ、既に追加済みならスキップ）
+if (!document.querySelector('#sparkStyle')) {
+  const style = document.createElement('style');
+  style.id = 'sparkStyle';
+  style.textContent = `
+    @keyframes sparkFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(360deg);
+      }
+    }
+    .spark {
+      position: fixed;
+      width: 50px; /* 大きく調整（4px → 12px） */
+      height: 50px; /* 大きく調整（4px → 12px） */
+      background: radial-gradient(circle, hsl(var(--hue), 100%, 50%) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+      animation: sparkFly 1.5s ease-out forwards;
+      box-shadow: 0 0 8px hsl(var(--hue), 100%, 50%); /* 光のハロー効果でさらに目立たせる */
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// フェードなしでスパークのみ開始
+const sparkInterval = setInterval(() => {
+  const spark = document.createElement('div');
+  spark.className = 'spark';
+  spark.style.setProperty('--hue', Math.random() * 60); // 暖色系カラー
+  const angle = Math.random() * Math.PI * 2;
+  const distance = Math.random() * 200 + 100;
+  spark.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+  spark.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+  document.body.appendChild(spark);
+  setTimeout(() => spark.remove(), 1500);
+}, 50); // 高速で複数生成してスパーク感
+
+setTimeout(() => {
+  clearInterval(sparkInterval);
+  // シャッフルコードへ
+}, 2000);
+
+
+    // シャッフル後、最初の10枚を選択
+    shuffle(cards);
+    const selectedCards = cards.slice(0, 10);
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+    selectedCards.forEach(card => {
+        card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+    });
+
+    // 新しい章のデータ作成
+    const newChapter = {
+        chapterNumber: storyState.chapters.length + 1,
+        cards: selectedCards.map(card => ({ name: card.name.slice(2), orientation: card.orientation })),
+        timestamp: new Date().toISOString(),
+        seed: text
+    };
+    storyState.chapters.push(newChapter);
+    saveStoryState(storyState);
+
+    // カード意味のマップ（ファンタジーRPG風にリファイン）
+    const meanings = {
+        '愚者(正)': '新米冒険者が運命の扉を開き、未知なるダンジョンへと跳び込む瞬間。地図なき世界には無限のクエストが待ち受け、選択と偶然が交差する冒険が始まる。クラスチェンジのチャンスが目の前に現れ、スキルツリーは枝分かれしながら広がり、可能性は星の数ほど。仲間との出会い、アイテムの発見、そして伝説の英雄への道が、今まさに踏み出される。好奇心と勇気が鍵となり、あなたの物語はここから始まる！',
+        '愚者(逆)': '迷宮の袋小路で方向感覚を失い、進むべき道が霧に包まれる。しかし、内なるコンパスを再調整すれば、混乱の中にも秩序が見えてくる。焦らず慎重に一歩ずつ進み、信頼できる仲間と安定したパーティー編成を整えよう。小さなサイドクエストを着実にクリアしながら、経験値を積み重ね、レベルアップの兆しを掴め。迷いは成長の種となり、やがて新たな冒険の扉を開く鍵となる！',
+        '魔術師(正)': 'マナの奔流を自在に操るアークメイジが目覚め、創造のスペルが空間を震わせる。魔法陣が輝き、才能のルーンが刻まれるとき、世界は新たな可能性に満ちる。ボス戦に向けて戦略を練り、エレメントの組み合わせで究極のエンチャントを発動せよ。知識と直感が融合し、魔法の力で現実を再構築する瞬間。あなたの手のひらには、世界を変える力が宿っている！',
+        '魔術師(逆)': 'マナが枯渇し、呪文が途切れる危機の中、再チャージのタイミングが訪れる。自信のオーブを磨き直し、基本スペルから再構築することで、魔法の基盤を強化せよ。小さなモブ戦で経験値を積み、失われた感覚を取り戻す旅が始まる。焦らず着実に歩みを進めれば、やがてグランドマスターへの道が開ける。失敗は学びの源泉、再起の魔法はすでにあなたの中にある！',
+        '女教皇(正)': '古代のオラクルが封印を解き、神秘のヴェールが静かに開かれる。智慧の塔の頂には、永遠の知識が眠り、選ばれし者だけがその扉を開ける。直観のルーンが未来を映し出し、冷静な判断がドラゴンの罠を回避する鍵となる。静寂の中に響く真理の声に耳を傾け、知識の守護者としての使命を受け取れ。あなたの洞察は、世界の運命を左右する力となる！',
+        '女教皇(逆)': '封印された予言の断片が、静かに光を帯びて浮かび上がる。過去の呪文書をめくるたび、忘れられた知識が蘇り、新たなページが綴られていく。これは、沈黙の賢者が行動派の魔導士へと進化する転機。行動のポーションを飲み干し、古代の遺跡へと足を踏み入れよ。そこには未解読の碑文、隠された魔法陣、そしてあなたを待つ試練がある。知識を実践に変え、静から動へと転じる冒険が、今始まる！',
+        '女帝(正)': '豊饒の女神が微笑む森は、生命のマナが満ちる祝福の楽園。創造の蔓が絡みつく繁栄の城塞では、果実が実り、魔法の花が咲き乱れる。生産のエリクシールでパーティーの能力を底上げし、魅力のオーラで同盟を結び、外交と育成の両面で帝国を築き上げよ。あなたの手から生まれるものは、世界を潤す源泉。慈愛と戦略を兼ね備えた女王として、大地の力を味方にし、黄金の時代を築き上げよ！',
+        '女帝(逆)': '蔓の絡まりを解きほぐす静かな休息の間、感情の嵐を鎮めるための洞窟が開かれる。過剰なマナが暴走する前に、優しい光へと変換し、心のガーデンを再構築せよ。焦りを手放し、内なるリズムに耳を澄ませば、真の豊かさがどこにあるかが見えてくる。満足の宝箱は、外ではなく内にある。今は育む時。自分自身を慈しみ、再び創造の力を取り戻すための、癒しのクエストに出発せよ！',
+        '皇帝(正)': '鉄壁の要塞にそびえる王の玉座、その背後には歴戦の旗がはためく。安定のシールドが王国を守り、あなたの指揮のもとに軍勢が整列する。統率のコマンドで戦略を練り、責任のクエストを一つずつクリアしていくことで、大陸制覇の道が開かれる。秩序と威厳をもって世界を導き、歴史にその名を刻め。あなたこそが、揺るぎなき帝王。その意志が、未来を築く礎となる！',
+        '皇帝(逆)': '揺らぐ城壁にひびが走る時、柔軟な魔法で構造を補強せよ。過信のトラップを謙虚のポーションで中和し、失敗を糧に新たな戦略を練るのだ。孤高の支配から一歩引き、協力のギルドを結成して、共に歩む仲間の力を信じよ。自分らしい冒険の道を選び、調和の王冠を手にすることで、真のリーダーシップが花開く。支配ではなく共創の力で、王国に新たな秩序をもたらせ！',
+        '教皇(正)': '神殿の祭司が唱える慈悲の祈りが、空に響き渡る。厳格な掟は混沌を鎮め、聖なる同盟を導く光となる。忠告の巻物で仲間を導き、法の杖で闇を払い、信仰と知恵のバランスを保ちながら、栄光のクエストを完遂せよ。あなたの言葉は契約となり、あなたの行動は信頼の礎となる。永遠の守護者として、世界に秩序と希望をもたらす聖なる旅路を歩め！',
+        '教皇(逆)': '古びた掟にひびが入り、改革の儀式が始まる。頑なな壁は、信頼の橋へと変わる可能性を秘めている。孤立の呪いを解き放ち、絆のルーンで関係を再構築せよ。伝統に縛られず、柔軟な思考で新たな同盟の時代を切り開け。あなたの選択が、未来の教義となる。変化を恐れず、信念を持って進むことで、真の導き手としての力が目覚める！',
+        '恋人(正)': '運命の糸が交差する恋の祭壇で、情熱の炎が燃え上がる。ハーモニーの谷では、心と心が共鳴し、選択の瞬間が訪れる。純粋な愛のエンチャントがあなたの決断を導き、ポジティブな適応力が永遠のコンパニオンとの絆を深める。これはただの恋ではない、魂の契約だ。共に歩む道を選び、愛と信頼の冒険を始めよ。その選択が、世界を変える力となる！',
+        '恋人(逆)': '揺らぐ絆の試練が訪れ、誘惑のイリュージョンが真実を覆い隠す。しかし、あなたの手には真実の鏡がある。それを掲げ、幻想を砕け。誠実な誓約で関係を再構築し、自分らしい選択の剣を振るう時が来た。迷いは成長の兆し、葛藤は絆を深める試練。心の声に従い、愛と自由のバランスを取り戻せ。あなたの選択が、未来の物語を紡ぐ鍵となる！',
+        '戦車(正)': '【スキル発動：チャリオット・チャージ】疾風のチャリオットに搭乗した戦士が、目的地に向かってフルブーストで突撃開始！意志のシールドが全ステータスを強化し、障害物を次々と突破。ターゲットロックオン完了、ボスラッシュへの突入準備OK！手綱を握るその手に、勝利のフラグが宿る。今こそ、スピードと集中力で戦場を制圧せよ！',
+        '戦車(逆)': '【ステータス異常：進路逸脱】チャリオットが迷走モードに突入、方向感覚がバグって目的地を見失う！しかし、活力のポーションを使用すれば、無気力デバフを解除可能。精神と物質のバランスを再調整し、ステルスモードで静かに再接近せよ。焦らず、慎重に。最終目標はまだ遠くない。リカバリー完了で、再び戦線復帰だ！',
+        '正義(正)': '【アクティブスキル：ジャスティス・ジャッジメント】天秤の守護者が召喚され、公正の法廷が展開！均衡の剣が敵の不正バフを切り裂き、調和の鎖を断ち切る。誠実のオーブが第三の選択肢を照らし、慈悲のクエストが発動。あなたは正義の王として、全ギルドの信頼を得る。このターン、あなたの行動は世界を浄化する！',
+        '正義(逆)': '【イベント発生：歪んだ天秤】審判の時が来た！不均衡の呪いがフィールドに蔓延し、正義のステータスが低下中。しかし、前向きの光を使えば浄化可能。成長のルーンを装備し、不正の経験値を吸収してレベルアップせよ。公正の王冠は一度失われても、再び手にすることができる。今こそ、リビルドのタイミング！',
+        '隠者(正)': '【パッシブスキル：内省のランタン】灯火の杖を手にした賢者が、真理の洞窟へと潜入。慎重のマントを装備し、敵の感情攻撃を無効化。静かな瞑想でMPを回復し、究極の悟りスキルをアンロックせよ。このフェーズでは、外界との接触を最小限にし、内なるクエストを進行。真理のコアに到達すれば、新たなスキルツリーが開放される！',
+        '隠者(逆)': '【状態変化：閉鎖解除】洞窟の闇から脱出成功！消極のヴェールを剣で切り裂き、現実の光がフィールドに差し込む。閉鎖の扉が開き、前向きな視点のクエストが発動。新たな同盟候補がマップに出現中。孤独のデバフを解除し、パーティー編成を再構築せよ。今こそ、外の世界へと踏み出す時！',
+        '運命の輪(正)': '【ランダムイベント：フォーチュン・フェスティバル】運命のルーレットが回転開始！チャンスの風が吹き、柔軟のウィングで空を舞え。社会のギルドから祝福のバフが付与され、成功のトロフィーがドロップ。ポジティブなターンでエピックイベントが発生し、報酬はレジェンダリー級！今こそ、運命に乗って物語を加速させろ！',
+        '運命の輪(逆)': '【トラップ解除：停滞の呪い】運命の歯車が停止中…だが、智慧の鍵を使えば再起動可能！内面的成長のサイドクエストをクリアし、アクシデントのトラップを学びの宝に変換せよ。調和の輪を再回転させれば、運命の流れが再びあなたに微笑む。このフェーズは、リセットではなくリロード。次のターンに備えよ！',
+        '力(正)': '【アクティブスキル：ソウル・グリップ】獅子の咆哮を抑える握力スキルが発動！不屈のソウルがHPとMPを同時に回復し、目標のドラゴンにクリティカルヒットを狙える状態へ。理性のチェインで本能を制御し、強い意志のエピッククエストを完遂せよ。このターン、あなたはバーサクではなく、完全制御モード。勝利は目前！',
+        '力(逆)': '【ステータス異常：力枯渇】スタミナが低下し、攻撃力が減少中。しかし、忍耐のポーションを使用すれば回復可能。諦めの影を希望の光で払えば、優柔の迷宮から脱出できる。決断の剣を鍛え、成長のレベルアップを果たせ。このターンは耐えるフェーズ。次のターンで反撃開始！',
+        '吊られた男(正)': '【特殊状態：逆さ視点】逆さ吊りの試練により、視界が反転！忍耐の鎖が精神の成長を促進し、新たなスキルがアンロックされる。休養の間でHPとMPを回復し、次のボス戦に備えた装備強化フェーズへ。今は動かず、準備を整える時。この静寂が、次の激戦の勝因となる！',
+        '吊られた男(逆)': '【状態解除：無駄な苦痛】不要なデバフを解除し、投げやりの霧を前向きの視界で晴らせ。心の充足の宝箱を探し、新たな努力のメインクエストに挑め。このターンは再起動フェーズ。過去の失敗は経験値に変換され、次のステージでの成功率が上昇中！',
+        '死神(正)': '【イベント発生：フェニックス・リボーン】死の鎌が変革のゲートを開き、再起のフェニックスが炎上モードで復活！終焉のボスを討伐し、再生のチャンスをポジティブに掴め。古いスキルツリーは消滅し、新たなビルドが構築可能。これはリセットではない、進化だ。蘇れ、伝説のプレイヤー！',
+        '死神(逆)': '【リカバリータイム：フェニックス・リチャージ】静寂のセーブポイントに到達。HPとMPをチャージし、起死回生のポーションを使用可能。停止の呪いを解除すれば、伝説の続編クエストがアンロックされる。過去の失敗は経験値に変換され、次のステージでの成功率が上昇中。これは敗北ではない、リスタートのチャンス。今こそ、再起動フェーズで新たな冒険を始めよ！',
+        '節制(正)': '【クラフトスキル：エリクシール・オブ・バランス】アルケミーのフラスコが輝き、調和のエリクシールが完成！循環のルーンがフィールドに展開され、順調な流れが全パーティーにバフを付与。丁寧な同盟の儀式で時間の加護を得て、バランスの王国を築く準備完了。このターンは、安定と持続のフェーズ。焦らず、確実に勝利への道を進め！',
+        '節制(逆)': '【デバフ解除：浪費の渦】リソースが偏り、MPが不均衡状態に突入。浪費の渦がフィールドを乱すが、節約の盾を装備すれば防御可能。不均衡の嵐を調和の風に変換し、惰性のモンスターを活力の剣で討伐せよ。このターンはリセットと再構築のタイミング。行動の新章を切り開き、ステータスを再調整せよ！',
+        '悪魔(正)': '【アイテム獲得：変化のポータルキー】誘惑のチェインを強い意志のハンマーで粉砕！その瞬間、変化のポータルが開き、あなたは「自立の翼」を手に入れた。依存の闇を飛び越え、成長のエピックを加速させる装備が揃った。このアイテムは、束縛を断ち切る者だけに与えられるレジェンダリー級の報酬。さあ、次のステージへ飛翔せよ！',
+        '悪魔(逆)': '束縛の牢獄に差し込む一筋の光。<br>その鍵は、あなたの手の中にある。<br>欲望のドラゴンは、もう恐れるべき敵ではない。<br>再生の光が目覚めを告げ、<br>あなたは自分自身の王国を築くために、<br>静かに、しかし確かに歩き出す。',
+        '塔(正)': '【アイテム獲得：再構築の設計図】雷鳴の崩壊イベント発生！ショックの嵐を乗り越えたあなたは、壊れた塔の残骸から「再構築の設計図」を発見した。このアイテムは、新しい世界のクエストを始めるためのキーアイテム。伝説の塔を再建するための素材と知識が、今ここに集結。破壊は終わりではない、始まりだ！',
+        '塔(逆)': '揺らぐ地盤に立つ者よ、<br>冷静のシールドを手に、嵐を凌げ。<br>緊迫の戦いは、あなたの内側にもある。<br>受難のモンスターを克服したとき、<br>あなたは静かに、しかし確かに<br>自分自身の塔を築き直すだろう。',
+        '星(正)': '【アイテム獲得：希望の星辰アミュレット】夜空に閃く星が、あなたに「希望の星辰アミュレット」を授ける！直感の矢が命中率を上げ、インスピレーションのマントが装備可能に。このアイテムは、未来への階段を登るための祝福の証。強い意志のエピックが始まり、あなたの冒険は光に満ちる。今こそ、星の導きに従え！',
+        '星(逆)': '失望の雲が空を覆うとき、<br>あなたは風を呼び、塔を再構築する。<br>高望みは、現実の基盤に根を張り、<br>無気力の呪いは、ポーションの一滴で溶けていく。<br>希望は遠くにあるのではない。<br>それは、あなたの中に灯る小さな光。',
+        '月(正)': '【アイテム獲得：無意識のランタン】月のヴェールが静かに開き、あなたは「無意識のランタン」を手に入れた！このアイテムは、迷宮の奥に潜む不安の影を照らし、隠された真実を浮かび上がらせる。内省のクエストが発動し、心の平穏を求める旅が始まる。タブーのボスを解放する鍵は、あなたの直感に宿る。今こそ、影の中に光を見出せ！',
+        '月(逆)': '霧が晴れ、<br>トラウマの影が静かに溶けていく。<br>回復のポーションが心を潤し、<br>本能はもはや暴れる獣ではない。<br>葛藤のドラゴンを倒したあなたは、<br>明晰の剣を手に、<br>夜明けの扉を開ける。',
+        '太陽(正)': '【アイテム獲得：太陽の冠】天真爛漫な光が降り注ぎ、あなたは「太陽の冠」を手に入れた！このアイテムは、無邪気の翼を展開し、明るい未来の空を自由に駆ける力を授ける。成果の宝箱が開かれ、成功のエピックが祝福される。このターンは、喜びと達成のフェーズ。あなたの笑顔が、世界を照らす！',
+        '太陽(逆)': '不調の影が足元に広がる。<br>だが、回復の光は確かにそこにある。<br>落胆の谷を登る足取りは遅くとも、<br>希望は一歩ずつ近づいてくる。<br>悪化のトラップを好転のルーンに変え、<br>あなたは静かに、<br>ポジティブな進撃を続ける。',
+        '審判(正)': '【アイテム獲得：復活のラッパ】審判のラッパが鳴り響き、あなたは「復活のラッパ」を手に入れた！祝福の翼が展開され、再生のクエストが始動。再チャレンジのポーションを飲み、決断の剣で過去の行いを振り返る。自由の王国へのゲートが開かれ、あなたは新たなステージへと飛翔する。これは、第二の人生のスタートだ！',
+        '審判(逆)': '警告の巻物が手元に届く。<br>それは罰ではなく、改善の鍵。<br>罰の鎖を断ち切る光は、<br>あなたの内側に灯っている。<br>暗闇の迷宮を抜け、<br>冷静な手で再起の扉を開ける時が来た。',
+        '世界(正)': '【アイテム獲得：完成のオーブ】理想郷の門が開かれ、あなたは「完成のオーブ」を手に入れた！充足のエネルギーが全ステータスを最大化し、旅の終点であり始まりでもある場所へ到達。感謝の儀式が発動し、螺旋の旅が祝福される。永遠のレジェンドが刻まれ、あなたの物語は完結と拡張を同時に迎える！',
+        '世界(逆)': '未完成の断片が、<br>静かにあなたの手の中で震えている。<br>惰性の霧を払い、<br>活力の風が吹き抜ける。<br>物足りなさは、<br>満足の源泉へと変わる。<br>柔軟な前進が、<br>新たなエピックを紡ぎ出す。'
+    };
+
+
+    // 結果をHTMLの<span id="kekka">に挿入
+    let output = `<h3>Chapter ${storyState.chapters.length}: Selected 10 cards from 22 (Marseille Tarot):</h3>`;
+    if (isContinuation) {
+        output += `<p><strong>Previous Chapters Summary:</strong> ${storyState.chapters.length - 1} chapters saved. Last seed: ${storyState.chapters[storyState.chapters.length - 2].seed.substring(0, 50)}...</p>`;
+    }
+    output += '<img src="../img/marseille/ke.png" align="left"><span style="font-weight:bold;color:red;">クセの強いカードの意味は気にしないでください。</span>。ここはざっと読み飛ばしてください。<br><br>';
+    selectedCards.forEach((card, index) => {
+        output += '<div class="bgb">';
+        if(index===0){output+="現在の状況"}
+        if(index===1){output+="援助(助けになるもの)"}
+        if(index===2){output+="過去"}
+        if(index===3){output+="最近の出来事"}
+        if(index===4){output+="起こりうる未来"}
+        if(index===5){output+="近い未来"}
+        if(index===6){output+="質問者の態度"}
+        if(index===7){output+="質問者の環境"}
+        if(index===8){output+="期待と恐れ"}
+        if(index===9){output+="最終結果"}
+        output += '</div>';
+
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+        output += `<ul><li><img align="right" src="../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png" alt="${card.name.slice(2)}">${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})<br><span class="usu">${meaning}</span><br clear="right"></li></ul>`;
+    });
+    output += `<h2 align="center">ここでChatGPTがストーリーシードを踏まえて、この章のナラティブを詳しく生成します!!<br>↓　↓　↓　↓　↓<br><a href="https://chatgpt.com/?q=[DEF]lang=ja;T=Task;S=Steps(20);I={I₁,...,Iₙ},n≤20;Rᵢ=Score[0,1];O=Output[/DEF][TASK]T(大アルカナ22枚によるケルト十字占からナラティブをビルド;ポジション:`;
+
+    selectedCards.forEach((card, index) => {
+        output += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    // 要約を短く (URL長超過対策)
+    const summary = storyState.chapters.slice(0, -1).map(ch => ch.seed.substring(0, 50)).join('; ');
+    output += `;ストーリーシード:${encodeURIComponent(newText)};前章要約:${encodeURIComponent(summary)};現在の章:${storyState.chapters.length})→O:章別プロット,キャラクターアーク,クリフハンガーエンド[/TASK][LOGIC]①カードをプロットビートに②シード拡張③インタラクティブ続き④エピソード形式Markdown" target="_blank">この章のナラティブ生成</a></h2>`;
+    resultElement.innerHTML = output;
+
+    // ボタンを無効化して重複実行防止
+    document.getElementById('hiku').disabled = true;
+}
+</script>
+<hr>
+
+<!-- admax -->
+
+<div id="ksn" class="am2"></div>
+
+</body>
+</html>
+
+

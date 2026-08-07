@@ -1,0 +1,710 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保育活動案生成 ARCANA INFANTIA - ケルト十字 MVP</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+  <style>
+.tarolin {background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+      background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: #2e7d32;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #558b2f;
+      font-size: 1.2em;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    h2 {
+      color: #1b5e20;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #4caf50;
+      padding-bottom: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    label {
+      display: block;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+    
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #81c784;
+      border-radius: 8px;
+      background: white;
+    }
+    
+    .dimension-group {
+      background: #f1f8e9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .dimension-label {
+      font-weight: bold;
+      color: #33691e;
+      margin-bottom: 8px;
+    }
+    
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .radio-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .btn {
+      background: #4caf50;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    
+    .btn:hover {
+      background: #45a049;
+    }
+    
+    .btn:active {
+      transform: scale(0.98);
+    }
+    
+    #result {
+      display: none;
+    }
+    
+    .cards-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .card-item {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      padding: 15px;
+      border-radius: 8px;
+      border: 2px solid #ff9800;
+    }
+    
+    .card-item .position {
+      font-size: 12px;
+      color: #e65100;
+      font-weight: bold;
+    }
+    
+    .card-item .name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #bf360c;
+      margin: 5px 0;
+    }
+    
+    .card-item .similarity {
+      font-size: 14px;
+      color: #5d4037;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      border: 2px solid #81c784;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    
+    .btn-secondary {
+      background: #2196f3;
+      margin-top: 10px;
+    }
+    
+    .btn-secondary:hover {
+      background: #1976d2;
+    }
+    
+    .auto-estimated {
+      background: #fff9c4;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #f57f17;
+    }
+.chuo {
+vertical-align: middle;
+}
+  </style>
+</head>
+<body><img src="../img/marseille/hobaybnr.png">
+  <div class="container">
+    <header>
+      <h1></h1>
+      <p class="subtitle">🌱 ARCANA INFANTIA - 保育専用ベイズタロット ケルト十字 MVP(必要最小限シンプル版)</p>
+    </header>
+
+    <!-- 入力フォーム -->
+    <div class="card">
+      <h2>保育の状況を入力</h2>
+      <div class="form-group">
+      <table border=0><tr><td class="chuo">
+        <label>年齢（クラス）</label></td>
+        <td class="chuo"><select id="age">
+          <option value="0">0歳児</option>
+          <option value="1">1歳児</option>
+          <option value="2">2歳児</option>
+          <option value="3" selected>3歳児</option>
+          <option value="4">4歳児</option>
+          <option value="5">5歳児</option>
+        </select>
+</td>
+      </div>
+      <div class="form-group"><td style="width:30px;"></td><td class="chuo">
+        <label>月</label></td>
+        <td class="chuo">
+        <select id="month">
+          <option value="4" selected>4月</option>
+          <option value="5">5月</option>
+          <option value="6">6月</option>
+          <option value="7">7月</option>
+          <option value="8">8月</option>
+          <option value="9">9月</option>
+          <option value="10">10月</option>
+          <option value="11">11月</option>
+          <option value="12">12月</option>
+          <option value="1">1月</option>
+          <option value="2">2月</option>
+          <option value="3">3月</option>
+        </select>
+</td></tr></table>
+      </div>
+
+      <div class="form-group">
+        <label>状況（自由記述）</label>
+        <textarea id="situation" rows="3" cols="5" placeholder="例：運動会が終わり、お遊戯会に向けて楽しく練習している。子どもたちは落ち着いている。友達と協力する活動に取り組みたい。"></textarea>
+      </div>
+
+      <h2 style="margin-top: 30px;">重視したい5つの次元</h2>
+      <p style="color: #666; margin-bottom: 15px; font-size: 14px;">
+        ※残り10次元は年齢と月から自動推定されます
+      </p>
+
+      <!-- 1. 主体性 -->
+      <div class="dimension-group">
+        <div class="dimension-label">1. 主体性（決定権）</div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="autonomy" value="0.3">
+            保育者がリード 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="autonomy" value="0.7" checked>
+            一緒に進める 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="autonomy" value="0.9">
+            子どもが主導
+          </label>
+        </div><div class="help-text">
+    💡 ヒント：0-2歳では「保育者がリード」が適切です。<br>
+    年齢が上がるにつれて「子どもが主導」を選びましょう。<br>
+  </div>
+      </div>
+
+      <!-- 2. 協同性 -->
+      <div class="dimension-group">
+        <div class="dimension-label">2. 協同性（活動の形態）</div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="cooperation" value="0.3">
+            自由遊び・探索・<br>一人で集中（個人遊び）
+          </label> 
+          <label class="radio-option">
+            <input type="radio" name="cooperation" value="0.7" checked>
+            小グループ活動・<br>近くで一緒に（並行遊び）
+          </label> 
+          <label class="radio-option">
+            <input type="radio" name="cooperation" value="0.9">
+            クラス全体活動・<br>協力して活動（協同遊び）
+          </label>
+        </div><div class="help-text">
+  💡 0-2歳: 「それぞれのペースで」が自然<br>
+  💡 3歳: 「緩やかに一緒に」（並行遊び）<br>
+  💡 4-5歳: 「協力し合いながら」（協同遊び）<br>
+</div>
+
+      </div>
+      <!-- 3. 表現性 -->
+      <div class="dimension-group">
+        <div class="dimension-label">3. 表現性（表現の機会）</div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="expression" value="0.4">
+            観察・探索中心 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="expression" value="0.7" checked>
+            自由遊び・製作 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="expression" value="0.95">
+            劇遊び・発表活動
+          </label>
+        </div><div class="help-text">
+  💡 観察・探索も大切な表現の基礎です<br>
+  💡 静かな活動 = 内面的な表現の時間<br>
+</div>
+      </div>
+
+      <!-- 4. 安定性 -->
+      <div class="dimension-group">
+        <div class="dimension-label">4. 安定性（活動の雰囲気）</div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="stability" value="0.5">
+            冒険的・刺激的 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="stability" value="0.75" checked>
+            バランス型 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="stability" value="0.9">
+            穏やか・落ち着き
+          </label>
+        </div>
+      </div>
+
+      <!-- 5. 達成感 -->
+      <div class="dimension-group">
+        <div class="dimension-label">5. 達成感（活動の目標）</div>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="achievement" value="0.5">
+            過程重視（自由遊び） 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="achievement" value="0.75" checked>
+            バランス型 
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="achievement" value="0.9">
+            目標明確（発表会等）
+          </label>
+        </div>
+      </div>
+
+
+
+      <h2 style="margin-top: 30px;">プリセット</h2>
+<div class="preset-buttons">
+  <button onclick="applyPreset('0歳_日常')">0歳・日常保育</button>
+  <button onclick="applyPreset('3歳_自由遊び')">3歳・自由遊び</button>
+  <button onclick="applyPreset('5歳_発表会')">5歳・発表会準備</button>
+  <button onclick="applyPreset('探索遊び')">探索・冒険遊び</button>
+</div>
+<br>
+      <div class="auto-estimated">
+        💡 残り10次元（探索性、身体性、計画性、柔軟性、安全性、素材依存、時間、刺激性、葛藤性、繋がり性）は年齢と月から自動的に推定されます
+      </div>
+<br>
+      <button class="btn" onclick="generateCelticCross()">ケルト十字を生成</button>
+    </div>
+
+    <!-- 結果表示 -->
+    <div id="result">
+      <div class="card">
+        <h2>選出された10枚</h2>
+        <div id="cards-display" class="cards-display"></div>
+      </div>
+
+      <div class="card">
+        <h2>AIへのプロンプト</h2>
+        <p style="color: #666; margin-bottom: 10px; font-size: 14px;">
+          以下をコピーして AI(Claude, ChatGPT, Geminiなど)に貼り付けてください
+        </p>
+        <textarea rows="30" id="prompt-output" readonly></textarea>
+        <button class="btn btn-secondary" onclick="copyPrompt()">クリップボードにコピー</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+    // 44枚のカードデータ（0-43連番、ベクトル付き）
+    const CARDS = [
+      {id:0,name:"探索",img:"../img/a_infantia/00u.png",vector:[0.95,0.98,0.40,0.60,0.70,0.30,0.95,0.50,0.80,0.60,0.60,0.85,0.30,0.70,0.50]},
+      {id:1,name:"はじまり",img:"../img/a_infantia/01u.png",vector:[0.60,0.70,0.65,0.55,0.50,0.80,0.70,0.85,0.40,0.40,0.88,0.60,0.40,0.60,0.75]},
+      {id:2,name:"見守り",img:"../img/a_infantia/02u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.85,0.75,0.95,0.30,0.85,0.95,0.35,0.20,0.60,0.85]},
+      {id:3,name:"養護",img:"../img/a_infantia/03u.png",vector:[0.40,0.20,0.60,0.30,0.70,0.85,0.40,0.95,0.50,0.90,0.98,0.20,0.10,0.60,0.70]},
+      {id:4,name:"構造",img:"../img/a_infantia/04u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.90,0.40,0.80,0.60,0.70,0.75,0.40,0.30,0.65,0.70]},
+      {id:5,name:"対話",img:"../img/a_infantia/05u.png",vector:[0.75,0.50,0.85,0.85,0.30,0.60,0.80,0.70,0.30,0.50,0.80,0.55,0.35,0.70,0.90]},
+      {id:6,name:"選択",img:"../img/a_infantia/06u.png",vector:[0.98,0.85,0.60,0.70,0.50,0.50,0.95,0.65,0.70,0.55,0.70,0.70,0.40,0.80,0.65]},
+      {id:7,name:"運動",img:"../img/a_infantia/07u.png",vector:[0.75,0.60,0.70,0.60,0.95,0.60,0.70,0.60,0.40,0.60,0.65,0.85,0.40,0.80,0.70]},
+      {id:8,name:"バランス",img:"../img/a_infantia/08u.png",vector:[0.65,0.50,0.70,0.60,0.70,0.80,0.85,0.80,0.50,0.75,0.88,0.50,0.25,0.70,0.75]},
+      {id:9,name:"省察",img:"../img/a_infantia/09u.png",vector:[0.70,0.55,0.70,0.75,0.30,0.70,0.60,0.75,0.30,0.50,0.80,0.40,0.30,0.75,0.75]},
+      {id:10,name:"循環",img:"../img/a_infantia/10u.png",vector:[0.60,0.65,0.70,0.60,0.60,0.85,0.70,0.75,0.60,0.90,0.80,0.55,0.30,0.70,0.75]},
+      {id:11,name:"たくましさ",img:"../img/a_infantia/11u.png",vector:[0.85,0.80,0.65,0.70,0.85,0.50,0.75,0.50,0.60,0.60,0.60,0.85,0.50,0.85,0.65]},
+      {id:12,name:"待つこと",img:"../img/a_infantia/12u.png",vector:[0.50,0.30,0.80,0.50,0.30,0.75,0.60,0.80,0.20,0.70,0.85,0.30,0.60,0.60,0.80]},
+      {id:13,name:"変容",img:"../img/a_infantia/13u.png",vector:[0.70,0.65,0.70,0.75,0.60,0.70,0.70,0.70,0.50,0.40,0.65,0.70,0.50,0.80,0.75]},
+      {id:14,name:"調和",img:"../img/a_infantia/14u.png",vector:[0.65,0.50,0.95,0.70,0.60,0.75,0.80,0.80,0.50,0.65,0.85,0.55,0.30,0.75,0.95]},
+      {id:15,name:"素材",img:"../img/a_infantia/15u.png",vector:[0.85,0.85,0.60,0.85,0.70,0.60,0.90,0.70,0.95,0.65,0.70,0.75,0.30,0.80,0.60]},
+      {id:16,name:"葛藤",img:"../img/a_infantia/16u.png",vector:[0.70,0.50,0.85,0.75,0.40,0.60,0.70,0.70,0.20,0.40,0.30,0.80,0.95,0.50,0.75]},
+      {id:17,name:"慰め",img:"../img/a_infantia/17u.png",vector:[0.40,0.30,0.75,0.60,0.40,0.70,0.75,0.85,0.30,0.50,0.95,0.30,0.50,0.60,0.85]},
+      {id:18,name:"物語",img:"../img/a_infantia/18u.png",vector:[0.70,0.60,0.80,0.90,0.50,0.65,0.85,0.75,0.60,0.60,0.75,0.70,0.35,0.80,0.80]},
+      {id:19,name:"創造的自由",img:"../img/a_infantia/19u.png",vector:[0.98,0.90,0.60,0.95,0.70,0.40,0.98,0.60,0.85,0.65,0.70,0.85,0.35,0.90,0.65]},
+      {id:20,name:"収集",img:"../img/a_infantia/20u.png",vector:[0.80,0.85,0.50,0.60,0.60,0.60,0.80,0.70,0.75,0.65,0.70,0.65,0.25,0.75,0.55]},
+      {id:21,name:"祝祭",img:"../img/a_infantia/21u.png",vector:[0.65,0.50,0.85,0.90,0.70,0.80,0.65,0.75,0.70,0.50,0.75,0.85,0.30,0.95,0.88]},
+      {id:22,name:"遊び",img:"../img/a_infantia/22u.png",vector:[0.98,0.90,0.85,0.90,0.85,0.50,0.98,0.60,0.70,0.70,0.80,0.85,0.40,0.85,0.88]},
+      {id:23,name:"学び",img:"../img/a_infantia/23u.png",vector:[0.75,0.85,0.70,0.70,0.55,0.70,0.75,0.75,0.65,0.65,0.75,0.65,0.35,0.80,0.70]},
+      {id:24,name:"身体",img:"../img/a_infantia/24u.png",vector:[0.70,0.60,0.65,0.55,0.95,0.65,0.70,0.80,0.40,0.70,0.75,0.80,0.35,0.75,0.65]},
+      {id:25,name:"響き",img:"../img/a_infantia/25u.png",vector:[0.70,0.60,0.75,0.85,0.60,0.60,0.80,0.75,0.60,0.55,0.75,0.75,0.30,0.75,0.75]},
+      {id:26,name:"手",img:"../img/a_infantia/26u.png",vector:[0.75,0.70,0.65,0.80,0.85,0.65,0.80,0.75,0.85,0.60,0.70,0.70,0.30,0.80,0.65]},
+      {id:27,name:"声",img:"../img/a_infantia/27u.png",vector:[0.70,0.55,0.75,0.85,0.40,0.60,0.80,0.75,0.30,0.50,0.80,0.65,0.35,0.70,0.85]},
+      {id:28,name:"繋がり",img:"../img/a_infantia/28u.png",vector:[0.65,0.55,0.90,0.75,0.50,0.65,0.80,0.75,0.40,0.60,0.85,0.60,0.35,0.75,0.90]},
+      {id:29,name:"小さな勇気",img:"../img/a_infantia/29u.png",vector:[0.80,0.70,0.65,0.70,0.70,0.60,0.75,0.70,0.50,0.50,0.70,0.70,0.45,0.85,0.70]},
+      {id:30,name:"安らぎ",img:"../img/a_infantia/30u.png",vector:[0.50,0.30,0.70,0.50,0.40,0.75,0.70,0.85,0.40,0.75,0.95,0.25,0.15,0.65,0.80]},
+      {id:31,name:"真似っこ",img:"../img/a_infantia/31u.png",vector:[0.70,0.60,0.90,0.80,0.70,0.40,0.85,0.75,0.50,0.50,0.75,0.65,0.30,0.70,0.88]},
+      {id:32,name:"温かさ",img:"../img/a_infantia/32u.png",vector:[0.50,0.40,0.80,0.60,0.45,0.70,0.75,0.85,0.35,0.70,0.95,0.50,0.25,0.65,0.90]},
+      {id:33,name:"笑顔",img:"../img/a_infantia/33u.png",vector:[0.60,0.50,0.85,0.70,0.50,0.55,0.80,0.75,0.30,0.50,0.90,0.70,0.25,0.80,0.88]},
+      {id:34,name:"共鳴",img:"../img/a_infantia/34u.png",vector:[0.60,0.50,0.92,0.78,0.48,0.68,0.82,0.78,0.38,0.62,0.88,0.58,0.32,0.78,0.92]},
+      {id:35,name:"思いやり",img:"../img/a_infantia/35u.png",vector:[0.65,0.50,0.90,0.70,0.40,0.70,0.75,0.80,0.30,0.65,0.85,0.50,0.45,0.70,0.90]},
+      {id:36,name:"思い",img:"../img/a_infantia/36u.png",vector:[0.65,0.50,0.75,0.80,0.30,0.65,0.70,0.75,0.30,0.50,0.80,0.50,0.40,0.70,0.80]},
+      {id:37,name:"育ち",img:"../img/a_infantia/37u.png",vector:[0.70,0.75,0.75,0.75,0.70,0.75,0.75,0.80,0.55,0.85,0.80,0.60,0.35,0.80,0.80]},
+      {id:38,name:"種",img:"../img/a_infantia/38u.png",vector:[0.65,0.70,0.65,0.65,0.55,0.75,0.75,0.75,0.60,0.40,0.75,0.60,0.30,0.70,0.75]},
+      {id:39,name:"意欲",img:"../img/a_infantia/39u.png",vector:[0.90,0.85,0.70,0.80,0.75,0.60,0.85,0.70,0.65,0.55,0.75,0.85,0.40,0.85,0.75]},
+      {id:40,name:"風",img:"../img/a_infantia/40u.png",vector:[0.70,0.75,0.50,0.65,0.70,0.40,0.90,0.65,0.60,0.50,0.65,0.75,0.30,0.65,0.50]},
+      {id:41,name:"根",img:"../img/a_infantia/41u.png",vector:[0.50,0.40,0.70,0.45,0.50,0.80,0.60,0.90,0.40,0.85,0.90,0.35,0.20,0.65,0.80]},
+      {id:42,name:"雨",img:"../img/a_infantia/42u.png",vector:[0.60,0.70,0.60,0.70,0.60,0.50,0.85,0.70,0.65,0.50,0.70,0.65,0.30,0.65,0.60]},
+      {id:43,name:"実り",img:"../img/a_infantia/43u.png",vector:[0.65,0.60,0.75,0.70,0.60,0.70,0.70,0.75,0.70,0.60,0.75,0.65,0.25,0.90,0.80]}
+    ];
+
+    // ポジション重み
+    const POSITION_WEIGHTS = [1.2, 1.1, 1.0, 0.9, 0.8, 1.1, 1.0, 0.9, 1.0, 1.2];
+    
+    // ポジション名
+    const POSITIONS = [
+      "現在→活動の核心テーマ",
+      "障害→配慮事項・リスク管理",
+      "意識→顕在的ねらい",
+      "無意識→潜在的ねらい",
+      "過去→導入・動機づけ",
+      "近未来→展開・発展",
+      "姿勢→子どもの主体性の引き出し方",
+      "周囲→環境構成・準備物",
+      "希望恐れ→評価の観点",
+      "結果→次の活動への繋ぎ"
+    ];
+
+// const PRESETS = {
+//   "0歳_日常": {
+//     autonomy: 0.3,
+//     cooperation: 0.3,
+//     expression: 0.4,
+//     stability: 0.9,
+//     achievement: 0.5
+//   },
+//   "3歳_自由遊び": {
+//     autonomy: 0.7,
+//     cooperation: 0.7,
+//     expression: 0.7,
+//     stability: 0.75,
+//     achievement: 0.5  // 過程重視
+//   },
+//   "5歳_発表会": {
+//     autonomy: 0.9,
+//     cooperation: 0.9,
+//     expression: 0.95,
+//     stability: 0.75,
+//     achievement: 0.9
+//   },
+//   "探索遊び": {
+//     autonomy: 0.9,
+//     cooperation: 0.3,  // 個人活動
+//     expression: 0.7,
+//     stability: 0.5,    // 冒険的
+//     achievement: 0.5   // 過程重視
+//   }
+// };
+
+function applyPreset(presetId) {
+  if (presetId === "0歳_日常") {
+    document.querySelector('input[name="autonomy"][value="0.3"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.3"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.4"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.9"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.5"]').checked = true;
+  } else if (presetId === "3歳_自由遊び") {
+    document.querySelector('input[name="autonomy"][value="0.7"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.7"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.7"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.75"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.5"]').checked = true;
+  } else if (presetId === "5歳_発表会") {
+    document.querySelector('input[name="autonomy"][value="0.9"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.9"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.95"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.75"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.9"]').checked = true;
+  } else if (presetId === "探索遊び") {
+    document.querySelector('input[name="autonomy"][value="0.9"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.3"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.7"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.5"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.5"]').checked = true;
+  }
+}
+
+
+// 年齢によって初期値を変える
+//function setDefaultValues() {
+//  const age = parseInt(document.getElementById('age').value);
+//  
+//  if (age <= 2) {
+//    // 0-2歳: 保育者主導が適切
+//    document.querySelector('input[name="autonomy"][value="0.3"]').checked = true;
+//    document.querySelector('input[name="stability"][value="0.9"]').checked = true;
+//  } else if (age >= 5) {
+//    // 5歳: 子ども主導が適切
+//    document.querySelector('input[name="autonomy"][value="0.9"]').checked = true;
+//  } else {
+//    // 3-4歳: バランス型
+//    document.querySelector('input[name="autonomy"][value="0.7"]').checked = true;
+//  }
+//}
+
+// 年齢によって初期値を変える
+function setDefaultValues() {
+  const age = parseInt(document.getElementById('age').value);
+  
+  if (age <= 2) {
+    // 0-2歳: 保育者主導が適切
+    document.querySelector('input[name="autonomy"][value="0.3"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.3"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.4"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.9"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.5"]').checked = true;
+  } else if (age >= 5) {
+    // 5歳: 子ども主導が適切
+    document.querySelector('input[name="autonomy"][value="0.9"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.9"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.95"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.5"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.9"]').checked = true;
+  } else if (age === 3) {
+    // 3歳: バランス型
+    document.querySelector('input[name="autonomy"][value="0.7"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.7"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.7"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.75"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.75"]').checked = true;
+  } else if (age === 4) {
+    // 4歳: バランス型
+    document.querySelector('input[name="autonomy"][value="0.9"]').checked = true;
+    document.querySelector('input[name="cooperation"][value="0.9"]').checked = true;
+    document.querySelector('input[name="expression"][value="0.7"]').checked = true;
+    document.querySelector('input[name="stability"][value="0.75"]').checked = true;
+    document.querySelector('input[name="achievement"][value="0.75"]').checked = true;
+  }
+}
+
+
+// 年齢選択時に実行
+document.getElementById('age').addEventListener('change', setDefaultValues);    // コサイン類似度
+    function cosineSimilarity(vecA, vecB) {
+      const dot = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+      const normA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+      const normB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+      return dot / (normA * normB);
+    }
+
+    // 文脈ベクトル生成
+    function generateContextVector() {
+      const age = parseInt(document.getElementById('age').value);
+      const month = parseInt(document.getElementById('month').value);
+      
+      // ユーザー入力の5次元
+      let autonomy = parseFloat(document.querySelector('input[name="autonomy"]:checked').value);
+      let cooperation = parseFloat(document.querySelector('input[name="cooperation"]:checked').value);
+      let expression = parseFloat(document.querySelector('input[name="expression"]:checked').value);
+      let stability = parseFloat(document.querySelector('input[name="stability"]:checked').value);
+      let achievement = parseFloat(document.querySelector('input[name="achievement"]:checked').value);
+
+      // 残り10次元の自動推定
+      let exploration = 0.6, physicality = 0.6, planning = 0.7, flexibility = 0.75;
+      let safety = 0.75, material = 0.6, duration = 0.6, stimulation = 0.6;
+      let conflict = 0.4, connection = 0.75;
+
+      // 年齢による調整
+      if (age <= 2) {
+        safety += 0.15;
+        stability += 0.1;
+        autonomy *= 0.8;
+        planning += 0.1;
+      } else if (age >= 5) {
+        autonomy *= 1.1;
+        cooperation *= 1.1;
+        planning += 0.1;
+      }
+
+      // 月による調整（季節）
+      if (month >= 4 && month <= 5) {
+        safety += 0.1;
+        stability += 0.1;
+      } else if (month >= 10 && month <= 11) {
+        stability += 0.05;
+        achievement += 0.1;
+      } else if (month >= 12 || month <= 2) {
+        expression += 0.1;
+        connection += 0.1;
+      }
+
+      return [
+        autonomy, exploration, cooperation, expression, physicality,
+        planning, flexibility, safety, material, duration,
+        stability, stimulation, conflict, achievement, connection
+      ];
+    }
+
+
+// ケルト十字生成（改良版：完全類似度順）
+function generateCelticCross() {
+  const contextVector = generateContextVector();
+  
+  // 全カードとの類似度計算
+  const similarities = CARDS.map(card => ({
+    card: card,
+    similarity: cosineSimilarity(card.vector, contextVector)
+  }));
+
+  // 類似度順にソート（降順）
+  similarities.sort((a, b) => b.similarity - a.similarity);
+
+  // 上位10枚を順に割り当て
+  const selected = similarities.slice(0, 10).map((item, index) => ({
+    position: index + 1,
+    positionName: POSITIONS[index],
+    card: item.card,
+    similarity: item.similarity
+  }));
+
+  // 表示
+  displayCards(selected);
+  generatePrompt(selected);
+  
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+}
+    // カード表示
+    function displayCards(selected) {
+      const container = document.getElementById('cards-display');
+      container.innerHTML = selected.map(item => `
+        <div class="card-item">
+          <div class="position">${item.position}. ${item.positionName}</div>
+          <div class="name">${item.card.id}.${item.card.name}</div>
+          <div class="similarity">類似度: ${item.similarity.toFixed(4)}</div>
+        <img src="${item.card.img}"></div>
+      `).join('');
+    }
+
+    // プロンプト生成
+    function generatePrompt(selected) {
+      const age = document.getElementById('age').value;
+      const month = document.getElementById('month').value;
+      const situation = document.getElementById('situation').value;
+      const contextVector = generateContextVector();
+
+      let prompt = `[ARCANA INFANTIA 保育活動案生成]\n\n`;
+      prompt += `年齢: ${age}歳, 月: ${month}月\n`;
+      prompt += `状況: ${situation}\n\n`;
+      
+      prompt += `文脈ベクトル: [${contextVector.map(v => v.toFixed(2)).join(', ')}]\n`;
+      prompt += `次元: [主体性, 探索性, 協同性, 表現性, 身体性, 計画性, 柔軟性, 安全性, 素材依存, 時間, 安定性, 刺激性, 葛藤性, 達成感, 繋がり性]\n\n`;
+      
+      prompt += `ケルト十字配置:\n`;
+      selected.forEach(item => {
+        prompt += `${item.position}. ${item.positionName} = ${item.card.id}.${item.card.name} (類似度: ${item.similarity.toFixed(4)})\n`;
+        prompt += `   ベクトル: [${item.card.vector.map(v => v.toFixed(2)).join(', ')}]\n`;
+      });
+      
+      prompt += `\n上記10枚を統合し、1つの保育活動案を生成してください。\n`;
+      prompt += `形式: 活動名、対応領域、ねらい、導入、展開、まとめ、配慮事項、環境構成、評価、次への展開`;
+
+      document.getElementById('prompt-output').value = prompt;
+    }
+
+    // クリップボードにコピー
+    function copyPrompt() {
+      const textarea = document.getElementById('prompt-output');
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nClaude 等のAIに貼り付けてください。');
+    }
+  </script>
+<!-- admax -->
+<div id="ksn" class="am2"></div>
+</body>
+</html>

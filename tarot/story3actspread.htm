@@ -1,0 +1,2199 @@
+﻿<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>保育用物語生成アクト3フラクタルスプレッド - ARCANA INFANTIA - AI連携ツール</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<!-- script src="./a_infantialink.js?p=(new Date()).getTime()"></script -->
+<style>
+table { table-layout: fixed; border-collapse: collapse; font-size:12px; line-height:140%;}
+body {line-height:160%;}
+select { font-size:18px;}
+fieldset { font-size:12px; margin:0px; }
+td{border:none; padding:0px;}
+.dp{ font-size:20px; font-weight:bold; text-align:center; font-family:Tahoma; color: #D36205;}
+.t1{background: #C0FF82;}
+.t2{background: #D0FF82;}
+.t3{background: #E0FF82;}
+.t4{background: #EFFF82;}
+.t5{background: #FFFF82;}
+.t6{background: #FFEF82;}
+.t7{background: #FFE082;}
+.t8{background: #FFD082;}
+.t9{background: #FFC082;}
+.t10{background: #FFB082;}
+.t11{background: #FFA282;}
+.t12{background: #FF9282;}
+.t13{background: #FF8282;}
+.am2 {background: #eaf4ff; padding: 10px 10px; opacity: 0.9;}
+.tarolin {background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {background: #eaf4ff; padding: 10px 10px;}
+form dl dt {width: 120px; height: 30px; padding: 10px 0; line-height: 10px; float: left;}
+form dl dd {padding: 5px 0; margin: 0;}
+.box {box-sizing: border-box; width: 70px !important; height: 30px !important; margin: 0 !important; padding: 0 10px !important;}
+.agsg-btn {width: 24px; height: 20px; border: 1px solid #333;}
+.agsg-btn:hover { cursor: pointer; width: 24px; height: 20px;}
+.calc-btn {width: 120px; height: 40px; border: 1px solid #333;}
+.calc-btn:hover { cursor: pointer; width: 120px; height: 40px;color:red;}
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#527185;margin:10px;line-height:190%;}
+.keb {font-size:18px;background:pink;font-weight:bold;}
+.keno {font-size:14px;color:green;}
+.kes {font-size:13px;color:brown;}
+@keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+    #table { 
+      position: absolute; /* relative;  */
+      width: 300px; 
+      height: 400px; 
+      border: 2px dashed #ccc; 
+      margin: 20px auto; 
+      background: #f9f9f9; background-image: url(../img/ita.gif); 
+      overflow: hidden;
+      touch-action: none; /* モバイルでスクロールを防ぐ */
+    }
+
+.card {
+  position: absolute;
+  width: 50px;
+  height: 85px;
+  cursor: move;
+  user-select: none;
+  transition: transform 0.3s ease, left 0.3s ease, top 0.3s ease; 
+/*   transition: all 0.3s ease-out; ← これが「ふわっ」と動く秘密 */
+  touch-action: none;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+    .card:hover { transform: scale(1.05); }
+    .card.dragging { opacity: 0.5; transform: rotate(5deg); z-index: 100; }
+    .card img { width: 100%; height: 100%; object-fit: cover; }
+    #shuffled-area { display: none; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #results { margin-top: 20px; }
+  #factCanvas {
+    position: fixed;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; の省略 */
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none; /* 下の要素をクリックできるように */
+    opacity: 0.85;
+  }
+.help-text {background:white;color:#D200FF;line-height:140%;}
+  .charts { display:flex; gap:40px; flex-wrap:wrap; justify-content:center; margin-top:4px; }
+  .chart-container { text-align:center; background:white; padding:2px; border-radius:22px; box-shadow:0 6px 20px rgba(0,0,0,0.1); min-width:100px; margin:3px; }
+.eikyoudo { width:200px; height:10px; border:solid 1px blue; position: relative; float:none; background-image: url(../img/marseille/kabe.jpg); }
+
+/* ━━━━━ケルト十字━━━━━━━━━━━━━━━ */
+  .spread-container {
+    position: relative;
+    width: 430px;
+    height: 230px;
+    margin: 20px auto;
+    background-image: url(../img/tc.png); /* background: #f0f0f0; */
+  }
+  .card {
+    position: absolute;
+    width: 80px;
+    height: 130px;
+  }
+  /* 位置指定 */
+  #card1 { left: 30px; top: 40px; }              /* 現状 */
+  #card2 { left: 170px; top: 40px; }  /* 交差 */
+  #card3 { left: 320px; top: 40px; }              /* 顕在（下） */
+
+  .label {
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    color: #660263;
+    background:#fcf7d7;
+  }
+  #label1 { left: 40px; top: 10px; }
+  #label2 { left: 170px; top: 10px; }
+  #label3 { left: 320px; top: 10px; }
+
+  #llabel1 { left: 30px; top: 175px; }
+  #llabel2 { left: 170px; top: 175px; }
+  #llabel3 { left: 320px; top: 175px; }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+
+<canvas id="factCanvas"></canvas>
+<!-- 消します↓  -->
+<input id="hozcard" type="text" value="" size="20" style="display: none;">
+<!-- 消します↑ -->
+
+<!-- admax -->
+<img src="../img/marseille/hobaybnr.png">
+<span style="font:8px;"><br><a href="https://jdp.zouri.jp/tarot/hoikutarotindex.htm">▲保育TAROT TOP</a>|<a href="https://jdp.zouri.jp/tarot/tarotindex.htm">▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+
+<table border=0 style="float:right;margin:10px;"><tr><td><img src="../img/popopo.png"></td><tr><tr><td><a href="https://ameblo.jp/hiro40574251/entry-12965517861.html" target="_blank">例: ポポくんの<br>歯磨きのおはなし</a></td></tr><table><h3>おはなし生成“3アクト法”フラクタルスプレッド</h3>
+運動会の競技の簡単なおはなし意味づけなら、<a href="./undokaiact3.htm" target="_blank">運動会種目生成おはなし“3アクト法”</a>がおすすめです。<br>
+<hr>
+<p><span style="color:green;font-weight:bold;">【用途】</span><span style="color:#f7195c;font-weight:bold;">保育園・幼稚園などの「お話」の骨格作り</span>に。劇遊びの物語、避難訓練や生活習慣のルールや教訓を分かりやすく伝える場面用のお話作りに。運動会競技や誕生会などのテーマのお話作り…などなど。<br>
+<span style="color:green;font-weight:bold;">【特徴】</span><ul><li style="color:#f7195c;font-weight:bold;">難しそうに見えますが、幼児向けのおはなしが生成されます。</li><li>物語とは変化であり、ベクトル、位相を活かし、3枚カードの差分ベクトルを物語のエンジンにする設計。ベクトル値を「物語の曲がり具合」や「エネルギーの変化」に変換し、計5シーン構成。</li>
+<li>一貫性: 始まりと終わりのつながり、緊張度: 全体のドラマばらつき2軸から、お話を4つに分類。物語の曲線を変え、シーン補間を調整。</li></ul>
+<span style="color:green;font-weight:bold;">【最小動作】</span>…<span style="background:yellow;">黄色の印</span>の<u style="color:#002499;">おはなしタイプ</u>・<u style="color:#002499;">用途・特徴</u>・<u style="color:#002499;">どれか1つ</u>・<u style="color:#002499;">生成ボタン</u>でプロンプト生成。）<br><span class="onoftxt" id="onoftxt" style="font-size:14px;">
+&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">さらに説明を開く</a></span></p>
+
+<h3>おはなしタイプを選んでください。</h3>
+<form id="stbox">
+<table border=1>
+<tr><td></td><td style="text-align:center;">おはなしタイプ</td><td style="text-align:center;">キーワード</td></tr>
+<tr>
+<td><label><input type="radio" name="stp" value="1"></td><td><span style="background:yellow;">劇的・回復</span></label></td><td>避難訓練／危険予防／喧嘩の仲直り</td></tr>
+<tr>
+<td><label><input type="radio" name="stp" value="2"></td><td><span style="background:yellow;">冒険・挑戦</span></label></td><td>運動会／発表会／大きなチャレンジ</td></tr>
+<tr>
+<td><label><input type="radio" name="stp" value="3"></td><td><span style="background:yellow;">気づき・教訓</span></label></td><td>歯磨き／ルール／生活習慣</td></tr>
+<tr>
+<td><label><input type="radio" name="stp" value="4"></td><td><span style="background:yellow;">やさしい成長</span></label></td><td>誕生会／季節行事／安心系</td></tr>
+</table>
+</form>
+
+<div id="stmenu">
+
+<h3>「用途・特徴」と「どれか1つ」の２つの選択ボックスから、希望の用途に近い物を選んでください。</h3>
+
+<form name="storytypesele">
+<fieldset>
+<legend> 劇的・回復の物語: </legend><!-- ① coherence負・tension高（劇的転換・U字回復） -->
+<label><div id="me1">用途・特徴: </div><select id="ichiyoto" name="ichiyoto" disabled>
+<option value="0"></option>
+<option value="1">ピンチ→協力→回復の流れで</option>
+<option value="2">行動の意味づけが印象に残るように</option>
+<option value="3">覚えてほしい内容が印象に残るように</option>
+<option value="4">緊張感のある指導</option>
+<option value="5">命を守る行動</option>
+<option value="6">困難からの回復を伝える場面</option>
+<option value="7">その他(用途・特徴)</option>
+</select></label><br>
+
+<table border=1><tr><td style="text-align:center;"><div id="me2">どれか<br>1つ</br>選択</div></td><td>
+<label>安全・危機対応: <select id="kiki" name="kiki" disabled>
+<option value="0"></option>
+<option value="1">避難訓練(地震)</option>
+<option value="2">避難訓練(火事)</option>
+<option value="3">避難訓練(地震から火事)</option>
+<option value="4">避難訓練(不審者)</option>
+<option value="5">合同避難訓練の導入ストーリー</option>
+<option value="6">行方不明防止（迷子の物語 → 再会）</option>
+<option value="7">非常ベル・消火器の意味説明</option>
+<option value="8">水害・津波想定の防災教育</option>
+<option value="9">その他(安全・危機対応)</option>
+</select></label><br>
+
+<label>健康・ケア: <select id="kenko" name="kenko" disabled>
+<option value="0"></option>
+<option value="1">病気にならないための手洗いの物語</option>
+<option value="2">手洗い・うがいで感染症予防</option>
+<option value="3">体調不良→休息→回復の話</option>
+<option value="4">けがの応急処置に関するエピソード</option>
+<option value="5">薬を嫌がる子への「回復の冒険物語」</option>
+<option value="6">嚙みつき・トラブルからの関係修復物語</option>
+<option value="7">汗をかいたら着替えよう(健康習慣の話)</option>
+<option value="8">その他(健康・ケア)</option>
+</select></label><br>
+
+<label>ルール・危機回避: <select id="rule" name="rule" disabled>
+<option value="0"></option>
+<option value="1">滑り台などの遊具のルール</option>
+<option value="2">道路横断の物語（危険→気づき→守る）</option>
+<option value="3">交通安全指導の導入話</option>
+<option value="4">廊下を走ると危ないよ</option>
+<option value="5">プールのお約束 → 命を守るルール物語</option>
+<option value="6">公園遊具での危険予防</option>
+<option value="7">その他(ルール・危機回避)</option>
+</select></label><br>
+
+<label>集団関係・感情ケア: <select id="kanjo" name="kanjo" disabled>
+<option value="0"></option>
+<option value="1">喧嘩→気持ちの爆発→仲直り</option>
+<option value="2">友達との誤解→対話→関係修復</option>
+<option value="3">イヤイヤピーク→共感 → 安心の回復</option>
+<option value="4">不安が強い子の「勇気が戻ってくる」話</option>
+<option value="5">新しい環境での「泣く→慣れる→安心」物語</option>
+<option value="6">ポンポンもしもし(健康診断の導入話)</option>
+<option value="7">きれいな歯かな？(歯科指導の導入話)</option>
+<option value="8">その他(集団関係・感情ケア)</option>
+</select></label><br>
+</td></tr></table>
+</fieldset>
+
+<fieldset>
+<legend> 冒険・挑戦の物語: </legend><!-- ② coherence正・tension高（挑戦・冒険・達成） -->
+<label><div id="me3">用途・特徴: </div><select id="niyoto" name="niyoto" disabled>
+<option value="0"></option>
+<option value="1">行事の盛り上げ</option>
+<option value="2">大きな挑戦を伴う活動</option>
+<option value="3">強い推進力</option>
+<option value="4">ゴールへ向けた一直線の成長</option>
+<option value="5">子どもの意欲を最大にする</option>
+<option value="6">その他(用途・特徴)</option>
+</select></label><br>
+
+<table border=1><tr><td style="text-align:center;"><div id="me4">どれか<br>1つ</br>選択</div></td><td>
+<label>行事（特に運動系）: <select id="gyoji" name="gyoji" disabled>
+<option value="0"></option>
+<option value="1">運動会の競技用</option>
+<option value="2">クラスの運動会テーマ</option>
+<option value="3">みんなでつなぐ運動会リレーの話</option>
+<option value="4">ダンスや体操の「ミッションストーリー」</option>
+<option value="5">発表会の劇遊び（山場のある構成）</option>
+<option value="6">マラソンの「冒険物語」</option>
+<option value="7">森・海・空の世界を旅する競技テーマ</option>
+<option value="8">みんなで協力する物語(発表会用)</option>
+<option value="9">その他(行事)</option>
+</select></label><br>
+
+<label>探索・挑戦の活動: <select id="tansak" name="tansak" disabled>
+<option value="0"></option>
+<option value="1">遠足の物語（山へ/森へ/公園探検）</option>
+<option value="2">砂場で大きな川や山をつくる物語</option>
+<option value="3">共同制作（大きな壁面づくり）</option>
+<option value="4">共同制作（積み木をつなごう）</option>
+<option value="5">秘密基地製作</option>
+<option value="6">造形活動のプロジェクト型（船・町づくり）</option>
+<option value="7">挑戦（雲梯・縄跳び・組体操など）</option>
+<option value="8">その他(探索・挑戦の活動)</option>
+</select></label><br>
+
+<label>協力型活動: <select id="kyoryoku" name="kyoryoku" disabled>
+<option value="0"></option>
+<option value="1">大掃除ミッション</option>
+<option value="2">畑での収穫物語</option>
+<option value="3">道具を運ぶ・組み立てるチャレンジ</option>
+<option value="4">クッキングの「冒険レシピ」</option>
+<option value="5">その他(協力型活動)</option>
+</select></label><br>
+
+<label>自己効力感を育てる場面: <select id="jikoko" name="jikoko" disabled>
+<option value="0"></option>
+<option value="1">泣かずに登園チャレンジ</option>
+<option value="2">トイレトレーニングの成長物語</option>
+<option value="3">靴下や靴を自分で履くチャレンジ</option>
+<option value="4">自分の持ち物は自分で片付け</option>
+<option value="5">その他(自己効力感を育てる場面)</option>
+</select></label><br>
+</td></tr></table>
+</fieldset>
+
+
+<fieldset>
+<legend> 気づき・教訓の物語: </legend><!-- ③ coherence負・tension低（気づき・方向転換） -->
+<label><div id="me5">用途・特徴: </div><select id="sanyoto" name="sanyoto" disabled>
+<option value="0"></option>
+<option value="1">しつけ・教訓の理解</option>
+<option value="2">日常の小さなルール理解</option>
+<option value="3">クラスのルール理解</option>
+<option value="4">急激ではないけれど、方向が変わる</option>
+<option value="5">「あ、こうしたらいいんだ」の気づきを生む</option>
+<option value="6">日常生活の導入に</option>
+<option value="7">その他(用途・特徴)</option>
+</select></label><br>
+
+<table border=1><tr><td style="text-align:center;"><div id="me6">どれか<br>1つ</br>選択</div></td><td>
+<label>健康習慣: <select id="kenshu" name="kenshu" disabled>
+<option value="0"></option>
+<option value="1">歯磨きの大切さ（虫歯になりそう → 気づく）</option>
+<option value="2">食事マナー（遊び食べ → ゆっくり味わう）</option>
+<option value="3">食事マナー（噛まずに飲み込む → よく噛もう）</option>
+<option value="4">夏の水分補給の話</option>
+<option value="5">早寝の物語（遅く寝る → 朝眠い → 気づく）</option>
+<option value="6">服の着脱の物語（季節・暑い寒いの気づき）</option>
+<option value="7">その他(健康習慣)</option>
+</select></label><br>
+
+<label>生活習慣: <select id="seikt" name="seikt" disabled>
+<option value="0"></option>
+<option value="1">片付けの物語（物が迷子になる）</option>
+<option value="2">トイレに行きたくない → 行ってみたらスッキリ</option>
+<option value="3">トイレで手を洗おう（汚い→気づく）</option>
+<option value="4">椅子の座り方（姿勢が悪い → 気づく）</option>
+<option value="5">自分の持ち物の片付けの話</option>
+<option value="6">朝の登園後の片付けルール</option>
+<option value="7">お帰りの準備できるかな</option>
+<option value="8">その他(生活習慣)</option>
+</select></label><br>
+
+<label>水の安全: <select id="mizan" name="mizan" disabled>
+<option value="0"></option>
+<option value="1">プール遊びの約束物語（危ない場面→気づき）</option>
+<option value="2">風呂で鼻まで浸かると危ない話</option>
+<option value="3">友達に水をかけすぎると嫌な気持ちになる話</option>
+<option value="4">海・川の水遊びの安全の話</option>
+<option value="5">その他(水の安全)</option>
+</select></label><br>
+
+<label>友だち関係の教訓: <select id="kyokun" name="kyokun" disabled>
+<option value="0"></option>
+<option value="1">おもちゃの取り合い → 相手の気持ちに気づく</option>
+<option value="2">「ありがとう」「ごめんね」につながる話</option>
+<option value="3">友達が困っている → 手伝うと嬉しい</option>
+<option value="4">「仲間に入れて」と言えると楽しい</option>
+<option value="5">仲間に入れてあげない → 相手の気持ちに気づく</option>
+<option value="6">その他(友だち関係の教訓)</option>
+</select></label><br>
+
+<label>環境理解: <select id="kanrikai" name="kanrikai" disabled>
+<option value="0"></option>
+<option value="1">虫にも命がある</option>
+<option value="2">草花の扱い（むしる→しおれる→気づく）</option>
+<option value="3">ゴミのポイ捨て→世界が悲しむ物語</option>
+<option value="4">SDGsにつながる話</option>
+<option value="5">その他(環境理解)</option>
+</select></label><br>
+</td></tr></table>
+</fieldset>
+
+
+<fieldset>
+<legend> やさしい成長の物語: </legend><!-- ④ coherence正・tension低（安心・喜び・穏やかな発達） -->
+<label><div id="me7">用途・特徴: </div><select id="yonyoto" name="yonyoto" disabled>
+<option value="0"></option>
+<option value="1">お祝い</option>
+<option value="2">日常の振り返り</option>
+<option value="3">季節行事</option>
+<option value="4">ドラマは弱いが、温かい</option>
+<option value="5">成長の積み重ね</option>
+<option value="6">行事の「安心感」を作る</option>
+<option value="7">その他(用途・特徴)</option>
+</select></label><br>
+
+<table border=1><tr><td style="text-align:center;"><div id="me8">どれか<br>1つ</br>選択</div></td><td>
+<label>誕生会・記念日: <select id="tanj" name="tanj" disabled>
+<option value="0"></option>
+<option value="1">今までの成長を振り返る「誕生日の物語」</option>
+<option value="2">主役の子が冒険して帰ってくるほのぼのストーリー</option>
+<option value="3">入園・進級お祝いの物語</option>
+<option value="4">「今日の主人公さん」を優しく照らす話</option>
+<option value="5">誕生会の流れ・構成用のストーリー</option>
+<option value="6">その他(誕生会・記念日)</option>
+</select></label><br>
+
+<label>行事の導入: <select id="gyodo" name="gyodo" disabled>
+<option value="0"></option>
+<option value="1">季節の物語（鯉のぼり）</option>
+<option value="2">季節の物語（七夕）</option>
+<option value="3">季節の物語（クリスマス）</option>
+<option value="4">季節の物語（お正月）</option>
+<option value="5">季節の物語（もちつき）</option>
+<option value="6">季節の物語（節分）</option>
+<option value="7">季節の物語（ひなまつり）</option>
+<option value="8">動物・植物の優しい物語</option>
+<option value="9">年間行事の始まりの話（春の芽生え物語など）</option>
+<option value="10">その他(行事の導入)</option>
+</select></label><br>
+
+<label>日常ルーティン: <select id="nichiru" name="nichiru" disabled>
+<option value="0"></option>
+<option value="1">朝のお集まり導入ストーリー</option>
+<option value="2">帰りの会の振り返り物語</option>
+<option value="3">絵本の前の小さな導入話</option>
+<option value="4">午睡前の落ち着き物語（ゆっくり眠りの森へ）</option>
+<option value="5">その他(日常ルーティン)</option>
+</select></label><br>
+
+<label>心の育ち: <select id="kokoro" name="kokoro" disabled>
+<option value="0"></option>
+<option value="1">やさしさ・思いやりを感じる物語</option>
+<option value="2">仲良し2人の静かな友情物語</option>
+<option value="3">困っている子を助ける穏やかなストーリー</option>
+<option value="4">その他(心の育ち)</option>
+</select></label><br>
+
+<label>環境世界: <select id="kankysekai" name="kankysekai" disabled>
+<option value="0"></option>
+<option value="1">園庭の木・虫・花を主人公にした物語</option>
+<option value="2">気象（雨・風・雲）のほのぼのストーリー</option>
+<option value="3">その他(環境世界)</option>
+</select></label><br>
+</td></tr></table>
+</fieldset>
+</form>
+
+
+</div>
+
+
+
+<fieldset><legend>  <label>かんたん操作パネル: </legend>
+
+<br>自由入力欄: <br><textarea id="qques" rows="5" cols="40" placeholder="選択メニューで説明しきれない希望があれば記入してください。&#13;&#10;無記入の場合、自動的に「保育園の3～5歳児クラス向けのお話のアイデアをお願いします」になります。"></textarea>
+
+<button id="qprotseisei" class="calc-btn" onclick="storydrawcards()" style="background:yellow;">物語生成プロンプト生成</button>
+
+<!-- button id="qprotseisei" class="calc-btn" onclick="qdrawcards()" style="background:yellow;">保育活動案プロンプト生成</button --><br>生成ボタンを押すと、下のテキスト欄にプロンプトが表示されます。<br>
+　↓　↓　↓　↓<br>
+<textarea id="hozp2" rows="10" cols="50" placeholder="プロンプトがここに表示されます"></textarea><br><button id="hpcp2" class="calc-btn" onclick="hcopyPrompt2();">クリップボードにコピー</button> 
+</fieldset>
+<!-- ━━━━━ケルト十字━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ -->
+<div id="celt" class="spread-container">
+  <img id="card1"  class="card" src="../img/a_infantia/01u.png" width="80" height="130">
+  <img id="card2"  class="card" src="../img/a_infantia/02u.png" width="80" height="130">
+  <img id="card3"  class="card" src="../img/a_infantia/03u.png" width="80" height="130">
+  <div id="label1" class="label">1. 現状</div>
+  <div id="label2" class="label">2. 障害</div>
+  <div id="label3" class="label">3. 顕在意識</div>
+</div>
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ -->
+
+<h3>大きなメリット</h3>
+<ul><li>数値をベースにすることでAIを賢く制御し、ハルシネーションを防止しながら、専門的な考察に基づいた回答が可能
+
+<ul><li>AIが内部で計算するようなことを、ある程度事前に済ませておき、参考になる数値パーケージのプロンプトをAIに渡せば、AIの負担が減り、その分、ナラティブ生成に力を注げます。</li>
+<li>AIの内部計算はAI自身でも説明が困難ですが、こちらで計算し数値を指定すると、「なぜその出力なのか」の根拠（エビデンス）が明確であるメリットがあります。15次元のベクトルの数値で持っているため、「そういう文章を学習してきたから」「なんとなく」ではなく論理的な裏付けがなされます。</li>
+</ul></li>
+
+<li>さらに詳しく、計算論的AI制御の13のメリットをブログにまとめました。<br><a href="https://ameblo.jp/hiro40574251/entry-12948390837.html" target="_blank">保育アイデアAI生成に保育タロットを使う13のメリット - 直接 vs 象徴</a></li></ul>
+
+<strong>下にいろいろ情報や数値が出てきますが、見なくても、おはなし生成に支障ありません。</strong>
+
+<hr style=" background-color:#f5ad42; border:none; box-shadow:1px 0px 9px 5px #f5ad42;">
+<hr style=" background-color:#f5ce42; border:none; box-shadow:1px 0px 9px 5px #f5ce42;">
+<hr style=" background-color:#e9f542; border:none; box-shadow:1px 0px 9px 5px #e9f542;">
+<hr style=" background-color:#b3f542; border:none; box-shadow:1px 0px 9px 5px #b3f542;">
+<hr style=" background-color:#78f542; border:none; box-shadow:1px 0px 9px 5px #78f542;">
+<hr style=" background-color:#42f569; border:none; box-shadow:1px 0px 9px 5px #42f569;">
+
+
+
+<div id="keisankekka"></div>
+
+<div id="hozproarea"></div>
+
+<script type="text/javascript">
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┓ -->
+
+
+
+function menu1(){
+const targetElement = document.getElementById("stmenu"); targetElement.innerHTML = `
+<form name="storytypesele">
+<fieldset>
+<legend> 劇的・回復の物語: </legend><!-- ① coherence負・tension高（劇的転換・U字回復） -->
+<label><span style="background:yellow;">用途・特徴</span>: <select id="ichiyoto" name="ichiyoto">
+<option value="0"></option>
+<option value="1">ピンチ→協力→回復の流れで</option>
+<option value="2">行動の意味づけが印象に残るように</option>
+<option value="3">覚えてほしい内容が印象に残るように</option>
+<option value="4">緊張感のある指導</option>
+<option value="5">命を守る行動</option>
+<option value="6">困難からの回復を伝える場面</option>
+<option value="7">その他(用途・特徴)</option>
+</select></label><br>
+</form>
+`;
+}
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┛ -->
+</script>
+
+
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┓ -->
+<script type="text/javascript">
+
+const celtarea = document.getElementById("celt");
+if (celtarea) {
+celtarea.innerHTML = `
+  <img id="card1"  class="card" src="../img/urah.png" width="80" height="130">
+  <img id="card2"  class="card" src="../img/urah.png" width="80" height="130">
+  <img id="card3"  class="card" src="../img/urah.png" width="80" height="130">
+
+  <div id="label1" class="label">Act1 種</div>
+  <div id="label2" class="label">Act2 動力</div>
+  <div id="label3" class="label">Act3 変容</div>
+  <div id="llabel1" class="label"></div>
+  <div id="llabel2" class="label"></div>
+  <div id="llabel3" class="label"></div>
+`;
+}
+
+function celthyouji(curl,cname){
+// console.log('curl',curl);console.log('cname',cname);
+const cl = curl.split(", ");
+const cne = cname.split(",");
+// console.log('cl',cl);
+
+if (celtarea) {
+celtarea.innerHTML = `
+  <img id="card1"  class="card" src="../img/a_infantia/${cl[0]}.png" width="80" height="130">
+  <img id="card2"  class="card" src="../img/a_infantia/${cl[1]}.png" width="80" height="130">
+  <img id="card3"  class="card" src="../img/a_infantia/${cl[2]}.png" width="80" height="130">
+  <img id="card4"  class="card" src="../img/a_infantia/${cl[3]}.png" width="80" height="130">
+  <img id="card5"  class="card" src="../img/a_infantia/${cl[4]}.png" width="80" height="130">
+  <img id="card6"  class="card" src="../img/a_infantia/${cl[5]}.png" width="80" height="130">
+
+  <img id="card7"  class="card" src="../img/a_infantia/${cl[6]}.png" width="80" height="130">
+  <img id="card8"  class="card" src="../img/a_infantia/${cl[7]}.png" width="80" height="130">
+  <img id="card9"  class="card" src="../img/a_infantia/${cl[8]}.png" width="80" height="130">
+  <img id="card10" class="card" src="../img/a_infantia/${cl[9]}.png" width="80" height="130">
+  <div id="label1" class="label">①活動テーマ(十字の縦)</div>
+  <div id="label2" class="label">②配慮事項(十字の横)</div>
+  <div id="label3" class="label">③ねらい1</div>
+  <div id="label4" class="label">④ねらい2</div>
+  <div id="label5" class="label">⑤導入</div>
+  <div id="label6" class="label">⑥展開</div>
+  <div id="label7" class="label">⑦主体性</div>
+  <div id="label8" class="label">⑧環境構成</div>
+  <div id="label9" class="label">⑨評価の観点</div>
+  <div id="label10" class="label">⑩次への繋ぎ</div>
+  <div id="llabel1" class="label">${cne[0]}</div>
+  <div id="llabel2" class="label">${cne[1]}</div>
+  <div id="llabel3" class="label">${cne[2]}</div>
+  <div id="llabel4" class="label">${cne[3]}</div>
+  <div id="llabel5" class="label">${cne[4]}</div>
+  <div id="llabel6" class="label">${cne[5]}</div>
+  <div id="llabel7" class="label">${cne[6]}</div>
+  <div id="llabel8" class="label">${cne[7]}</div>
+  <div id="llabel9" class="label">${cne[8]}</div>
+  <div id="llabel10" class="label">${cne[9]}</div>
+`;
+}
+
+
+
+
+}
+</script>
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┛ -->
+
+
+
+
+
+
+
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┓ -->
+<script type="text/javascript">
+window.onload = function onLoad() {
+
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// クイックと通常の、テキストエリア連動
+const tarea = document.querySelector("textarea");
+const log = document.getElementById("question");
+
+tarea.addEventListener("change", updateValue);
+
+function updateValue(e) {
+  log.textContent = e.target.value;
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+/**
+ * 色相角(hue)を純色の16進数カラーコードに変換する
+ * @param {number} h - 0から360の色相角度
+ * @returns {string} - #RRGGBB 形式の文字列
+ */
+function hueToHex(h) {
+  h = h % 360;
+
+  const f = (n) => {
+    const k = (n + h / 30) % 12;
+    // 彩度(a)100%、明度(l)50% の場合の簡略化した計算式
+    const color = 0.5 - 0.5 * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    
+    // 確実に 0-255 の範囲に収める
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, '0');
+  };
+
+  return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━■■■■■■■■■■■■━物語生成アクト3━■■■■■■■■■■■■━━━━
+
+// これで起伏がかなり明確になりました（energyが0.18 → 1.00 → 0.97のように波打つ）。 
+// AIに投げると「静かに始まって、中盤でドカンと盛り上がり、最後温かく締まる」物語が
+// 作りやすくなります。さらに調整したい場合（例: tensionのスケールが弱い/強い、
+// curveを1.5に変える、peakを強調したプロンプト文言追加など）教えてくださいね。 
+
+// ベクトル操作ヘルパー
+function dot(a, b) {
+  return a.reduce((sum, val, i) => sum + val * b[i], 0);
+}
+
+function norm(v) {
+  return Math.sqrt(dot(v, v));
+}
+
+function subtract(a, b) {
+  return a.map((val, i) => val - b[i]);
+}
+
+function add(a, b) {
+  return a.map((val, i) => val + b[i]);
+}
+
+function scale(v, s) {
+  return v.map(val => val * s);
+}
+
+// 非線形補間（物語の加速感を再現）
+// P(t) = a + t^n * (b - a)
+// P = a + (b - a) * t^curve ←よりシンプルに構成要素を並べる
+// P: 求めたい地点
+// a: 開始地点
+// b: 到着地点
+// t: 時間（0から1まで）
+// ^n (または ^curve): n乗（加速の強さ）
+
+function narrativePoint(a, b, t, curve = 2.0) {
+  const tc = Math.pow(t, curve);  // 後半に重心が寄る
+  const diff = subtract(b, a);
+  return add(a, scale(diff, tc));
+}
+
+function rogunarrativePoint(a, b, t, curve = 2.0) {
+  const tc = Math.pow(t, curve);  // 後半に重心が寄る
+  const diff = subtract(b, a);
+    const diffm = diff.map(v => Math.round(v * 100) / 100);
+// Formula: P = a + (b - a) * t^n
+// 式: P = a + (b - a) * t^curve 
+let rogu = "式: 始点 + (変化量 × 加速係数)<br>P = a + (b - a) * t^curve<br>";
+
+rogu += "設定値: { t : "+t+", curve : 2.0, tc(補間係数) : "+tc.toFixed(2)+" }<br>";
+rogu += "始点a = [ "+a[0]+", "+a[1]+", ..., "+a[14]+" ]<br>";
+rogu += "終点b = [ "+b[0]+", "+b[1]+", ..., "+b[14]+" ]<br>";
+rogu += "加速係数tc = "+tc.toFixed(2)+"（全体の"+(tc.toFixed(2)*100)+"%まで進行）";
+rogu += "変化量（差分）diff = [ "+diffm[0]+", "+diffm[1]+", ..., "+diffm[14]+" ]<br>";
+rogu += "物語の現在の深度…a（出発地）から、diff（道のり）を tc（進捗）分だけ進んだ場所 → ";
+  return rogu;
+}
+
+// 位相の符号（正位置:+, 逆位置:-, 0はliminal扱い）
+function getSign(angle) {
+  if (angle === 0) return 0;
+  return angle > 0 ? 1 : -1;
+}
+
+// 位相補間（sum=0ならliminal）
+function phaseInterp(p1, p2) {
+  const sum = p1 + p2;
+  if (sum === 0) return 'liminal';
+  return sum > 0 ? 1 : -1;
+}
+
+// ━━━◆消す━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+
+// 曲率（物語の曲がり具合）
+function curvature(v1, v2, v3) {
+console.log('curvatureここ使ってる？',v1+v2+v3);
+  const d12 = subtract(v2, v1);
+  const d23 = subtract(v3, v2);
+  const n12 = norm(d12);
+  const n23 = norm(d23);
+  if (n12 === 0 || n23 === 0) return 0;
+  let cos = dot(d12, d23) / (n12 * n23);
+  cos = Math.max(-1, Math.min(1, cos)); // クリッピング
+  return Math.sqrt(2 * (1 - cos));
+}
+
+// curvature & coherence（旧のまま、必要なら削除可）
+
+function curvaturelog(v1, v2, v3) {
+  const d12 = subtract(v2, v1);
+  const d23 = subtract(v3, v2);
+  const n12 = norm(d12);
+  const n23 = norm(d23);
+let klog = '<ul><li>norm(d12)…'+norm(d12).toFixed(2)+'</li>';
+klog += '<li>norm(d23)…'+norm(d23).toFixed(2)+'</li>';
+  if (n12 === 0 || n23 === 0) return 0;
+  let cos = dot(d12, d23) / (n12 * n23);
+  cos = Math.max(-1, Math.min(1, cos)); // クリッピング
+  return klog+"<li>sqrt(2 * (1 - cosθ))";
+}
+
+// 一貫性（始まりと終わりの類似度）
+function coherence(v1, v3) {
+console.log('ここ使ってる？coherence',v1+v3);
+ const n1 = norm(v1);
+ const n3 = norm(v3);
+ if (n1 === 0 || n3 === 0) return 0;
+ return Number((dot(v1, v3) / (n1 * n3)).toFixed(2));
+}
+
+// ━━━◆消す━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+// 乖離スコア
+// function divergence(actual, target) {
+//  return { Number(actual) - Number(target) };
+// }
+
+// 例：coherence負・tension高を希望
+// 実際のカード結果がcoherence正・tension低だった場合
+// → div = { coh: +1.2, ten: -0.5 }
+
+// AIへの指示に追加
+// 「カードの本来の穏やかさを保ちながら、
+//   物語の枠組みとして転換・緊張を意図的に読み込んでください」
+// ━━━━━━━━━━━━━━━━━━
+
+// セレクトボックス
+    const str0 = document.getElementById("ichiyoto");
+    const str1 =document.getElementById("kiki");
+    const str2 =document.getElementById("kenko");
+    const str3 =document.getElementById("rule");
+    const str4 =document.getElementById("kanjo");
+    const str5 =document.getElementById("niyoto");
+    const str6 =document.getElementById("gyoji");
+    const str7 =document.getElementById("tansak");
+    const str8 =document.getElementById("kyoryoku");
+    const str9 =document.getElementById("jikoko");
+    const str10 =document.getElementById("sanyoto");
+    const str11 =document.getElementById("kenshu");
+    const str12 =document.getElementById("seikt");
+    const str13 =document.getElementById("mizan");
+    const str14 =document.getElementById("kyokun");
+    const str15 =document.getElementById("kanrikai");
+    const str16 =document.getElementById("yonyoto");
+    const str17 =document.getElementById("tanj");
+    const str18 =document.getElementById("gyodo");
+    const str19 =document.getElementById("nichiru");
+    const str20 =document.getElementById("kokoro");
+    const str21 =document.getElementById("kankysekai");
+
+    str0.addEventListener("change", function (e) {
+document.storytypesele.niyoto.selectedIndex = 0;
+document.storytypesele.sanyoto.selectedIndex = 0;
+document.storytypesele.yonyoto.selectedIndex = 0;
+    });
+    str5.addEventListener("change", function (e) {
+document.storytypesele.ichiyoto.selectedIndex = 0;
+document.storytypesele.sanyoto.selectedIndex = 0;
+document.storytypesele.yonyoto.selectedIndex = 0;
+    });
+    str10.addEventListener("change", function (e) {
+document.storytypesele.ichiyoto.selectedIndex = 0;
+document.storytypesele.niyoto.selectedIndex = 0;
+document.storytypesele.yonyoto.selectedIndex = 0;
+    });
+    str16.addEventListener("change", function (e) {
+document.storytypesele.ichiyoto.selectedIndex = 0;
+document.storytypesele.niyoto.selectedIndex = 0;
+document.storytypesele.sanyoto.selectedIndex = 0;
+    });
+    str1.addEventListener("change", function (e) {
+document.storytypesele.kenko.selectedIndex = 0;
+document.storytypesele.rule.selectedIndex = 0;
+document.storytypesele.kanjo.selectedIndex = 0;
+    });
+    str2.addEventListener("change", function (e) {
+document.storytypesele.kiki.selectedIndex = 0;
+document.storytypesele.rule.selectedIndex = 0;
+document.storytypesele.kanjo.selectedIndex = 0;
+    });
+    str3.addEventListener("change", function (e) {
+document.storytypesele.kiki.selectedIndex = 0;
+document.storytypesele.kenko.selectedIndex = 0;
+document.storytypesele.kanjo.selectedIndex = 0;
+    });
+    str4.addEventListener("change", function (e) {
+document.storytypesele.kiki.selectedIndex = 0;
+document.storytypesele.kenko.selectedIndex = 0;
+document.storytypesele.rule.selectedIndex = 0;
+    });
+    str6.addEventListener("change", function (e) {
+document.storytypesele.tansak.selectedIndex = 0;
+document.storytypesele.kyoryoku.selectedIndex = 0;
+document.storytypesele.jikoko.selectedIndex = 0;
+    });
+    str7.addEventListener("change", function (e) {
+document.storytypesele.gyoji.selectedIndex = 0;
+document.storytypesele.kyoryoku.selectedIndex = 0;
+document.storytypesele.jikoko.selectedIndex = 0;
+    });
+    str8.addEventListener("change", function (e) {
+document.storytypesele.gyoji.selectedIndex = 0;
+document.storytypesele.tansak.selectedIndex = 0;
+document.storytypesele.jikoko.selectedIndex = 0;
+    });
+    str9.addEventListener("change", function (e) {
+document.storytypesele.gyoji.selectedIndex = 0;
+document.storytypesele.tansak.selectedIndex = 0;
+document.storytypesele.kyoryoku.selectedIndex = 0;
+    });
+    str11.addEventListener("change", function (e) {
+document.storytypesele.seikt.selectedIndex = 0;
+document.storytypesele.mizan.selectedIndex = 0;
+document.storytypesele.kyokun.selectedIndex = 0;
+document.storytypesele.kanrikai.selectedIndex = 0;
+    });
+    str12.addEventListener("change", function (e) {
+document.storytypesele.kenshu.selectedIndex = 0;
+document.storytypesele.mizan.selectedIndex = 0;
+document.storytypesele.kyokun.selectedIndex = 0;
+document.storytypesele.kanrikai.selectedIndex = 0;
+    });
+    str13.addEventListener("change", function (e) {
+document.storytypesele.kenshu.selectedIndex = 0;
+document.storytypesele.seikt.selectedIndex = 0;
+document.storytypesele.kyokun.selectedIndex = 0;
+document.storytypesele.kanrikai.selectedIndex = 0;
+    });
+    str14.addEventListener("change", function (e) {
+document.storytypesele.kenshu.selectedIndex = 0;
+document.storytypesele.seikt.selectedIndex = 0;
+document.storytypesele.mizan.selectedIndex = 0;
+document.storytypesele.kanrikai.selectedIndex = 0;
+    });
+    str15.addEventListener("change", function (e) {
+document.storytypesele.kenshu.selectedIndex = 0;
+document.storytypesele.seikt.selectedIndex = 0;
+document.storytypesele.mizan.selectedIndex = 0;
+document.storytypesele.kyokun.selectedIndex = 0;
+    });
+    str17.addEventListener("change", function (e) {
+document.storytypesele.gyodo.selectedIndex = 0;
+document.storytypesele.nichiru.selectedIndex = 0;
+document.storytypesele.kokoro.selectedIndex = 0;
+document.storytypesele.kankysekai.selectedIndex = 0;
+    });
+    str18.addEventListener("change", function (e) {
+document.storytypesele.tanj.selectedIndex = 0;
+document.storytypesele.nichiru.selectedIndex = 0;
+document.storytypesele.kokoro.selectedIndex = 0;
+document.storytypesele.kankysekai.selectedIndex = 0;
+    });
+    str19.addEventListener("change", function (e) {
+document.storytypesele.tanj.selectedIndex = 0;
+document.storytypesele.gyodo.selectedIndex = 0;
+document.storytypesele.kokoro.selectedIndex = 0;
+document.storytypesele.kankysekai.selectedIndex = 0;
+    });
+    str20.addEventListener("change", function (e) {
+document.storytypesele.tanj.selectedIndex = 0;
+document.storytypesele.gyodo.selectedIndex = 0;
+document.storytypesele.nichiru.selectedIndex = 0;
+document.storytypesele.kankysekai.selectedIndex = 0;
+    });
+    str21.addEventListener("change", function (e) {
+document.storytypesele.tanj.selectedIndex = 0;
+document.storytypesele.gyodo.selectedIndex = 0;
+document.storytypesele.nichiru.selectedIndex = 0;
+document.storytypesele.kokoro.selectedIndex = 0;
+    });
+
+
+let sttp = null; // グローバル変数
+// sttp
+// 1 劇的転換・U字回復
+// 2 挑戦・冒険・達成
+// 3 気づき・方向転換
+// 4 安心・喜び・穏やかな発達
+//
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+function storydrawcards(){
+if (document.getElementById("qques").value===""){document.getElementById("qques").value="保育園の3～5歳児クラス向けのお話のアイデアをお願いします。";}
+    shuffle(cards); // 内部で機械的ランダム配置完了
+// drawCards()
+
+// セレクトボックス値取得
+
+let sele = null;
+if (document.storytypesele.ichiyoto.selectedIndex !== 0){
+sttp = 1; // ① coherence負・tension高（劇的転換・U字回復）
+sele = 'selected_type: 劇的・回復の物語\n';
+sele += '- 用途・特徴:  「'+str0.options[str0.selectedIndex].textContent+'」\n';
+if (str1.options[str1.selectedIndex].textContent !== ''){
+sele += '- 安全・危機対応:  「'+str1.options[str1.selectedIndex].textContent+'」';
+}
+if (str2.options[str2.selectedIndex].textContent !== ''){
+sele += '- 健康・ケア:  「'+str2.options[str2.selectedIndex].textContent+'」';
+}
+if (str3.options[str3.selectedIndex].textContent !== ''){
+sele += '- ルール・危機回避:  「'+str3.options[str3.selectedIndex].textContent+'」';
+}
+if (str4.options[str4.selectedIndex].textContent !== ''){
+sele += '- 集団関係・感情ケア:  「'+str4.options[str4.selectedIndex].textContent+'」';
+}
+};
+
+if (document.storytypesele.niyoto.selectedIndex !== 0){
+sttp = 2; // ② coherence正・tension高（挑戦・冒険・達成）
+sele = 'selected_type: 冒険・挑戦の物語\n';
+sele += '- 用途・特徴:  「'+str5.options[str5.selectedIndex].textContent+'」\n';
+if (str6.options[str6.selectedIndex].textContent !== ''){
+sele += '- 行事（特に運動系）:  「'+str6.options[str6.selectedIndex].textContent+'」';
+}
+if (str7.options[str7.selectedIndex].textContent !== ''){
+sele += '- 探索・挑戦の活動:  「'+str7.options[str7.selectedIndex].textContent+'」';
+}
+if (str8.options[str8.selectedIndex].textContent !== ''){
+sele += '- 協力型活動:  「'+str8.options[str8.selectedIndex].textContent+'」';
+}
+if (str9.options[str9.selectedIndex].textContent !== ''){
+sele += '- 自己効力感を育てる場面:  「'+str9.options[str9.selectedIndex].textContent+'」';
+}
+};
+
+if (document.storytypesele.sanyoto.selectedIndex !== 0){
+sttp = 3; // ③ coherence負・tension低（気づき・方向転換）
+sele = 'selected_type: 気づき・教訓の物語\n';
+sele += '- 用途・特徴:  「'+str10.options[str10.selectedIndex].textContent+'」\n';
+if (str11.options[str11.selectedIndex].textContent !== ''){
+sele += '- 健康習慣:  「'+str11.options[str11.selectedIndex].textContent+'」';
+}
+if (str12.options[str12.selectedIndex].textContent !== ''){
+sele += '- 生活習慣:  「'+str12.options[str12.selectedIndex].textContent+'」';
+}
+if (str13.options[str13.selectedIndex].textContent !== ''){
+sele += '- 水の安全:  「'+str13.options[str13.selectedIndex].textContent+'」';
+}
+if (str14.options[str14.selectedIndex].textContent !== ''){
+sele += '- 友だち関係の教訓:  「'+str14.options[str14.selectedIndex].textContent+'」';
+}
+if (str15.options[str15.selectedIndex].textContent !== ''){
+sele += '- 環境理解:  「'+str15.options[str15.selectedIndex].textContent+'」';
+}
+};
+
+if (document.storytypesele.yonyoto.selectedIndex !== 0){
+sttp = 4; // ④ coherence正・tension低（安心・喜び・穏やかな発達）
+sele = 'selected_type: やさしい成長の物語\n';
+sele += '- 用途・特徴:  「'+str16.options[str16.selectedIndex].textContent+'」\n';
+if (str17.options[str17.selectedIndex].textContent !== ''){
+sele += '- 誕生会・記念日:  「'+str17.options[str17.selectedIndex].textContent+'」';
+}
+if (str18.options[str18.selectedIndex].textContent !== ''){
+sele += '- 行事の導入:  「'+str18.options[str18.selectedIndex].textContent+'」';
+}
+if (str19.options[str19.selectedIndex].textContent !== ''){
+sele += '- 日常ルーティン:  「'+str19.options[str19.selectedIndex].textContent+'」';
+}
+if (str20.options[str20.selectedIndex].textContent !== ''){
+sele += '- 心の育ち:  「'+str20.options[str20.selectedIndex].textContent+'」';
+}
+if (str21.options[str21.selectedIndex].textContent !== ''){
+sele += '- 環境世界:  「'+str21.options[str21.selectedIndex].textContent+'」';
+}
+};
+
+
+
+
+
+
+
+
+
+console.log('sele',sele);
+
+// kiki kenko rule
+
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言
+    // シャッフル完了後、最初の3枚を選択
+    const selectedCards = cards.slice(0, 3); // ■■■selectedCards■■■
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+    selectedCards.forEach(card => {
+        card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+    });
+
+console.log('アクト3カード',selectedCards);
+
+
+
+    // ★ここでファクトチェックエフェクト発動
+    startEffect();
+    
+    // エフェクト完了後に結果出力（setTimeoutで同期）
+    setTimeout(() => {
+        // ... (output生成と resultElement.innerHTML = output; など)
+    }, 5000);  // 5秒遅延（エフェクト持続時間分）
+
+let keisanlog1='<h3 class="bgb">'+selectedCards[0].id+'&nbsp;'+selectedCards[0].name.slice(2)+'('+selectedCards[0].orientation.slice(1)+')</h3><ul>';
+let keisanlog2='<h3 class="bgb">'+selectedCards[1].id+'&nbsp;'+selectedCards[1].name.slice(2)+'('+selectedCards[1].orientation.slice(1)+')</h3><ul>';
+let keisanlog3='<h3 class="bgb">'+selectedCards[2].id+'&nbsp;'+selectedCards[2].name.slice(2)+'('+selectedCards[2].orientation.slice(1)+')</h3><ul>';
+let keisanlog4='<h3 class="bgb">シーン</h3><ul>';
+
+// === メイン計算 ===
+// const v1 = [0.85, 0.8, 0.65, 0.7, 0.85, 0.5, 0.75, 0.5, 0.6, 0.6, 0.6, 0.85, 0.5, 0.85, 0.65]; // たくましさ(正)
+// const v2 = [0.7, 0.5, 0.85, 0.75, 0.4, 0.6, 0.7, 0.7, 0.2, 0.4, 0.3, 0.8, 0.95, 0.5, 0.75];   // 葛藤(逆)
+// const v3 = [0.52, 0.42, 0.83, 0.62, 0.47, 0.73, 0.78, 0.88, 0.36, 0.73, 0.99, 0.52, 0.26, 0.68, 0.94]; // 温かさ(正)
+
+let phi1 = selectedCards[0].hue;
+let phi2 = selectedCards[1].hue;
+let phi3 = selectedCards[2].hue;
+const hue1 = hueToHex(phi1);
+const hue2 = hueToHex(phi2);
+const hue3 = hueToHex(phi3);
+
+const v1 = selectedCards[0].vector;
+const v2 = selectedCards[1].vector;
+const v3 = selectedCards[2].vector;
+keisanlog1 += '<img align="right" src="../img/a_infantia/'+selectedCards[0].name.slice(0,2)+selectedCards[0].orientation.slice(0,1)+'.png" alt="'+selectedCards[0].name.slice(2)+'"><li>ベクトル: <ul style="background:black;color:' + hue1 + ';"><li>発達支援(主体, 探索, 協同, 表現, 身体) [ ' + selectedCards[0].vector[0] + ' ,'+ selectedCards[0].vector[1] + ' ,'+ selectedCards[0].vector[2] + ' ,'+ selectedCards[0].vector[3] + ' ,' + selectedCards[0].vector[4] + ' ]</li><li>保育実践(計画, 柔軟, 安全, 素材依存, 時間) [ ' + selectedCards[0].vector[5] + ' ,'+ selectedCards[0].vector[6] + ' ,'+ selectedCards[0].vector[7] + ' ,'+ selectedCards[0].vector[8] + ' ,' + selectedCards[0].vector[9] + ' ]</li><li>情緒・関係(安定, 刺激, 葛藤, 達成感, 繋がり) [ ' + selectedCards[0].vector[10] + ' ,'+ selectedCards[0].vector[11] + ' ,'+ selectedCards[0].vector[12] + ' ,'+ selectedCards[0].vector[13] + ' ,' + selectedCards[0].vector[14] + ' ]</li></ul></li>';
+keisanlog2 += '<img align="right" src="../img/a_infantia/'+selectedCards[1].name.slice(0,2)+selectedCards[1].orientation.slice(0,1)+'.png" alt="'+selectedCards[1].name.slice(2)+'"><li>ベクトル: <ul style="background:black;color:' + hue2 + ';"><li>発達支援(主体, 探索, 協同, 表現, 身体) [ ' + selectedCards[1].vector[0] + ' ,'+ selectedCards[1].vector[1] + ' ,'+ selectedCards[1].vector[2] + ' ,'+ selectedCards[1].vector[3] + ' ,' + selectedCards[1].vector[4] + ' ]</li><li>保育実践(計画, 柔軟, 安全, 素材依存, 時間) [ ' + selectedCards[1].vector[5] + ' ,'+ selectedCards[1].vector[6] + ' ,'+ selectedCards[1].vector[7] + ' ,'+ selectedCards[1].vector[8] + ' ,' + selectedCards[1].vector[9] + ' ]</li><li>情緒・関係(安定, 刺激, 葛藤, 達成感, 繋がり) [ ' + selectedCards[1].vector[10] + ' ,'+ selectedCards[1].vector[11] + ' ,'+ selectedCards[1].vector[12] + ' ,'+ selectedCards[1].vector[13] + ' ,' + selectedCards[1].vector[14] + ' ]</li></ul></li>';
+keisanlog3 += '<img align="right" src="../img/a_infantia/'+selectedCards[2].name.slice(0,2)+selectedCards[2].orientation.slice(0,1)+'.png" alt="'+selectedCards[2].name.slice(2)+'"><li>ベクトル: <ul style="background:black;color:' + hue3 + ';"><li>発達支援(主体, 探索, 協同, 表現, 身体) [ ' + selectedCards[2].vector[0] + ' ,'+ selectedCards[2].vector[1] + ' ,'+ selectedCards[2].vector[2] + ' ,'+ selectedCards[2].vector[3] + ' ,' + selectedCards[2].vector[4] + ' ]</li><li>保育実践(計画, 柔軟, 安全, 素材依存, 時間) [ ' + selectedCards[2].vector[5] + ' ,'+ selectedCards[2].vector[6] + ' ,'+ selectedCards[2].vector[7] + ' ,'+ selectedCards[2].vector[8] + ' ,' + selectedCards[2].vector[9] + ' ]</li><li>情緒・関係(安定, 刺激, 葛藤, 達成感, 繋がり) [ ' + selectedCards[2].vector[10] + ' ,'+ selectedCards[2].vector[11] + ' ,'+ selectedCards[2].vector[12] + ' ,'+ selectedCards[2].vector[13] + ' ,' + selectedCards[2].vector[14] + ' ]</li></ul></li>';
+
+// 位相（逆位置は角度を負に）
+// const phi1 = 85;   // 正
+// const phi2 = -200; // 逆 → 負
+// const phi3 = 195;  // 正
+
+    keisanlog1 += '<li>位相: <span style="background:black;color:' + hue1 + '">';
+    if (selectedCards[0].orientation==='r逆') {phi1 = 0 - phi1;keisanlog1 += "(逆位置は角度を負に) ";}
+    keisanlog1 += phi1 + "°</span></li>";
+    keisanlog2 += '<li>位相: <span style="background:black;color:' + hue2 + '">';
+    if (selectedCards[1].orientation==='r逆') {phi2 = 0 - phi2;keisanlog2 += "(逆位置は角度を負に) ";}
+    keisanlog2 += phi2 + "°</span></li>";
+    keisanlog3 += '<li>位相: <span style="background:black;color:' + hue3 + '">';
+    if (selectedCards[2].orientation==='r逆') {phi3 = 0 - phi3;keisanlog3 += "(逆位置は角度を負に) ";}
+    keisanlog3 += phi3 + "°</span></li>";
+
+const sign1 = getSign(phi1);
+const sign2 = getSign(phi2);
+const sign3 = getSign(phi3);
+    keisanlog1 += '<li>位相の符号: <span style="background:black;color:' + hue1 + '">'+sign1+'</span> （正位置:+, 逆位置:-, 0はliminal扱い）</li>';
+    keisanlog2 += '<li>位相の符号: <span style="background:black;color:' + hue2 + '">'+sign2+'</span> （正位置:+, 逆位置:-, 0はliminal扱い）</li>';
+    keisanlog3 += '<li>位相の符号: <span style="background:black;color:' + hue3 + '">'+sign3+'</span> （正位置:+, 逆位置:-, 0はliminal扱い）</li>';
+
+
+keisanlog1 += '<br clear="right">';
+keisanlog2 += '<br clear="right">';
+keisanlog3 += '<br clear="right">';
+
+// ━━━Claudeアイデア━━━━━━━━━━━━━━━━━━━━
+// 2軸の数値化 まずcoherenceとtensionに目標値を設定
+// const storyTypes = {
+//  "逆転回復":   { targetCoh: -0.5, targetTen: 0.7 },
+//  "一貫成長":   { targetCoh:  0.7, targetTen: 0.7 },
+//  "静かな転換": { targetCoh: -0.5, targetTen: 0.2 },
+//  "静かな成長": { targetCoh:  0.7, targetTen: 0.2 },
+// };
+
+
+// 層1：シーン補間パラメータの調整
+// ユーザー選択でナラティブポイントの曲線を変える。
+// tension高 → curve大（急峻、クライマックスが鋭い）
+// tension低 → curve小（なだらか）
+// const curveParam = {
+//   "逆転回復":   { curve: 3.5, peakBias: 0.35 }, // 前半に山
+//   "一貫成長":   { curve: 2.5, peakBias: 0.50 }, // 中盤に山
+//   "静かな転換": { curve: 1.2, peakBias: 0.65 }, // 後半に転換
+//   "静かな成長": { curve: 1.0, peakBias: 0.70 }, // 終盤に着地
+// };
+
+// S2/S4の補間tを調整
+
+// sttp
+// 1 劇的転換・U字回復
+// 2 挑戦・冒険・達成
+// 3 気づき・方向転換
+// 4 安心・喜び・穏やかな発達
+let params = [];
+params.peakBias = null;
+params.curve = null;
+let targetCoh = null;
+let targetTen = null;
+
+if (sttp === 1) {
+targetCoh = -0.5;
+targetTen = 0.7;
+   params.peakBias = 0.35;
+   params.curve = 3.5;
+   params.frm= {
+    frame:    "逆転回復 - 日常の破壊と新しい均衡の獲得",
+    keywords: ["転換点", "危機", "新しい理解"],
+    avoid:    ["元通り", "最初から"],
+    arc:      "U字回復（谷を経て、別の高みへ）"
+  };
+
+}
+if (sttp === 2) {
+targetCoh = 0.7;
+targetTen = 0.7;
+   params.peakBias = 0.50;
+   params.curve = 2.5;
+   params.frm= {
+    frame:    "一貫成長 - 目標への一貫した前進と突破",
+    keywords: ["挑戦", "積み重ね", "達成"],
+    avoid:    ["迷い", "後退"],
+    arc:      "右肩上がり（勢いが増していく）"
+  };
+}
+if (sttp === 3) {
+targetCoh = -0.5;
+targetTen = 0.2;
+   params.peakBias = 0.65;
+   params.curve = 1.2;
+   params.frm= {
+    frame:    "静かな転換 - 気づかぬうちに変わっていく静かな移行",
+    keywords: ["気づき", "移ろい", "切り替え"],
+    avoid:    ["激しい", "叫ぶ"],
+    arc:      "斜行（静かに、でも確実に別の場所へ）"
+  };
+}
+if (sttp === 4) {
+targetCoh = 0.7;
+targetTen = 0.2;
+   params.peakBias = 0.70;
+   params.curve = 1.0;
+   params.frm= {
+    frame:    "静かな成長 - 本質は変わらない、安心の反復と深化",
+    keywords: ["いつも", "安心", "確認"],
+    avoid:    ["驚き", "突然"],
+    arc:      "水平深化（表面は穏やか、内側が豊かになる）"
+  };
+}
+
+// AIプロンプトへの文脈注入
+// 数値だけでなく、物語の「読み方の枠組み」をAIに渡す。
+// const narrativeFrames = {
+//   "逆転回復": {
+//     frame:    "日常の破壊と新しい均衡の獲得",
+//     keywords: ["転換点", "危機", "新しい理解"],
+//     avoid:    ["元通り", "最初から"],
+//     arc:      "U字回復（谷を経て、別の高みへ）"
+//   },
+//   "一貫成長": {
+//     frame:    "目標への一貫した前進と突破",
+//     keywords: ["挑戦", "積み重ね", "達成"],
+//     avoid:    ["迷い", "後退"],
+//     arc:      "右肩上がり（勢いが増していく）"
+//   },
+//   "静かな転換": {
+//     frame:    "気づかぬうちに変わっていく静かな移行",
+//     keywords: ["気づき", "移ろい", "切り替え"],
+//     avoid:    ["激しい", "叫ぶ"],
+//     arc:      "斜行（静かに、でも確実に別の場所へ）"
+//   },
+//   "静かな成長": {
+//     frame:    "本質は変わらない、安心の反復と深化",
+//     keywords: ["いつも", "安心", "確認"],
+//     avoid:    ["驚き", "突然"],
+//     arc:      "水平深化（表面は穏やか、内側が豊かになる）"
+//   }
+// };
+// ━━━━━━━━━━━━━━━━━━━━━━━
+
+// 5シーンベクトル生成★★★条件分岐★★★
+const S1 = [...v1];
+// const S2 = narrativePoint(v1, v2, 0.35, 2.0);
+const S2 = narrativePoint(v1, v2, params.peakBias * 0.6, params.curve);
+const S3 = [...v2];
+// const S4 = narrativePoint(v2, v3, 0.65, 2.0);
+const S4 = narrativePoint(v2, v3, params.peakBias,       params.curve);
+const S5 = [...v3];
+    // 計算ログ用小数点2桁丸め
+    const S2m = S2.map(v => Math.round(v * 100) / 100);
+    const S4m = S2.map(v => Math.round(v * 100) / 100);
+
+    keisanlog4 += '<li>5シーンベクトル生成<br>3ベクトルをフラクタル的に膨らませ、5シーンのベクトル（S1〜S5）を作る。物語は「直線的じゃない（加速したり曲がったり）」ので、narrativePoint関数で補間。<br> t: 位置（0=始まり, 1=終わり）。<br>物語の「後半にドラマを寄せる」ためにtをcurve乗で歪める（curve=2: U字カーブみたいに加速）。<br>これでS2/S4が「中間だけど偏った位置」になる。<ol style="margin:10px;"><li><img align="right" src="../img/a_infantia/'+selectedCards[0].name.slice(0,2)+selectedCards[0].orientation.slice(0,1)+'.png" alt="'+selectedCards[0].name.slice(2)+'">S1 カード①(種): '+selectedCards[0].id+'&nbsp;'+selectedCards[0].name.slice(2)+'('+selectedCards[0].orientation.slice(1)+')<br>[ '+S1[0]+', '+S1[1]+', '+S1[2]+', '+S1[3]+', '+S1[4]+',<br>'+S1[5]+', '+S1[6]+', '+S1[7]+', '+S1[8]+', '+S1[9]+',<br>'+S1[10]+', '+S1[11]+', '+S1[12]+', '+S1[13]+', '+S1[14]+' ]<br><br></li>';
+
+    keisanlog4 += "<li>S2 非線形補間（物語の加速感を再現）narrativePoint(v1, v2, t=0.35, curve=2)  // v1寄り（まだ穏やか）: <br>";
+    keisanlog4 += rogunarrativePoint(v1, v2, 0.35, 2.0);
+    keisanlog4 += S2m+'<br><br></li> <li><img align="right" src="../img/a_infantia/'+selectedCards[1].name.slice(0,2)+selectedCards[1].orientation.slice(0,1)+'.png" alt="'+selectedCards[1].name.slice(2)+'">S3 カード②(動力: ピーク): '+selectedCards[1].id+'&nbsp;'+selectedCards[1].name.slice(2)+'('+selectedCards[1].orientation.slice(1)+')<br>[ '+S3[0]+', '+S3[1]+', '+S3[2]+', '+S3[3]+', '+S3[4]+',<br>'+S3[5]+', '+S3[6]+', '+S3[7]+', '+S3[8]+', '+S3[9]+',<br>'+S3[10]+', '+S3[11]+', '+S3[12]+', '+S3[13]+', '+S3[14]+' ]<br><br></li>';
+    keisanlog4 += "<li>S4 非線形補間 narrativePoint(v2, v3, t=0.65, curve=2)  // v3寄り（解決へ加速）: <br>";
+    keisanlog4 += rogunarrativePoint(v2, v3, 0.65, 2.0);
+    keisanlog4 += S4m+'<br><br></li> <li><img align="right" src="../img/a_infantia/'+selectedCards[2].name.slice(0,2)+selectedCards[2].orientation.slice(0,1)+'.png" alt="'+selectedCards[2].name.slice(2)+'">S5 カード③(変容: 終わり): '+selectedCards[2].id+'&nbsp;'+selectedCards[2].name.slice(2)+'('+selectedCards[2].orientation.slice(1)+')<br>[ '+S5[0]+', '+S5[1]+', '+S5[2]+', '+S5[3]+', '+S5[4]+',<br>'+S5[5]+', '+S5[6]+', '+S5[7]+', '+S5[8]+', '+S5[9]+',<br>'+S5[10]+', '+S5[11]+', '+S5[12]+', '+S5[13]+', '+S5[14]+' ]<br><br></li></ol></li></ul>';
+
+
+const scene = [S1, S2, S3, S4, S5]; // 元scenesRaw 
+
+// 新energy: シーン間変化量
+const E = [
+ subtract(S2, S1), // 1→2
+ subtract(S3, S2), // 2→3
+ subtract(S4, S3), // 3→4
+ subtract(S5, S4) // 4→5
+];
+
+
+keisanlog4+='<br clear="right"><h3 class="bgb">energy: シーン間差分のノルム（変化量）</h3><ul>';
+
+const edgeEnergies = E.map(norm); // edgeEnergies: 「シーン間の火花」（隣り合うシーンがどれだけぶつかり合っているか）
+const maxE = Math.max(...edgeEnergies) || 1;
+
+// sceneEnergies: 前後平均（端は片側）
+const sceneEnergies = [
+ edgeEnergies[0],
+ (edgeEnergies[0] + edgeEnergies[1]) / 2,
+ (edgeEnergies[1] + edgeEnergies[2]) / 2,
+ (edgeEnergies[2] + edgeEnergies[3]) / 2,
+ edgeEnergies[3]
+];
+keisanlog4+="<li>edgeEnergies:「シーン間の火花」（隣り合うシーンがどれだけぶつかり合っているか）<ul><li>" + sceneEnergies[0].toFixed(2) + "</li><li>" + sceneEnergies[1].toFixed(2) + "</li><li>" + sceneEnergies[2].toFixed(2) + "</li><li>" + sceneEnergies[3].toFixed(2) + "</li><li>" + sceneEnergies[4].toFixed(2) + "</li></ul></li>";
+
+const maxScene = Math.max(...sceneEnergies) || 1;
+const energiesNorm = sceneEnergies.map(e => Number((e / maxScene).toFixed(2))); // energiesNorm＝シーンの熱量(変化の大きさ)energiesNorm: 「シーンごとの影響度」（前後の変化を統合した、そのシーンが持つ動的な強さ）
+keisanlog4+="<li>energiesNorm: 「シーンごとの影響度」（前後の変化を統合した、そのシーンが持つ動的な強さ）<ul><li>" + energiesNorm[0] + "</li><li>" +  energiesNorm[1] + "</li><li>" +  energiesNorm[2] + "</li><li>" + energiesNorm[3] + "</li><li>" + energiesNorm[4] + "</li></ul></li>";
+
+
+// peak
+const peak = sceneEnergies.indexOf(Math.max(...sceneEnergies));
+keisanlog4+='<li>ピーク: '+peak+'</li></ul>';
+
+// tension: d12の変化率
+const d12 = subtract(v2, v1);
+const rawTension = norm(d12);
+const tension = Number((rawTension / norm(v1)).toFixed(2));
+
+
+keisanlog4+='<h3 class="bgb">tension: Act1→Act2の変化率（物語の推進力）</h3><ul>';
+keisanlog4+='<li>概要<ul><li>最終的なテンション: '+tension.toFixed(2)+'</li><li>Change_Rate: '+(tension*100).toFixed(0)+'%</li></ul></li>';
+keisanlog4+='<li>計算の根拠<ul><li>Base_Magnitude…norm(v1) : 変化前のエネルギーの大きさ: '+norm(v1).toFixed(2)+'</li><li>Diff_Magnitude…norm(d12): 変化した分の大きさ: '+rawTension.toFixed(2)+'</li></ul></li>';
+keisanlog4+='<li>ベクトルデータ<ul>';
+keisanlog4+='<li>v1 (Prev): [ ' + v1[0].toFixed(2)+ ', ' + v1[1].toFixed(2)+ ',... ' + v1[14].toFixed(2)+ ' ]</li>';
+keisanlog4+='<li>v2 (Curr): [ ' + v2[0].toFixed(2)+ ', ' + v2[1].toFixed(2)+ ',... ' + v2[14].toFixed(2)+ ' ]</li>';
+keisanlog4+='<li>d12(Diff): [ ' + d12[0].toFixed(2)+ ', ' + d12[1].toFixed(2)+ ',... ' + d12[14].toFixed(2)+ ' ]</li></ul></li>';
+
+// const energies = scenesRaw.map(norm);
+// const maxEnergy = Math.max(...energies) || 1;
+// const energiesNorm = energies.map(e => Number((e / maxEnergy).toFixed(2)));
+//     keisanlog4 += "<li>energy （各シーンのエネルギー: ドラマの強さ）<br>各Sのnorm（ベクトルの長さ: √(sum(v_i^2)））を計算し、正規化（max=1）。<ul> <li>energies: [S1, S2, S3, S4, S5].map(norm) → "+energies+" </li> <li>maxEnergy: Math.max(...energies) || 1 → "+maxEnergy+" </li> <li>energiesNorm: energies.map(e => Number((e / maxEnergy).toFixed(2))) → "+energiesNorm+"</li></ul></li>";
+
+//     keisanlog4 += "<li>phase_pattern （位相パターン: 物語の「向きの変化」）<br>各シーンの位相P: sign(φ)やinterpで計算。<br>カード…正位置:+, 逆位置:-, 0はliminal扱い／位相補間…sum=0ならliminal<ul><li>カード①: "+sign1+"</li><li>位相補間: "+phaseInterp(sign1, sign2)+"</li><li>カード②: "+sign2+"</li><li>位相補間: "+phaseInterp(sign2, sign3)+"</li><li>カード③: "+sign3+"</li></ul></li>";
+
+// 全体指標
+// const tension = Number((energiesNorm.reduce((a, b) => a + Math.pow(b - 0.5, 2), 0) / 5 ** 0.5).toFixed(2)); // 簡易的なばらつき（std風）
+// const curv = Number(curvature(v1, v2, v3).toFixed(2));
+// const coh = Number(coherence(v1, v3).toFixed(2));
+
+//     keisanlog4 += "<li>全体指標<ul><li>tension （緊張度: 全体のドラマばらつき）<br>energyの標準偏差（std: 値の散らばり）。高いほど「アップダウン激しい物語」。<br> = Number((energiesNorm.reduce((a, b) => a + Math.pow(b - 0.5, 2), 0) / 5 ** 0.5).toFixed(2)) → "+tension+"</li></ul></li>";
+
+//     keisanlog4 += '<h3 class="bgb">curvature 曲率（物語の曲がり具合） = '+curv+'</h3><ul><li>差分ベクトル: Δ12 = v2 - v1, Δ23 = v3 - v2（変化の方向）</li><li>cosθ = dot(Δ12, Δ23) / (|Δ12| * |Δ23|)  // 方向の類似度（1=直線, -1=逆転）</li><li>curvature = sqrt(2 * (1 - cosθ))  // 角度の鋭さを数値化（0=直線, 2=最大U字）</li><li>解釈（提供の目安）:<ul><li>0〜0.3: 直線成長（穏やか物語）</li><li>0.3〜0.8: ドラマ（軽いひねり）</li><li>0.8〜1.2: 強い転換（ピークが目立つ）</li><li>1.2〜2.0: U字回復（大逆転）</li></ul></li></ul></li>';
+
+//     keisanlog4 += '<h3 class="bgb">coherence （一貫性: 始まりと終わりのつながり） = "+coh+"</h3><ul><li>v1とv3のcos類似度: dot(v1,v3) / (|v1|*|v3|)（1=似てる, -1=逆, 0=無関係）。<br>負なら「変化が大きい物語」。</li></ul></li>";
+
+// ------curvature & coherence（旧のまま、必要なら削除可）???
+const curv = curvature(v1, v2, v3);
+const coh = coherence(v1, v3);
+
+keisanlog4 += '</ul><h3 class="bgb">曲率（物語の曲がり具合）</H3>'+ curvaturelog(v1, v2, v3)+ ' → '+curv.toFixed(2)+'<ul><li>角度の鋭さを数値化（0=直線, 2=最大U字）<li>解釈（提供の目安）:<ul><li>0〜0.3: 直線成長（穏やか物語）</li><li>0.3〜0.8: ドラマ（軽いひねり）</li><li>0.8〜1.2: 強い転換（ピークが目立つ）</li><li>1.2〜2.0: U字回復（大逆転）</li></ul></li></ul></li></ul>';
+keisanlog4 += '<h3 class="bgb">coherence （一貫性: 始まりと終わりのつながり）</H3><ul><li>coherence → '+coh+'</li><li>v1とv3のcos類似度: dot(v1,v3) / (|v1|*|v3|)（1=似てる, -1=逆, 0=無関係）。<br>負なら「変化が大きい物語」。</li></ul>';
+// ------curvature & coherence（旧のまま、必要なら削除可）???
+
+// phase_pattern
+const phasePattern = [
+ sign1,
+ phaseInterp(sign1, sign2),
+ sign2,
+ phaseInterp(sign2, sign3),
+ sign3
+];
+
+
+// JSON出力
+const promptData = {
+  seed: selectedCards[0].name.slice(2)+"("+selectedCards[0].orientation.slice(1)+")",
+  engine: selectedCards[1].name.slice(2)+"("+selectedCards[1].orientation.slice(1)+")",
+  resolve: selectedCards[2].name.slice(2)+"("+selectedCards[2].orientation.slice(1)+")",
+  tension: tension,
+  curvature: curv.toFixed(2),
+  coherence: coh,
+  peak: peak, // 新規追加！
+  phase_pattern: phasePattern,
+  scenes: [
+    { t: 0, energy: energiesNorm[0] },
+    { t: 0.25, energy: energiesNorm[1] },
+    { t: 0.5, energy: energiesNorm[2] },
+    { t: 0.75, energy: energiesNorm[3] },
+    { t: 1, energy: energiesNorm[4] }
+  ]
+};
+
+let pk1='';let pk2='';let pk3='';let pk4='';let pk5='';
+const peeeeek='<span style="color:red;font-weight:bold;">ピーク！</span>';
+if(promptData.peak===0){pk1=peeeeek;}
+else if(promptData.peak===1){pk2=peeeeek;}
+else if(promptData.peak===2){pk3=peeeeek;}
+else if(promptData.peak===3){pk4=peeeeek;}
+else if(promptData.peak===4){pk5=peeeeek;}
+
+keisanlog4 += '<h3 class="bgb">まとめ</H3>';
+keisanlog4 += '<ul>seed: '+promptData.seed+', ';
+keisanlog4 += 'engine: '+promptData.engine+', ';
+keisanlog4 += 'resolve: '+promptData.resolve+', ';
+keisanlog4 += 'tension: '+promptData.tension+', ';
+keisanlog4 += 'curvature: '+promptData.curvature+', ';
+keisanlog4 += 'coherence: '+promptData.coherence+', ';
+keisanlog4 += 'peak: '+promptData.peak+', ';
+keisanlog4 += 'phase_pattern: '+promptData.phase_pattern;
+keisanlog4 += '<table border=0 style="font-size:18px;font-weight:bold;">'
+keisanlog4 += '<tr><td width=80>シーン</td><td width=80>時間</td><td colspan=2>エネルギー</td></tr>'
+keisanlog4 += '<tr><td>1</td><td>'+promptData.scenes[0].t+'</td><td>';
+keisanlog4 += promptData.scenes[0].energy+'</td>';
+keisanlog4 += '<td><img src="../img/graa.gif" width="';
+keisanlog4 += promptData.scenes[0].energy*300;
+keisanlog4 += '" height="20">'+pk1+'</td></tr>';
+keisanlog4 += '<tr><td>2</td><td>'+promptData.scenes[1].t+'</td><td>';
+keisanlog4 += promptData.scenes[1].energy+'</td>';
+keisanlog4 += '<td><img src="../img/graa.gif" width="';
+keisanlog4 += promptData.scenes[1].energy*300;
+keisanlog4 += '" height="20">'+pk2+'</td></tr>';
+keisanlog4 += '<tr><td>3</td><td>'+promptData.scenes[2].t+'</td><td>';
+keisanlog4 += promptData.scenes[2].energy+'</td>';
+keisanlog4 += '<td><img src="../img/graa.gif" width="';
+keisanlog4 += promptData.scenes[2].energy*300;
+keisanlog4 += '" height="20">'+pk3+'</td></tr>';
+keisanlog4 += '<tr><td>4</td><td>'+promptData.scenes[3].t+'</td><td>';
+keisanlog4 += promptData.scenes[3].energy+'</td>';
+keisanlog4 += '<td><img src="../img/graa.gif" width="';
+keisanlog4 += promptData.scenes[3].energy*300;
+keisanlog4 += '" height="20">'+pk4+'</td></tr>';
+keisanlog4 += '<tr><td>5</td><td>'+promptData.scenes[4].t+'</td><td>';
+keisanlog4 += promptData.scenes[4].energy+'</td>';
+keisanlog4 += '<td><img src="../img/graa.gif" width="';
+keisanlog4 += promptData.scenes[4].energy*300;
+keisanlog4 += '" height="20">'+pk5+'</td></tr>';
+keisanlog4 += '</table>'
+
+console.log(JSON.stringify(promptData, null, 2));
+
+console.log('乖離こう 実際,目標＝',coh, targetCoh);
+console.log('乖離てん 実際,目標＝',tension, targetTen);
+
+
+    let kopipuro = '# 創作保育アルカナからランダム選出3枚による、物語生成依頼\n\n';
+
+kopipuro += `## タスク
+以下の「数値構造」と「解釈タイプ」をもとに、物語を生成。
+(保育園・幼稚園などでの活用を想定)。
+- 種・動力・変容の3枚でAct間の差分を独立イベントにし、非線形補間したフラクタル展開
+- 5シーン構造
+- カード象徴は必ず物語の芯として扱う  
+- ユーザー選択した物語タイプ（解釈フィルター）を尊重  
+- 物語の“語り口”はフレームに合わせて調整 
+- liminalは転換点
+- energyが高いほどドラマが強い
+- curvature解釈
+0-0.3 直線成長、0.3-0,8 ドラマ、0.8-1.2 強い転換、1.2-2.0 U字回復。
+`;
+
+kopipuro += "\n\n## カード配置結果";
+kopipuro += "\n\n";
+selectedCards.forEach((card, index) => {
+        kopipuro += `${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})\nカード特徴: ${card.tokucho}\n`;
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+kopipuro += "カードの意味: "+meaning;
+kopipuro += "\n\n";
+// czary.push(card.name.slice(2)+"("+card.orientation.slice(1)+")");
+//        outhozc += card.name.substring(0,2)+card.orientation.substring(0,1);
+//        if(index!==9){outhozc += ", "};
+    });
+
+kopipuro += `
+## カードから計算された実値
+  seed: ${selectedCards[0].name.slice(2)}(${selectedCards[0].orientation.slice(1)}),
+  engine: ${selectedCards[1].name.slice(2)}(${selectedCards[1].orientation.slice(1)}),
+  resolve: ${selectedCards[2].name.slice(2)}(${selectedCards[2].orientation.slice(1)}),
+  tension: ${tension},
+  curvature: ${curv.toFixed(2)},
+  coherence: ${coh},
+  peak: ${peak},
+  phase_pattern: ${phasePattern},
+  scenes: [
+    { t: 0, energy: ${energiesNorm[0]} },
+    { t: 0.25, energy: ${energiesNorm[1]} },
+    { t: 0.5, energy: ${energiesNorm[2]} },
+    { t: 0.75, energy: ${energiesNorm[3]} },
+    { t: 1, energy: ${energiesNorm[4]} }
+  ]
+
+
+`;
+keisanlog4 += '<ul><li>ユーザー選択タイプ<br><span style="font-weight:bold;color:purple;">'+sele;
+keisanlog4 += '</span></li><li>フレーム<ul style="font-weight:bold;color:green;"><li>frame: '+params.frm.frame;
+keisanlog4 += '</li><li>keywords: '+params.frm.keywords;
+keisanlog4 += '</li><li>avoid: '+params.frm.avoid;
+keisanlog4 += '</li><li>arc: '+params.frm.arc;
+keisanlog4 += '</li></ul></li>';
+
+const targetElement = document.getElementById("qques");
+const newText=targetElement.value;
+kopipuro += "## フィルター(ユーザー選択による解釈層)";
+kopipuro += `
+
+### ユーザー選択タイプ
+- ${sele}
+`;
+    kopipuro += '- ユーザー自由入力: ' + newText;
+
+kopipuro += `
+
+### フレーム
+  frame: ${params.frm.frame}
+  keywords: ${params.frm.keywords}
+  avoid: ${params.frm.avoid}
+  arc: ${params.frm.arc}
+`;
+// ## 15次元ベクトル定義
+// [主体性, 探索性, 協同性, 表現性, 身体性, 
+//  計画性, 柔軟性, 安全性, 素材依存, 時間, 
+//  安定性, 刺激性, 葛藤性, 達成感, 繋がり性]
+// kopipuro += ``;
+
+// let outhozc = "";
+// let czary = [];
+
+const kairiC = targetCoh - coh;
+const kairiT = targetTen - tension;
+
+let notes = "";
+if (kairiC > 0.3){ // coh不足 10回の結果で1度も出てこない
+    notes = "- coh不足 → 物語の始まりと終わりに共通する象徴・言葉・場所を繰り返し登場させて、一貫したテーマが流れていることを感じさせてください\n";
+} else if (kairiC < -0.8){ // coh大きく過多 
+    notes = "- coh過多 → 物語の前半と後半で、場所も登場人物も状況も変わったまったく新しい世界への移行として描いてください\n";
+} else if (kairiC < -0.25){  // cohやや過多
+    notes = "- cohやや過多 → 中盤に、始まりとは異なる新しい視点や場所を登場させて変化の感覚を際立たせてください\n";
+} 
+
+if (kairiT > 0.5){ // Ten大きく不足
+    notes += "- ten不足 → 中盤に予想外の出来事を加え、かつ登場人物が選択を迫られる緊張の場面を明確に作ってください\n";
+} else if (kairiT > 0.2){ // Tenやや不足
+    notes += "- tenやや不足 → 中盤のシーンに、予想外の小さな出来事を一つ加えて物語の推進力を高めてください\n";
+} else if (kairiT < -0.15){ // Ten過多
+    notes += "- ten過多 → シーンとシーンの間に、立ち止まって周りを見渡す静かな瞬間を加えて、変化を受け止める余白を作ってください\n";
+} 
+
+if (notes === ""){notes="なし\n"}
+keisanlog4 += '<li>調整(カード結果とユーザー希望の乖離スコア)<ul><li><span style="font-weight:bold;color:blue;">';
+kopipuro += `
+
+## 調整(カード結果とユーザー希望の乖離スコア)
+ユーザー: `
+
+if (sttp === 1) {
+kopipuro += "coherence負・tension高"; keisanlog4 += "coherence(一貫性)負・tension(緊張度)高";
+}
+if (sttp === 2) {
+kopipuro += "coherence正・tension高"; keisanlog4 += "coherence(一貫性)正・tension(緊張度)高";
+}
+if (sttp === 3) {
+kopipuro += "coherence負・tension低"; keisanlog4 += "coherence(一貫性)負・tension(緊張度)低";
+}
+if (sttp === 4) {
+kopipuro += "coherence正・tension低"; keisanlog4 += "coherence(一貫性)正・tension(緊張度)低";
+}
+
+keisanlog4 += "</span> を希望</li>式: 希望目標値 - 実値 = 乖離スコア<li>coherence(一貫性)乖離: ";
+keisanlog4 += targetCoh +' - '+coh+' = <span style="font-weight:bold;color:red;">'+kairiC.toFixed(2)+'</span></li><li>tension(緊張度)乖離: ';
+keisanlog4 += targetTen +' - '+tension+' = <span style="font-weight:bold;color:red;">'+kairiT.toFixed(2)+'</span></li></ul>';
+keisanlog4 += '<li>補足調整…'+notes+'</li></ul>';
+
+kopipuro += `を希望
+式: 希望目標値 - 実値 = 乖離スコア
+
+coherence乖離: ${targetCoh} - ${coh} = ${kairiC.toFixed(2)}
+tension乖離: ${targetTen} - ${tension} = ${kairiT.toFixed(2)}
+
+### 補足調整指示
+${notes}
+
+## 出力形式
+① 5シーンのあらすじ
+② 保育活動への置き換え案（導入・展開・協力・気づき・終わり）
+③ （必要なら）子ども向け簡易ナレーション
+
+### 補足 
+- 出力文は保育士の実用的な書類として使える自然言語（易しい日本語）で一貫して書く。
+` // ←消すなよ
+
+keisanlog1 += "</ul>";
+keisanlog2 += "</ul>";
+keisanlog3 += "</ul>";
+
+    document.getElementById('keisankekka').innerHTML = '<img src="../img/3act.png" align="left"><H2>Selected 3 cards from 44 (ARCANA INFANTIA): 計算詳細ログ</H2>'+keisanlog1+keisanlog2+keisanlog3+keisanlog4;  // ← getElementByIdで取得
+
+    document.getElementById('textoo').innerHTML = kopipuro;  // ← getElementByIdで取得
+    document.getElementById('hozp2').innerHTML = kopipuro;  // ← getElementByIdで取得
+
+const celtarea = document.getElementById("celt");
+if (celtarea) {
+celtarea.innerHTML = `
+  <img id="card1"  class="card" src="${selectedCards[0].img.slice(0, -5)}${selectedCards[0].orientation.slice(0, 1)}.png" width="80" height="130">
+  <img id="card2"  class="card" src="${selectedCards[1].img.slice(0, -5)}${selectedCards[1].orientation.slice(0, 1)}.png" width="80" height="130">
+  <img id="card3"  class="card" src="${selectedCards[2].img.slice(0, -5)}${selectedCards[2].orientation.slice(0, 1)}.png" width="80" height="130">
+
+  <div id="label1" class="label">Act1 種</div>
+  <div id="label2" class="label">Act2 動力</div>
+  <div id="label3" class="label">Act3 変容</div>
+  <div id="llabel1" class="label">${selectedCards[0].name.slice(2)}(${selectedCards[0].orientation.slice(-1)})</div>
+  <div id="llabel2" class="label">${selectedCards[1].name.slice(2)}(${selectedCards[1].orientation.slice(-1)})</div>
+  <div id="llabel3" class="label">${selectedCards[2].name.slice(2)}(${selectedCards[2].orientation.slice(-1)})</div>
+`;
+}
+
+
+}
+
+// ━━■■■■■■■■■■■■━物語生成アクト3━■■■■■■■■■■■■━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let contextVector = null;  // ← これを追加！！
+let keisanlog = null;
+let keisansaigo = null;
+let q2 = "reset@"; // 元null プリセット名を格納し、プロンプトに載せる
+let selected2 = null;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // プロンプトをクリップボードにコピー
+    function copyPrompt() {
+      const textarea = document.getElementById('textoo');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けてください。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 保存プロンプトをクリップボードにコピー
+    function hcopyPrompt() {
+      const textarea = document.getElementById('hozp');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けて動作します。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 保存プロンプト②をクリップボードにコピー
+    function hcopyPrompt2() {
+      const textarea = document.getElementById('hozp2');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けて動作します。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function onof(){
+const targetElement = document.getElementById("onoftxt"); targetElement.innerHTML = `
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+<img src="../img/marseille/asfasfef.png" align="right" width="200">
+保育専用タロットの大・小アルカナ、22＋22枚・計44枚で保育で活用できそうなおはなし生成プロンプトを出力します。<br>
+タロット占い形式を応用していますが、占いでなく、直感や未来予知とは違います。数学的に根拠を持った15次元ベクトルの値で、おはなしの曲線や差分などの複雑な計算をします。<br>
+
+<p><span style="color:green;font-weight:bold;">【用途】</span><span style="color:#f7195c;font-weight:bold;">保育園・幼稚園などの「お話」の骨格作り</span>に。劇遊びの物語、避難訓練や生活習慣のルールや教訓を分かりやすく伝える場面用のお話作りに。運動会競技や誕生会などのテーマのお話作り…などなど。<br>
+<span style="color:green;font-weight:bold;">【特徴】</span>
+
+<ul><li>
+        <ul><li>coherence(一貫性: 始まりと終わりのつながり)負←→正</li>
+            <li>tension(緊張度: 全体のドラマばらつき)高↑↓低</li>
+        </ul>
+    の2軸から、お話を4つに分類。</li>
+    <li>tension高低で物語の曲線を変え、シーン補間パラメータを調整。</li>
+    <li><ul><li>逆転回復 - Coh負・Ten高 - 前半に山</li>
+            <li>一貫成長 - Coh正・Ten高 - 中盤に山</li>
+            <li>静かな転換 - Coh負・Ten低 - 後半に転換</li>
+            <li>静かな成長 - Coh正・Ten低 - 終盤に着地</li>
+        </ul>
+   </li>
+   <li>3枚のカード象徴ベクトル(Act1:種、Act2:動力、Act3変容)の間2つをフラクタル的に膨らませ、象徴間移動の非線形補間ベクトル生成し、計5シーン構成。ベクトル値を「物語の曲がり具合」や「エネルギーの変化」に変換。</li>
+    <li>シーン間差分のノルム(変化量)ベースで、起伏を出す。</li>
+    <li>位相と正逆位置から、物語の流れの向きを正/負のsign(符号)に変換し、転換点(liminal)を検出。</li>
+    <li>ユーザー希望値とカード結果の乖離値を調整し、数値だけでなく、物語の「読み方の枠組み」もAIプロンプトへ渡す。</li>
+</ul>
+
+
+生成されたプロンプトは、<a href="https://chatgpt.com/">ChatGPT</a>や<a href="https://claude.ai/">Claude(クロード)</a>、Copilot(コパイロット)、<a href="https://gemini.google.com/app">Google Gemini</a>、X(旧ツイッター)のGrok、<a href="https://www.perplexity.ai/">perplexity</a>などの対話型AIの会話ウィンドウにコピペするだけでおはなしを生成します。
+
+<hr>
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+
+`;
+}
+// ────────────────────────────────────────
+function onofclear(){
+const targetElement = document.getElementById("onoftxt"); targetElement.innerHTML = `&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">説明を開く</a>`;
+}
+// ────────────────────────────────────────
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+document.addEventListener('DOMContentLoaded', function() {
+  
+
+  // 栞
+  // 物語タイプのラジオボタン変更イベント
+document.querySelectorAll('input[name="stp"]').forEach(function(radio) {
+  radio.addEventListener('change', function() {
+    // 選択された要素のvalueを表示
+    console.log(this.value);
+if (this.value==="1"){
+let targetElement = document.getElementById("me1");
+targetElement.innerHTML = `<span style="background:yellow;">用途・特徴</span>: `;
+targetElement = document.getElementById("me2");
+targetElement.innerHTML = `<span style="background:yellow;">どれか<br>1つ</br>選択</span>`;
+targetElement = document.getElementById("me3");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me4");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me5");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me6");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me7");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me8");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+document.getElementById('ichiyoto').disabled = false;
+document.getElementById('kiki').disabled = false;
+document.getElementById('kenko').disabled = false;
+document.getElementById('rule').disabled = false;
+document.getElementById('kanjo').disabled = false;
+document.getElementById('niyoto').disabled = true;
+document.getElementById('gyoji').disabled = true;
+document.getElementById('tansak').disabled = true;
+document.getElementById('kyoryoku').disabled = true;
+document.getElementById('jikoko').disabled = true;
+document.getElementById('sanyoto').disabled = true;
+document.getElementById('kenshu').disabled = true;
+document.getElementById('seikt').disabled = true;
+document.getElementById('mizan').disabled = true;
+document.getElementById('kyokun').disabled = true;
+document.getElementById('kanrikai').disabled = true;
+document.getElementById('yonyoto').disabled = true;
+document.getElementById('tanj').disabled = true;
+document.getElementById('gyodo').disabled = true;
+document.getElementById('nichiru').disabled = true;
+document.getElementById('kokoro').disabled = true;
+document.getElementById('kankysekai').disabled = true;
+}
+if (this.value==="2"){
+targetElement = document.getElementById("me1");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me2");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me3");
+targetElement.innerHTML = `<span style="background:yellow;">用途・特徴</span>: `;
+targetElement = document.getElementById("me4");
+targetElement.innerHTML = `<span style="background:yellow;">どれか<br>1つ</br>選択</span>`;
+targetElement = document.getElementById("me5");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me6");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me7");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me8");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+document.getElementById('niyoto').disabled = false;
+document.getElementById('gyoji').disabled = false;
+document.getElementById('tansak').disabled = false;
+document.getElementById('kyoryoku').disabled = false;
+document.getElementById('jikoko').disabled = false;
+document.getElementById('ichiyoto').disabled = true;
+document.getElementById('kiki').disabled = true;
+document.getElementById('kenko').disabled = true;
+document.getElementById('rule').disabled = true;
+document.getElementById('kanjo').disabled = true;
+document.getElementById('sanyoto').disabled = true;
+document.getElementById('kenshu').disabled = true;
+document.getElementById('seikt').disabled = true;
+document.getElementById('mizan').disabled = true;
+document.getElementById('kyokun').disabled = true;
+document.getElementById('kanrikai').disabled = true;
+document.getElementById('yonyoto').disabled = true;
+document.getElementById('tanj').disabled = true;
+document.getElementById('gyodo').disabled = true;
+document.getElementById('nichiru').disabled = true;
+document.getElementById('kokoro').disabled = true;
+document.getElementById('kankysekai').disabled = true;
+}
+if (this.value==="3"){
+targetElement = document.getElementById("me1");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me2");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me3");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me4");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me5");
+targetElement.innerHTML = `<span style="background:yellow;">用途・特徴</span>: `;
+targetElement = document.getElementById("me6");
+targetElement.innerHTML = `<span style="background:yellow;">どれか<br>1つ</br>選択</span>`;
+targetElement = document.getElementById("me7");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me8");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+document.getElementById('sanyoto').disabled = false;
+document.getElementById('kenshu').disabled = false;
+document.getElementById('seikt').disabled = false;
+document.getElementById('mizan').disabled = false;
+document.getElementById('kyokun').disabled = false;
+document.getElementById('kanrikai').disabled = false;
+document.getElementById('ichiyoto').disabled = true;
+document.getElementById('kiki').disabled = true;
+document.getElementById('kenko').disabled = true;
+document.getElementById('rule').disabled = true;
+document.getElementById('kanjo').disabled = true;
+document.getElementById('niyoto').disabled = true;
+document.getElementById('gyoji').disabled = true;
+document.getElementById('tansak').disabled = true;
+document.getElementById('kyoryoku').disabled = true;
+document.getElementById('jikoko').disabled = true;
+document.getElementById('yonyoto').disabled = true;
+document.getElementById('tanj').disabled = true;
+document.getElementById('gyodo').disabled = true;
+document.getElementById('nichiru').disabled = true;
+document.getElementById('kokoro').disabled = true;
+document.getElementById('kankysekai').disabled = true;
+}
+if (this.value==="4"){
+targetElement = document.getElementById("me1");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me2");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me3");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me4");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me5");
+targetElement.innerHTML = `用途・特徴: `;
+targetElement = document.getElementById("me6");
+targetElement.innerHTML = `どれか<br>1つ</br>選択`;
+targetElement = document.getElementById("me7");
+targetElement.innerHTML = `<span style="background:yellow;">用途・特徴</span>: `;
+targetElement = document.getElementById("me8");
+targetElement.innerHTML = `<span style="background:yellow;">どれか<br>1つ</br>選択</span>`;
+document.getElementById('yonyoto').disabled = false;
+document.getElementById('tanj').disabled = false;
+document.getElementById('gyodo').disabled = false;
+document.getElementById('nichiru').disabled = false;
+document.getElementById('kokoro').disabled = false;
+document.getElementById('kankysekai').disabled = false;
+document.getElementById('ichiyoto').disabled = true;
+document.getElementById('kiki').disabled = true;
+document.getElementById('kenko').disabled = true;
+document.getElementById('rule').disabled = true;
+document.getElementById('kanjo').disabled = true;
+document.getElementById('niyoto').disabled = true;
+document.getElementById('gyoji').disabled = true;
+document.getElementById('tansak').disabled = true;
+document.getElementById('kyoryoku').disabled = true;
+document.getElementById('jikoko').disabled = true;
+document.getElementById('sanyoto').disabled = true;
+document.getElementById('kenshu').disabled = true;
+document.getElementById('seikt').disabled = true;
+document.getElementById('mizan').disabled = true;
+document.getElementById('kyokun').disabled = true;
+document.getElementById('kanrikai').disabled = true;
+}
+
+  });
+});
+
+
+
+
+
+
+});
+// ────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ★ファクトチェック効果: IIFEを通常関数に変更（即時実行をオフ）
+function startEffect() {
+  const canvas = document.getElementById('factCanvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  resize();
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+  }
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  window.addEventListener('resize', resize);
+
+  const start = performance.now();
+  const duration = 3000; // 3秒
+  const code = ['教育={H,R,ENV,W,X};', 'X={X₁:感覚素材体験⇒接触(水,砂,土,紙,粘土)', 'ENV₁:環境興味⇒探索∧区別(自他物)∧環境認知', '養護={LH,EM}', 'H₃:健康習慣⇒自立(食,排)', 'R₂:友達関心⇒模倣(友,保)∧ごっこ遊び', 'W₃:絵本・話⇒繰返し∧模倣遊び', '五領域=dict(H=健康,R=人間関係,ENV=環境,W=言葉,X=表現)', 'age=TargetAge(0-6)', '0.5*発達適合性+0.3*指針との一貫性+0.2*主体性', '教育LIST₄{H,R,ENV,W,X}', 'X₁:感覚素材体験⇒接触(水,砂,土,紙,粘土)', 'LH₄:健康増進⇒運動+休息∧援助(食事,排泄,着脱,清潔)', 'ENV₂:発見・思考⇒興味(玩具,絵本,遊具)∧性質(形,色,大小,量)', 'W₄:言語交流⇒ごっこ∧仲介(保)', 'EM₄:くつろぎ⇒活動バランス∧調和∧食事+休息', 'LIST₂{H,R,ENV,W,X}', 'LH=生命;EM=情緒;', 'LIST={ねらい,環境構成,予想される子どもの姿,配慮事項}', '[GUIDE]', 'TR≠Var(ENV₂等)⇒TR']; // 文字
+  const lines = [];
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function spawnLine() {
+    lines.push({
+      text: code[Math.floor(Math.random() * code.length)],
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight,
+      life: 0,
+      maxLife: 400 + Math.random() * 600,
+    });
+  }
+
+  for (let i = 0; i < 50; i++) spawnLine();
+
+  let last = performance.now();
+  requestAnimationFrame(draw);
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function draw(now) {
+    const dt = now - last;
+    last = now;
+
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.fillStyle = 'rgba(10,20,30,0.5)';
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+    ctx.font = '18px monospace';
+    ctx.textBaseline = 'top';
+
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const l = lines[i];
+      l.life += dt;
+      const alpha = 1 - l.life / l.maxLife;
+      ctx.fillStyle = `rgba(255,150,224,${alpha * 0.8})`; //150,255,180
+      ctx.fillText(l.text, l.x, l.y);
+      if (l.life > l.maxLife) {
+        lines.splice(i, 1);
+        spawnLine();
+      }
+    }
+
+    if (now - start < duration) {
+      requestAnimationFrame(draw);
+    } else {
+      // 3秒後：Canvasをフェードアウト→非表示
+      canvas.style.transition = 'opacity 0.6s ease';
+      canvas.style.opacity = '0';
+      setTimeout(() => (canvas.style.display = 'none'), 600);
+    }
+  }
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ＭＶＰ移植↓
+    // 44枚のカードデータ（0-43連番、ベクトル付き）
+// 44枚のカード、ベクトル、対極性スコア、位相付き
+const CARDS = [
+      {id:0,name:"00探索",img:"../img/a_infantia/00u.png",vector:[0.95,0.98,0.40,0.60,0.70,0.30,0.95,0.50,0.80,0.60,0.60,0.85,0.30,0.70,0.50], polarity: { n_e: 0.6, i_g: -0.5, c_a: 0.3, s_f: 0.8, s_c: 0.7 }, hue: 10 }, 
+      {id:1,name:"01はじまり",img:"../img/a_infantia/01u.png",vector:[0.60,0.70,0.65,0.55,0.50,0.80,0.70,0.85,0.40,0.40,0.88,0.60,0.40,0.60,0.75], polarity: { n_e: -0.3, i_g: 0, c_a: -0.2, s_f: 0, s_c: 0.5 }, hue: 5 }, 
+      {id:2,name:"02見守り",img:"../img/a_infantia/02u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.85,0.75,0.95,0.30,0.85,0.95,0.35,0.20,0.60,0.85], polarity: { n_e: -0.9, i_g: -0.4, c_a: -0.7, s_f: -0.3, s_c: -0.8 }, hue: 330 }, 
+      {id:3,name:"03養護",img:"../img/a_infantia/03u.png",vector:[0.40,0.20,0.60,0.30,0.70,0.85,0.40,0.95,0.50,0.90,0.98,0.20,0.10,0.60,0.70], polarity: { n_e: -1, i_g: -0.3, c_a: -0.5, s_f: -0.6, s_c: -1 }, hue: 355 }, 
+      {id:4,name:"04構造",img:"../img/a_infantia/04u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.90,0.40,0.80,0.60,0.70,0.75,0.40,0.30,0.65,0.70], polarity: { n_e: 0, i_g: 0.4, c_a: -0.3, s_f: -0.9, s_c: -0.5 }, hue: 120 }, 
+      {id:5,name:"05対話",img:"../img/a_infantia/05u.png",vector:[0.75,0.50,0.85,0.85,0.30,0.60,0.80,0.70,0.30,0.50,0.80,0.55,0.35,0.70,0.90], polarity: { n_e: 0.4, i_g: -0.2, c_a: -0.4, s_f: 0.2, s_c: 0 }, hue: 190 }, 
+      {id:6,name:"06選択",img:"../img/a_infantia/06u.png",vector:[0.98,0.85,0.60,0.70,0.50,0.50,0.95,0.65,0.70,0.55,0.70,0.70,0.40,0.80,0.65], polarity: { n_e: 0.5, i_g: -0.7, c_a: -0.2, s_f: 0.7, s_c: 0.3 }, hue: 20 }, 
+      {id:7,name:"07運動",img:"../img/a_infantia/07u.png",vector:[0.75,0.60,0.70,0.60,0.95,0.60,0.70,0.60,0.40,0.60,0.65,0.85,0.40,0.80,0.70], polarity: { n_e: 0.2, i_g: 0, c_a: 0.9, s_f: 0.4, s_c: 0.4 }, hue: 75 }, 
+      {id:8,name:"08バランス",img:"../img/a_infantia/08u.png",vector:[0.65,0.50,0.70,0.60,0.70,0.80,0.85,0.80,0.50,0.75,0.88,0.50,0.25,0.70,0.75], polarity: { n_e: 0, i_g: 0, c_a: 0, s_f: 0, s_c: 0 }, hue: 315 }, 
+      {id:9,name:"09省察",img:"../img/a_infantia/09u.png",vector:[0.70,0.55,0.70,0.75,0.30,0.70,0.60,0.75,0.30,0.50,0.80,0.40,0.30,0.75,0.75], polarity: { n_e: 0.6, i_g: -0.3, c_a: -0.8, s_f: 0.2, s_c: 0 }, hue: 300 }, 
+      {id:10,name:"10循環",img:"../img/a_infantia/10u.png",vector:[0.60,0.65,0.70,0.60,0.60,0.85,0.70,0.75,0.60,0.90,0.80,0.55,0.30,0.70,0.75], polarity: { n_e: 0, i_g: 0.2, c_a: 0, s_f: -0.6, s_c: -0.4 }, hue: 340 }, 
+      {id:11,name:"11たくましさ",img:"../img/a_infantia/11u.png",vector:[0.85,0.80,0.65,0.70,0.85,0.50,0.75,0.50,0.60,0.60,0.60,0.85,0.50,0.85,0.65], polarity: { n_e: 0.3, i_g: -0.2, c_a: 0.7, s_f: 0.5, s_c: 0.9 }, hue: 85 }, 
+      {id:12,name:"12待つこと",img:"../img/a_infantia/12u.png",vector:[0.50,0.30,0.80,0.50,0.30,0.75,0.60,0.80,0.20,0.70,0.85,0.30,0.60,0.60,0.80], polarity: { n_e: -0.4, i_g: -0.5, c_a: -0.7, s_f: -0.3, s_c: -0.2 }, hue: 145 }, 
+      {id:13,name:"13変容",img:"../img/a_infantia/13u.png",vector:[0.70,0.65,0.70,0.75,0.60,0.70,0.70,0.70,0.50,0.40,0.65,0.70,0.50,0.80,0.75], polarity: { n_e: 0.4, i_g: 0, c_a: 0, s_f: 0.3, s_c: 0.6 }, hue: 320 }, 
+      {id:14,name:"14調和",img:"../img/a_infantia/14u.png",vector:[0.65,0.50,0.95,0.70,0.60,0.75,0.80,0.80,0.50,0.65,0.85,0.55,0.30,0.75,0.95], polarity: { n_e: 0.2, i_g: 0.8, c_a: 0, s_f: 0, s_c: 0 }, hue: 180 }, 
+      {id:15,name:"15素材",img:"../img/a_infantia/15u.png",vector:[0.85,0.85,0.60,0.85,0.70,0.60,0.90,0.70,0.95,0.65,0.70,0.75,0.30,0.80,0.60], polarity: { n_e: 0.5, i_g: -0.3, c_a: -0.1, s_f: 0.6, s_c: 0.3 }, hue: 30 }, 
+      {id:16,name:"16葛藤",img:"../img/a_infantia/16u.png",vector:[0.70,0.50,0.85,0.75,0.40,0.60,0.70,0.70,0.20,0.40,0.30,0.80,0.95,0.50,0.75], polarity: { n_e: 0.3, i_g: 0.3, c_a: 0.4, s_f: 0.2, s_c: 0.5 }, hue: 200 }, 
+      {id:17,name:"17慰め",img:"../img/a_infantia/17u.png",vector:[0.40,0.30,0.75,0.60,0.40,0.70,0.75,0.85,0.30,0.50,0.95,0.30,0.50,0.60,0.85], polarity: { n_e: -0.8, i_g: -0.6, c_a: -0.6, s_f: 0, s_c: -0.7 }, hue: 210 }, 
+      {id:18,name:"18物語",img:"../img/a_infantia/18u.png",vector:[0.70,0.60,0.80,0.90,0.50,0.65,0.85,0.75,0.60,0.60,0.75,0.70,0.35,0.80,0.80], polarity: { n_e: 0.4, i_g: 0.2, c_a: -0.5, s_f: 0.3, s_c: 0.2 }, hue: 305 }, 
+      {id:19,name:"19創造的自由",img:"../img/a_infantia/19u.png",vector:[0.98,0.90,0.60,0.95,0.70,0.40,0.98,0.60,0.85,0.65,0.70,0.85,0.35,0.90,0.65], polarity: { n_e: 0.7, i_g: -0.4, c_a: 0.2, s_f: 1, s_c: 0.5 }, hue: 240 }, 
+      {id:20,name:"20収集",img:"../img/a_infantia/20u.png",vector:[0.80,0.85,0.50,0.60,0.60,0.60,0.80,0.70,0.75,0.65,0.70,0.65,0.25,0.75,0.55], polarity: { n_e: 0.3, i_g: -0.5, c_a: -0.3, s_f: 0, s_c: 0.2 }, hue: 40 }, 
+      {id:21,name:"21祝祭",img:"../img/a_infantia/21u.png",vector:[0.65,0.50,0.85,0.90,0.70,0.80,0.65,0.75,0.70,0.50,0.75,0.85,0.30,0.95,0.88], polarity: { n_e: 0.5, i_g: 0.7, c_a: 0.6, s_f: -0.2, s_c: 0.4 }, hue: 350 }, 
+      {id:22,name:"22遊び",img:"../img/a_infantia/22u.png",vector:[0.98,0.90,0.85,0.90,0.85,0.50,0.98,0.60,0.70,0.70,0.80,0.85,0.40,0.85,0.88], polarity: { n_e: 0, i_g: 0, c_a: 0.3, s_f: 0.6, s_c: 0.2 }, hue: 15 }, 
+      {id:23,name:"23学び",img:"../img/a_infantia/23u.png",vector:[0.75,0.85,0.70,0.70,0.55,0.70,0.75,0.75,0.65,0.65,0.75,0.65,0.35,0.80,0.70], polarity: { n_e: 0.8, i_g: -0.2, c_a: -0.2, s_f: 0.2, s_c: 0.4 }, hue: 130 }, 
+      {id:24,name:"24身体",img:"../img/a_infantia/24u.png",vector:[0.70,0.60,0.65,0.55,0.95,0.65,0.70,0.80,0.40,0.70,0.75,0.80,0.35,0.75,0.65], polarity: { n_e: -0.2, i_g: 0, c_a: 0.6, s_f: 0.3, s_c: 0 }, hue: 70 }, 
+      {id:25,name:"25響き",img:"../img/a_infantia/25u.png",vector:[0.70,0.60,0.75,0.85,0.60,0.60,0.80,0.75,0.60,0.55,0.75,0.75,0.30,0.75,0.75], polarity: { n_e: 0.4, i_g: 0.3, c_a: 0, s_f: 0.2, s_c: 0.1 }, hue: 90 }, 
+      {id:26,name:"26手",img:"../img/a_infantia/26u.png",vector:[0.75,0.70,0.65,0.80,0.85,0.65,0.80,0.75,0.85,0.60,0.70,0.70,0.30,0.80,0.65], polarity: { n_e: 0.3, i_g: -0.6, c_a: -0.4, s_f: 0.4, s_c: 0.3 }, hue: 80 }, 
+      {id:27,name:"27声",img:"../img/a_infantia/27u.png",vector:[0.70,0.55,0.75,0.85,0.40,0.60,0.80,0.75,0.30,0.50,0.80,0.65,0.35,0.70,0.85], polarity: { n_e: 0.5, i_g: -0.3, c_a: 0.2, s_f: 0.5, s_c: 0.2 }, hue: 95 }, 
+      {id:28,name:"28繋がり",img:"../img/a_infantia/28u.png",vector:[0.65,0.55,0.90,0.75,0.50,0.65,0.80,0.75,0.40,0.60,0.85,0.60,0.35,0.75,0.90], polarity: { n_e: 0.1, i_g: 0.9, c_a: 0, s_f: 0, s_c: 0 }, hue: 185 }, 
+      {id:29,name:"29小さな勇気",img:"../img/a_infantia/29u.png",vector:[0.80,0.70,0.65,0.70,0.70,0.60,0.75,0.70,0.50,0.50,0.70,0.70,0.45,0.85,0.70], polarity: { n_e: 0.2, i_g: -0.4, c_a: 0, s_f: 0.3, s_c: 0.7 }, hue: 100 }, 
+      {id:30,name:"30安らぎ",img:"../img/a_infantia/30u.png",vector:[0.50,0.30,0.70,0.50,0.40,0.75,0.70,0.85,0.40,0.75,0.95,0.25,0.15,0.65,0.80], polarity: { n_e: -0.9, i_g: -0.2, c_a: -0.9, s_f: 0, s_c: -0.9 }, hue: 335 }, 
+      {id:31,name:"31真似っこ",img:"../img/a_infantia/31u.png",vector:[0.70,0.60,0.90,0.80,0.70,0.40,0.85,0.75,0.50,0.50,0.75,0.65,0.30,0.70,0.88], polarity: { n_e: 0.5, i_g: 0.2, c_a: 0.1, s_f: -0.3, s_c: 0.2 }, hue: 60 }, 
+      {id:32,name:"32温かさ",img:"../img/a_infantia/32u.png",vector:[0.50,0.40,0.80,0.60,0.45,0.70,0.75,0.85,0.35,0.70,0.95,0.50,0.25,0.65,0.90], polarity: { n_e: -0.7, i_g: -0.2, c_a: -0.5, s_f: 0, s_c: -0.6 }, hue: 195 }, 
+      {id:33,name:"33笑顔",img:"../img/a_infantia/33u.png",vector:[0.60,0.50,0.85,0.70,0.50,0.55,0.80,0.75,0.30,0.50,0.90,0.70,0.25,0.80,0.88], polarity: { n_e: -0.3, i_g: 0, c_a: 0.1, s_f: 0, s_c: -0.4 }, hue: 205 }, 
+      {id:34,name:"34共鳴",img:"../img/a_infantia/34u.png",vector:[0.60,0.50,0.92,0.78,0.48,0.68,0.82,0.78,0.38,0.62,0.88,0.58,0.32,0.78,0.92], polarity: { n_e: 0.2, i_g: 0.6, c_a: 0, s_f: 0, s_c: 0 }, hue: 215 }, 
+      {id:35,name:"35思いやり",img:"../img/a_infantia/35u.png",vector:[0.65,0.50,0.90,0.70,0.40,0.70,0.75,0.80,0.30,0.65,0.85,0.50,0.45,0.70,0.90], polarity: { n_e: 0.6, i_g: 0.7, c_a: -0.2, s_f: 0, s_c: 0.3 }, hue: 220 }, 
+      {id:36,name:"36思い",img:"../img/a_infantia/36u.png",vector:[0.65,0.50,0.75,0.80,0.30,0.65,0.70,0.75,0.30,0.50,0.80,0.50,0.40,0.70,0.80], polarity: { n_e: 0.4, i_g: -0.5, c_a: -0.6, s_f: 0.4, s_c: 0 }, hue: 310 }, 
+      {id:37,name:"37育ち",img:"../img/a_infantia/37u.png",vector:[0.70,0.75,0.75,0.75,0.70,0.75,0.75,0.80,0.55,0.85,0.80,0.60,0.35,0.80,0.80], polarity: { n_e: 0.7, i_g: 0, c_a: 0, s_f: 0, s_c: 0.4 }, hue: 325 }, 
+      {id:38,name:"38種",img:"../img/a_infantia/38u.png",vector:[0.65,0.70,0.65,0.65,0.55,0.75,0.75,0.75,0.60,0.40,0.75,0.60,0.30,0.70,0.75], polarity: { n_e: 0.3, i_g: -0.3, c_a: -0.4, s_f: 0.2, s_c: 0.5 }, hue: 25 }, 
+      {id:39,name:"39意欲",img:"../img/a_infantia/39u.png",vector:[0.90,0.85,0.70,0.80,0.75,0.60,0.85,0.70,0.65,0.55,0.75,0.85,0.40,0.85,0.75], polarity: { n_e: 0.6, i_g: -0.2, c_a: 0.5, s_f: 0.6, s_c: 0.6 }, hue: 250 }, 
+      {id:40,name:"40風",img:"../img/a_infantia/40u.png",vector:[0.70,0.75,0.50,0.65,0.70,0.40,0.90,0.65,0.60,0.50,0.65,0.75,0.30,0.65,0.50], polarity: { n_e: 0.2, i_g: 0, c_a: 0.3, s_f: 0.7, s_c: 0.2 }, hue: 35 }, 
+      {id:41,name:"41根",img:"../img/a_infantia/41u.png",vector:[0.50,0.40,0.70,0.45,0.50,0.80,0.60,0.90,0.40,0.85,0.90,0.35,0.20,0.65,0.80], polarity: { n_e: -0.6, i_g: -0.2, c_a: -0.5, s_f: -0.5, s_c: -0.8 }, hue: 0 }, 
+      {id:42,name:"42雨",img:"../img/a_infantia/42u.png",vector:[0.60,0.70,0.60,0.70,0.60,0.50,0.85,0.70,0.65,0.50,0.70,0.65,0.30,0.65,0.60], polarity: { n_e: 0.1, i_g: 0, c_a: -0.2, s_f: 0.3, s_c: 0 }, hue: 45 }, 
+      {id:43,name:"43実り",img:"../img/a_infantia/43u.png",vector:[0.65,0.60,0.75,0.70,0.60,0.70,0.70,0.75,0.70,0.60,0.75,0.65,0.25,0.90,0.80], polarity: { n_e: 0.5, i_g: 0.2, c_a: 0, s_f: 0, s_c: 0.5 }, hue: 345 } 
+    ];
+
+
+// ＭＶＰ移植↑
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+
+    let cards = [
+      {id:0,name:"00探索",img:"../img/a_infantia/00u.png",vector:[0.95,0.98,0.40,0.60,0.70,0.30,0.95,0.50,0.80,0.60,0.60,0.85,0.30,0.70,0.50], tokucho: '探索性・主体性・柔軟性が最大級。計画不要で自由な発見重視。', polarity: { n_e: 0.6, i_g: -0.5, c_a: 0.3, s_f: 0.8, s_c: 0.7 }, hue: 10 }, 
+      {id:1,name:"01はじまり",img:"../img/a_infantia/01u.png",vector:[0.60,0.70,0.65,0.55,0.50,0.80,0.70,0.85,0.40,0.40,0.88,0.60,0.40,0.60,0.75], tokucho: '安全性・安定性・計画性が高い。新しい環境への慎重な導入。', polarity: { n_e: -0.3, i_g: 0, c_a: -0.2, s_f: 0, s_c: 0.5 }, hue: 5 }, 
+      {id:2,name:"02見守り",img:"../img/a_infantia/02u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.85,0.75,0.95,0.30,0.85,0.95,0.35,0.20,0.60,0.85], tokucho: '安全性・安定性が最高値。長期的視点で子どもを観察。', polarity: { n_e: -0.9, i_g: -0.4, c_a: -0.7, s_f: -0.3, s_c: -0.8 }, hue: 330 }, 
+      {id:3,name:"03養護",img:"../img/a_infantia/03u.png",vector:[0.40,0.20,0.60,0.30,0.70,0.85,0.40,0.95,0.50,0.90,0.98,0.20,0.10,0.60,0.70], tokucho: '安定性・安全性・計画性・時間軸が突出。生命維持の基盤。', polarity: { n_e: -1, i_g: -0.3, c_a: -0.5, s_f: -0.6, s_c: -1 }, hue: 355 }, 
+      {id:4,name:"04構造",img:"../img/a_infantia/04u.png",vector:[0.50,0.40,0.70,0.40,0.40,0.90,0.40,0.80,0.60,0.70,0.75,0.40,0.30,0.65,0.70], tokucho: '計画性が最も高い。ルール・枠組みを提供。柔軟性は低め。', polarity: { n_e: 0, i_g: 0.4, c_a: -0.3, s_f: -0.9, s_c: -0.5 }, hue: 120 }, 
+      {id:5,name:"05対話",img:"../img/a_infantia/05u.png",vector:[0.75,0.50,0.85,0.85,0.30,0.60,0.80,0.70,0.30,0.50,0.80,0.55,0.35,0.70,0.90], tokucho: '協同性・表現性・繋がり性が高い。言葉による相互理解。', polarity: { n_e: 0.4, i_g: -0.2, c_a: -0.4, s_f: 0.2, s_c: 0 }, hue: 190 }, 
+      {id:6,name:"06選択",img:"../img/a_infantia/06u.png",vector:[0.98,0.85,0.60,0.70,0.50,0.50,0.95,0.65,0.70,0.55,0.70,0.70,0.40,0.80,0.65], tokucho: '主体性が最高値。柔軟性・探索性も高く、自己決定を重視。', polarity: { n_e: 0.5, i_g: -0.7, c_a: -0.2, s_f: 0.7, s_c: 0.3 }, hue: 20 }, 
+      {id:7,name:"07運動",img:"../img/a_infantia/07u.png",vector:[0.75,0.60,0.70,0.60,0.95,0.60,0.70,0.60,0.40,0.60,0.65,0.85,0.40,0.80,0.70], tokucho: '身体性・刺激性が突出。粗大運動と身体表現の核心。', polarity: { n_e: 0.2, i_g: 0, c_a: 0.9, s_f: 0.4, s_c: 0.4 }, hue: 75 }, 
+      {id:8,name:"08バランス",img:"../img/a_infantia/08u.png",vector:[0.65,0.50,0.70,0.60,0.70,0.80,0.85,0.80,0.50,0.75,0.88,0.50,0.25,0.70,0.75], tokucho: '安定性・柔軟性・計画性が均衡。調和的な活動配分。', polarity: { n_e: 0, i_g: 0, c_a: 0, s_f: 0, s_c: 0 }, hue: 315 }, 
+      {id:9,name:"09省察",img:"../img/a_infantia/09u.png",vector:[0.70,0.55,0.70,0.75,0.30,0.70,0.60,0.75,0.30,0.50,0.80,0.40,0.30,0.75,0.75], tokucho: '表現性・達成感が高い。振り返りを通じた意味づけ。', polarity: { n_e: 0.6, i_g: -0.3, c_a: -0.8, s_f: 0.2, s_c: 0 }, hue: 300 }, 
+      {id:10,name:"10循環",img:"../img/a_infantia/10u.png",vector:[0.60,0.65,0.70,0.60,0.60,0.85,0.70,0.75,0.60,0.90,0.80,0.55,0.30,0.70,0.75], tokucho: '時間軸・計画性が高い。季節・行事の繰り返しを象徴。', polarity: { n_e: 0, i_g: 0.2, c_a: 0, s_f: -0.6, s_c: -0.4 }, hue: 340 }, 
+      {id:11,name:"11たくましさ",img:"../img/a_infantia/11u.png",vector:[0.85,0.80,0.65,0.70,0.85,0.50,0.75,0.50,0.60,0.60,0.60,0.85,0.50,0.85,0.65], tokucho: '主体性・身体性・刺激性・達成感が高い。挑戦と冒険。', polarity: { n_e: 0.3, i_g: -0.2, c_a: 0.7, s_f: 0.5, s_c: 0.9 }, hue: 85 }, 
+      {id:12,name:"12待つこと",img:"../img/a_infantia/12u.png",vector:[0.50,0.30,0.80,0.50,0.30,0.75,0.60,0.80,0.20,0.70,0.85,0.30,0.60,0.60,0.80], tokucho: '協同性・安定性・繋がり性が高い。葛藤性も中程度（順番待ち）。', polarity: { n_e: -0.4, i_g: -0.5, c_a: -0.7, s_f: -0.3, s_c: -0.2 }, hue: 145 }, 
+      {id:13,name:"13変容",img:"../img/a_infantia/13u.png",vector:[0.70,0.65,0.70,0.75,0.60,0.70,0.70,0.70,0.50,0.40,0.65,0.70,0.50,0.80,0.75], tokucho: '達成感・表現性が高い。成長の節目・卒園などの転換期。', polarity: { n_e: 0.4, i_g: 0, c_a: 0, s_f: 0.3, s_c: 0.6 }, hue: 320 }, 
+      {id:14,name:"14調和",img:"../img/a_infantia/14u.png",vector:[0.65,0.50,0.95,0.70,0.60,0.75,0.80,0.80,0.50,0.65,0.85,0.55,0.30,0.75,0.95], tokucho: '協同性・繋がり性が最大級。集団の一体感と調和。', polarity: { n_e: 0.2, i_g: 0.8, c_a: 0, s_f: 0, s_c: 0 }, hue: 180 }, 
+      {id:15,name:"15素材",img:"../img/a_infantia/15u.png",vector:[0.85,0.85,0.60,0.85,0.70,0.60,0.90,0.70,0.95,0.65,0.70,0.75,0.30,0.80,0.60], tokucho: '素材依存が最高値。探索性・表現性・柔軟性も高い。', polarity: { n_e: 0.5, i_g: -0.3, c_a: -0.1, s_f: 0.6, s_c: 0.3 }, hue: 30 }, 
+      {id:16,name:"16葛藤",img:"../img/a_infantia/16u.png",vector:[0.70,0.50,0.85,0.75,0.40,0.60,0.70,0.70,0.20,0.40,0.30,0.80,0.95,0.50,0.75], tokucho: '葛藤性が最高値。協同性・刺激性も高く、成長の契機。', polarity: { n_e: 0.3, i_g: 0.3, c_a: 0.4, s_f: 0.2, s_c: 0.5 }, hue: 200 }, 
+      {id:17,name:"17慰め",img:"../img/a_infantia/17u.png",vector:[0.40,0.30,0.75,0.60,0.40,0.70,0.75,0.85,0.30,0.50,0.95,0.30,0.50,0.60,0.85], tokucho: '安定性が最高級。安全性・繋がり性も高い。情緒的支援。', polarity: { n_e: -0.8, i_g: -0.6, c_a: -0.6, s_f: 0, s_c: -0.7 }, hue: 210 }, 
+      {id:18,name:"18物語",img:"../img/a_infantia/18u.png",vector:[0.70,0.60,0.80,0.90,0.50,0.65,0.85,0.75,0.60,0.60,0.75,0.70,0.35,0.80,0.80], tokucho: '表現性が突出。協同性・柔軟性も高い。劇遊び・ごっこの核。', polarity: { n_e: 0.4, i_g: 0.2, c_a: -0.5, s_f: 0.3, s_c: 0.2 }, hue: 305 }, 
+      {id:19,name:"19創造的自由",img:"../img/a_infantia/19u.png",vector:[0.98,0.90,0.60,0.95,0.70,0.40,0.98,0.60,0.85,0.65,0.70,0.85,0.35,0.90,0.65], tokucho: '主体性・柔軟性・表現性が最大級。創造活動の理想状態。', polarity: { n_e: 0.7, i_g: -0.4, c_a: 0.2, s_f: 1, s_c: 0.5 }, hue: 240 }, 
+      {id:20,name:"20収集",img:"../img/a_infantia/20u.png",vector:[0.80,0.85,0.50,0.60,0.60,0.60,0.80,0.70,0.75,0.65,0.70,0.65,0.25,0.75,0.55], tokucho: '探索性・主体性が高い。集める・分類する認知活動。', polarity: { n_e: 0.3, i_g: -0.5, c_a: -0.3, s_f: 0, s_c: 0.2 }, hue: 40 }, 
+      {id:21,name:"21祝祭",img:"../img/a_infantia/21u.png",vector:[0.65,0.50,0.85,0.90,0.70,0.80,0.65,0.75,0.70,0.50,0.75,0.85,0.30,0.95,0.88], tokucho: '達成感・表現性・繋がり性が最大級。発表会・行事の頂点。', polarity: { n_e: 0.5, i_g: 0.7, c_a: 0.6, s_f: -0.2, s_c: 0.4 }, hue: 350 }, 
+      {id:22,name:"22遊び",img:"../img/a_infantia/22u.png",vector:[0.98,0.90,0.85,0.90,0.85,0.50,0.98,0.60,0.70,0.70,0.80,0.85,0.40,0.85,0.88], tokucho: 'ほぼ全次元で高スコア。保育の理想的状態・中心概念。', polarity: { n_e: 0, i_g: 0, c_a: 0.3, s_f: 0.6, s_c: 0.2 }, hue: 15 }, 
+      {id:23,name:"23学び",img:"../img/a_infantia/23u.png",vector:[0.75,0.85,0.70,0.70,0.55,0.70,0.75,0.75,0.65,0.65,0.75,0.65,0.35,0.80,0.70], tokucho: '探索性・達成感が高い。発見と思考を通じた認知発達。', polarity: { n_e: 0.8, i_g: -0.2, c_a: -0.2, s_f: 0.2, s_c: 0.4 }, hue: 130 }, 
+      {id:24,name:"24身体",img:"../img/a_infantia/24u.png",vector:[0.70,0.60,0.65,0.55,0.95,0.65,0.70,0.80,0.40,0.70,0.75,0.80,0.35,0.75,0.65], tokucho: '身体性が最高値。安全性・刺激性も高い。健康の基盤。', polarity: { n_e: -0.2, i_g: 0, c_a: 0.6, s_f: 0.3, s_c: 0 }, hue: 70 }, 
+      {id:25,name:"25響き",img:"../img/a_infantia/25u.png",vector:[0.70,0.60,0.75,0.85,0.60,0.60,0.80,0.75,0.60,0.55,0.75,0.75,0.30,0.75,0.75], tokucho: '表現性が高い。音楽活動・リズム遊びの核心。', polarity: { n_e: 0.4, i_g: 0.3, c_a: 0, s_f: 0.2, s_c: 0.1 }, hue: 90 }, 
+      {id:26,name:"26手",img:"../img/a_infantia/26u.png",vector:[0.75,0.70,0.65,0.80,0.85,0.65,0.80,0.75,0.85,0.60,0.70,0.70,0.30,0.80,0.65], tokucho: '身体性・素材依存・表現性が高い。微細運動と創作活動。', polarity: { n_e: 0.3, i_g: -0.6, c_a: -0.4, s_f: 0.4, s_c: 0.3 }, hue: 80 }, 
+      {id:27,name:"27声",img:"../img/a_infantia/27u.png",vector:[0.70,0.55,0.75,0.85,0.40,0.60,0.80,0.75,0.30,0.50,0.80,0.65,0.35,0.70,0.85], tokucho: '表現性・繋がり性が高い。発語と言葉の萌芽。', polarity: { n_e: 0.5, i_g: -0.3, c_a: 0.2, s_f: 0.5, s_c: 0.2 }, hue: 95 }, 
+      {id:28,name:"28繋がり",img:"../img/a_infantia/28u.png",vector:[0.65,0.55,0.90,0.75,0.50,0.65,0.80,0.75,0.40,0.60,0.85,0.60,0.35,0.75,0.90], tokucho: '協同性・安定性・繋がり性が高い。協力関係・情緒的安定の基盤。関係性そのもの。', polarity: { n_e: 0.1, i_g: 0.9, c_a: 0, s_f: 0, s_c: 0 }, hue: 185 }, 
+      {id:29,name:"29小さな勇気",img:"../img/a_infantia/29u.png",vector:[0.80,0.70,0.65,0.70,0.70,0.60,0.75,0.70,0.50,0.50,0.70,0.70,0.45,0.85,0.70], tokucho: '主体性・達成感が高い。たくましさより穏やかな挑戦。', polarity: { n_e: 0.2, i_g: -0.4, c_a: 0, s_f: 0.3, s_c: 0.7 }, hue: 100 }, 
+      {id:30,name:"30安らぎ",img:"../img/a_infantia/30u.png",vector:[0.50,0.30,0.70,0.50,0.40,0.75,0.70,0.85,0.40,0.75,0.95,0.25,0.15,0.65,0.80], tokucho: '安定性が最高級。刺激性・葛藤性が最低。休息と落ち着き。', polarity: { n_e: -0.9, i_g: -0.2, c_a: -0.9, s_f: 0, s_c: -0.9 }, hue: 335 }, 
+      {id:31,name:"31真似っこ",img:"../img/a_infantia/31u.png",vector:[0.70,0.60,0.90,0.80,0.70,0.40,0.85,0.75,0.50,0.50,0.75,0.65,0.30,0.70,0.88], tokucho: '協同性・繋がり性が極めて高い。模倣学習の本質。', polarity: { n_e: 0.5, i_g: 0.2, c_a: 0.1, s_f: -0.3, s_c: 0.2 }, hue: 60 }, 
+      {id:32,name:"32温かさ",img:"../img/a_infantia/32u.png",vector:[0.50,0.40,0.80,0.60,0.45,0.70,0.75,0.85,0.35,0.70,0.95,0.50,0.25,0.65,0.90], tokucho: '安定性・繋がり性が最高級。情緒的温もりと応答性。', polarity: { n_e: -0.7, i_g: -0.2, c_a: -0.5, s_f: 0, s_c: -0.6 }, hue: 195 }, 
+      {id:33,name:"33笑顔",img:"../img/a_infantia/33u.png",vector:[0.60,0.50,0.85,0.70,0.50,0.55,0.80,0.75,0.30,0.50,0.90,0.70,0.25,0.80,0.88], tokucho: '安定性・繋がり性が最高級。情緒の可視的指標。', polarity: { n_e: -0.3, i_g: 0, c_a: 0.1, s_f: 0, s_c: -0.4 }, hue: 205 }, 
+      {id:34,name:"34共鳴",img:"../img/a_infantia/34u.png",vector:[0.60,0.50,0.92,0.78,0.48,0.68,0.82,0.78,0.38,0.62,0.88,0.58,0.32,0.78,0.92], tokucho: '協同性・繋がり性が最大級。相互理解と共感。', polarity: { n_e: 0.2, i_g: 0.6, c_a: 0, s_f: 0, s_c: 0 }, hue: 215 }, 
+      {id:35,name:"35思いやり",img:"../img/a_infantia/35u.png",vector:[0.65,0.50,0.90,0.70,0.40,0.70,0.75,0.80,0.30,0.65,0.85,0.50,0.45,0.70,0.90], tokucho: '協同性・繋がり性が最大級。他者配慮・道徳性の芽生え。', polarity: { n_e: 0.6, i_g: 0.7, c_a: -0.2, s_f: 0, s_c: 0.3 }, hue: 220 }, 
+      {id:36,name:"36思い",img:"../img/a_infantia/36u.png",vector:[0.65,0.50,0.75,0.80,0.30,0.65,0.70,0.75,0.30,0.50,0.80,0.50,0.40,0.70,0.80], tokucho: '表現性・安定性・繋がり性が高い。内面の言語化。', polarity: { n_e: 0.4, i_g: -0.5, c_a: -0.6, s_f: 0.4, s_c: 0 }, hue: 310 }, 
+      {id:37,name:"37育ち",img:"../img/a_infantia/37u.png",vector:[0.70,0.75,0.75,0.75,0.70,0.75,0.75,0.80,0.55,0.85,0.80,0.60,0.35,0.80,0.80], tokucho: '全次元でバランス良く高い。時間軸が長い。成長プロセス。', polarity: { n_e: 0.7, i_g: 0, c_a: 0, s_f: 0, s_c: 0.4 }, hue: 325 }, 
+      {id:38,name:"38種",img:"../img/a_infantia/38u.png",vector:[0.65,0.70,0.65,0.65,0.55,0.75,0.75,0.75,0.60,0.40,0.75,0.60,0.30,0.70,0.75], tokucho: '可能性を秘めた状態。時間軸は短期。未来への希望。', polarity: { n_e: 0.3, i_g: -0.3, c_a: -0.4, s_f: 0.2, s_c: 0.5 }, hue: 25 }, 
+      {id:39,name:"39意欲",img:"../img/a_infantia/39u.png",vector:[0.90,0.85,0.70,0.80,0.75,0.60,0.85,0.70,0.65,0.55,0.75,0.85,0.40,0.85,0.75], tokucho: '主体性・探索性・刺激性・達成感が高い。やる気と動機づけ。', polarity: { n_e: 0.6, i_g: -0.2, c_a: 0.5, s_f: 0.6, s_c: 0.6 }, hue: 250 }, 
+      {id:40,name:"40風",img:"../img/a_infantia/40u.png",vector:[0.70,0.75,0.50,0.65,0.70,0.40,0.90,0.65,0.60,0.50,0.65,0.75,0.30,0.65,0.50], tokucho: '柔軟性・探索性が高い。自然現象の体感・予測不可能性。', polarity: { n_e: 0.2, i_g: 0, c_a: 0.3, s_f: 0.7, s_c: 0.2 }, hue: 35 }, 
+      {id:41,name:"41根",img:"../img/a_infantia/41u.png",vector:[0.50,0.40,0.70,0.45,0.50,0.80,0.60,0.90,0.40,0.85,0.90,0.35,0.20,0.65,0.80], tokucho: '安全性・安定性・時間軸が高い。信頼関係の基盤・土台。', polarity: { n_e: -0.6, i_g: -0.2, c_a: -0.5, s_f: -0.5, s_c: -0.8 }, hue: 0 }, 
+      {id:42,name:"42雨",img:"../img/a_infantia/42u.png",vector:[0.60,0.70,0.60,0.70,0.60,0.50,0.85,0.70,0.65,0.50,0.70,0.65,0.30,0.65,0.60], tokucho: '柔軟性・探索性が高い。季節感・感覚体験・室内活動誘導。', polarity: { n_e: 0.1, i_g: 0, c_a: -0.2, s_f: 0.3, s_c: 0 }, hue: 45 }, 
+      {id:43,name:"43実り",img:"../img/a_infantia/43u.png",vector:[0.65,0.60,0.75,0.70,0.60,0.70,0.70,0.75,0.70,0.60,0.75,0.65,0.25,0.90,0.80], tokucho: '達成感が最高級。収穫体験・成果の可視化。', polarity: { n_e: 0.5, i_g: 0.2, c_a: 0, s_f: 0, s_c: 0.5 }, hue: 345 } 
+    ];
+
+
+    const meanings = { // カード意味のマップ
+        '探索(正)': ' 好奇心と自発性：子どもが自ら世界に関心を持ち、積極的に関わろうとする姿勢。/ 安全な冒険：未知への一歩を踏み出すが、見守りや環境が整っているため安心して探索できる。/ 発達の兆し：新しいスキルや関心が芽生え、成長のステージが切り替わるタイミング。/ 保育者の役割：子どもの「なぜ？」に寄り添い、探索を促す環境づくりが求められる。 ', 
+        '探索(逆)': '過剰な不安や抑制：子どもが探索したい気持ちを持ちながらも、環境や関係性がそれを妨げている。/ 迷子になる探索：目的や方向性が曖昧で、子どもが混乱したり不安を感じている可能性。/ 過干渉または放任：保育者が過度に介入するか、逆に放置してしまうことで探索が不健全になる。/ 内向的な退避：外界への関心が薄れ、内面に閉じこもる傾向が見られることも。 ', 
+        'はじまり(正)': '新しい環境への前向きな適応: 子どもが新しい園や活動に対して好奇心を持ち、積極的に関わろうとする姿勢。/ 成長のスタートライン: これまでの段階から一歩進み、発達や社会性の新しいフェーズに入る兆し。/ 保育者の導きと見守り: 子どもが安心して新しい環境に踏み出せるよう、保育者が適切にサポートしている状態。/ 儀式性と節目の意識: 入園式や新学期など、子どもにとって「特別な始まり」として記憶される瞬間。 ', 
+        'はじまり(逆)': '不安や抵抗感: 新しい環境に対して子どもが不安を感じたり、拒否反応を示している可能性。/ 準備不足または急な切り替え: 子どもや保育者が新しい活動への準備が整っておらず、混乱やストレスが生じている。/ 過去への執着: 前の環境や関係性に強い愛着があり、新しい一歩を踏み出すことに躊躇している。/ 導入の失敗: 活動や環境の切り替えがうまく機能せず、子どもが孤立感や疎外感を抱いている可能性。 ', 
+        '見守り(正)': '安心の場の提供: 子どもが安心して眠り、遊び、学べる環境が整っている。保育者の存在が穏やかで信頼できる。/ 適切な距離感: 子どもの自立を尊重しつつ、必要なときにはすぐに手を差し伸べられる見守りの姿勢。/ 非干渉的な保護: 過度に介入せず、子どものペースを尊重することで、内的な成長を支えている。/ 夜の静けさ・回復の時間: 睡眠や休息、情緒の安定を象徴する時間帯。保育者の「見えない働き」が子どもを支えている。 ', 
+        '見守り(逆)': '過干渉または放任: 保育者が子どもに過度に介入してしまう、または逆に放置してしまうことで、安心感が損なわれている。/ 不安定な環境: 子どもが安心して過ごせる場が整っておらず、情緒的な不安や緊張が生じている。/ 信頼関係の揺らぎ: 保育者と子どもの間に距離や誤解が生じ、見守りが機能していない状態。/ 見えないストレス: 子どもが表面上は落ち着いていても、内面に不安や緊張を抱えている可能性。 ', 
+        '養護(正)': '生活習慣の安定と定着: 食事・睡眠・排泄・清潔など、基本的な生活リズムが整い、子どもが安心して日々を過ごしている。/ 身体的・情緒的な安心感: 子どもが保育者との関係性の中で、身体的にも心的にも満たされている状態。/ 丁寧なケアと関わり: 保育者が一人ひとりの子どもに対して、丁寧に関わり、生活の場面を通して信頼関係を築いている。/ 育ちの土壌の充実: 「遊び」や「学び」が芽吹くための、身体的・情緒的な基盤がしっかりと整っている。 ', 
+        '養護(逆)': '生活リズムの乱れ: 食事の偏り、睡眠不足、清潔習慣の未定着など、基本的な生活習慣に不安定さが見られる。/ ケアの質の低下: 保育者の関わりが機械的・一律的になり、子どもが十分に安心感を得られていない。/ 身体的な不快や不調: 子どもが身体的な不快（空腹、疲労、汚れなど）を抱えており、情緒にも影響が出ている可能性。/ 育ちの停滞: 基盤が整っていないために、遊びや学びへの意欲が湧かず、発達の流れが滞っている。 ', 
+        '構造(正)': '秩序と安心: 子どもが安心して活動できるよう、環境やルールが適切に整えられている。/ 段階的な成長: 積み木のように、一歩ずつ積み重ねる発達のプロセスが順調に進んでいる。/ 自由と枠組みの調和: ルールや枠組みがあるからこそ、子どもが自由に遊び、創造性を発揮できる。/ 協働と社会性: 子ども同士が協力して遊びや活動を進めることで、社会性や協調性が育まれる。 ', 
+        '構造(逆)': '過剰な制約: ルールや枠組みが厳しすぎて、子どもの自由や創造性が抑え込まれている。/ 秩序の欠如: 環境が整っておらず、子どもが混乱したり安心できない状態。/ 発達の停滞: 段階的な積み重ねが途切れ、学びや生活習慣が不安定になっている。/ 協力の不和: 子ども同士の関わりがうまくいかず、衝突や孤立が生じている。 ', 
+        '対話(正)': '相互理解の芽生え: 子ども同士、あるいは子どもと保育者の間で、言葉や仕草を通じて心が通い合う。/ 傾聴と共感: 相手の言葉を受け止め、共感的に応答することで信頼関係が深まる。/ 関係性の発展: 対話を通じて協力や友情が育まれ、社会性が豊かに育つ。/ 安心の場でのやりとり: 見守られた環境の中で、安心して自分の気持ちを表現できる。 ', 
+        '対話(逆)': 'すれ違い・誤解: 言葉や仕草がうまく伝わらず、誤解や衝突が生じる。/ 傾聴の欠如: 相手の話を聞かず、一方的なやりとりになってしまう。/ 孤立や閉ざされた心: 子どもが自分の気持ちを表現できず、関係性が停滞する。/ 環境の不備: 安心して対話できる場が整っていないため、子どもが萎縮してしまう。 ', 
+        '選択(正)': '主体性の発揮: 子どもが自分で選び取る経験を通じて、自立心や責任感を育んでいる。/ 多様な可能性: 選択肢が豊かに用意され、子どもが自分に合った道を見つけられる。/ 意思決定の練習: 小さな選択（遊び・活動・友だちとの関わり）を通じて、将来の大きな決断につながる力を養っている。/ 自由と方向性の調和: 保育者が環境を整え、子どもが安心して「自分で決める」ことを楽しめる状態。 ', 
+        '選択(逆)': '迷いや優柔不断: 選択肢が多すぎたり不明確で、子どもが決められずに不安や混乱を抱えている。/ 強制された選択: 子どもの意思ではなく、大人の都合や圧力によって選ばされている状態。/ 選択肢の欠如: 環境が整っておらず、子どもが「自分で選ぶ」経験を持てない。/ 後悔や不満: 選んだ結果に納得できず、自己肯定感や信頼関係が揺らぐ可能性。 ', 
+        '運動(正)': '生命力と活力: 子どもが身体をのびのびと動かし、エネルギーを発散している状態。/ 調和とリズム: 運動を通じて自然のリズムや仲間との呼吸を感じ、調和を体験している。/ 成長と発達の促進: 遊びや身体活動が、心身の発達を健やかに支えている。/ 喜びと解放感: 動くことそのものが楽しみであり、自由な表現としての運動が肯定されている。 ', 
+        '運動(逆)': 'エネルギーの停滞: 身体を動かす機会が不足し、子どもが不満や不安定さを抱えている。/ 過剰な活動: 落ち着きがなく、制御できないほどの多動や衝動性が表れている。/ リズムの乱れ: 生活リズムや活動のバランスが崩れ、疲労や不調につながっている。/ 制約や抑圧: 環境や大人の都合によって、子どもの自然な動きが制限されている。 ', 
+        'バランス(正)': '静と動の調和: 活発な遊びと落ち着いた活動の両方がうまく循環している。/ 個と集団の安定: 一人で集中する時間と、仲間と関わる時間のバランスが取れている。/ 活動の配分: 遊び・学び・休息のリズムが整い、心身が健やかに育つ。/ 安定した心: 感情の揺れがあっても、安心できる場や人に支えられて落ち着きを取り戻せる。 ', 
+        'バランス(逆)': '偏り: 遊びや学びが一方に偏り、心身のリズムが乱れる。/ 不安定さ: 感情の揺れが強く、落ち着きを取り戻しにくい。/ 孤立または過剰な集団依存: 個の時間が奪われたり、逆に集団に入れず孤立したりする。/ 調整の難しさ: 保育の場で活動の切り替えがうまくいかず、混乱や疲れが生じる。 ', 
+        '省察(正)': '自己理解の深化: 子どもが自分の気持ちや行動を振り返り、内面を理解する力が育っている。/ 気づきと学び: 経験を振り返ることで、新しい発見や学びが生まれる。/ 心の静けさ: 落ち着いた時間の中で、自分自身と向き合う余裕がある。/ 成長の循環: 波紋のように気づきが広がり、次の行動や発達につながっていく。 ', 
+        '省察(逆)': '自己否定や迷い: 振り返りが過剰になり、自分を責めたり迷いに陥る。/ 気づきの停滞: 経験を振り返る機会がなく、学びが深まらない。/ 落ち着きの欠如: 忙しさや環境の不安定さで、内面を見つめる余裕がない。/ 孤立感: 自分の思いを共有できず、内省が閉じこもりにつながる。 ', 
+        '循環(正)': '成長のリズム: 子どもの発達が自然な流れに沿って進み、安心して次の段階へ移行できている。/ 季節と調和: 遊び・学び・休息が季節のリズムや生活のサイクルと調和している。/ 経験の積み重ね: 過去の経験が次の学びへとつながり、循環的に成長が深まっている。/ 変化の受容: 成長や環境の変化を自然なものとして受け入れ、柔軟に適応できている。 ', 
+        '循環(逆)': '停滞や繰り返し: 同じ課題にとどまり、前進できずに堂々巡りしている。/ リズムの乱れ: 生活リズムや発達の流れが崩れ、子どもが不安定になっている。/ 変化への抵抗: 新しい段階や環境への移行を拒み、成長が滞る。/ 不均衡なサイクル: 遊び・学び・休息のバランスが崩れ、疲労や不満が蓄積している。 ', 
+        'たくましさ(正)': '内なる力の発揮: 子どもが自分の感情や欲求をコントロールし、落ち着いて行動できる。/ 勇気と自信: 困難や挑戦に立ち向かう勇気を持ち、自己肯定感が育まれている。/ 優しさと強さの調和: 力を「支配」ではなく「共生」に使い、他者と調和しながら強さを発揮する。/ 安心の中での成長: 保育者や環境に守られながら、子どもが自分の力を試し、伸ばしていける。 ', 
+        'たくましさ(逆)': '力の乱用や衝動: 感情を抑えられず、攻撃的・衝動的な行動に出てしまう。/ 自信の欠如: 自分に力がないと感じ、挑戦を避けたり、自己否定に陥る。/ 依存や過保護: 周囲に頼りすぎて、自分の力を発揮する機会を失っている。/ 不安定な強さ: 外見的には強そうに見えても、内面は不安定でバランスを欠いている。 ', 
+        '待つこと(正)': '順番を守る力: 子どもが自分の欲求を抑え、他者を尊重しながら順番を待てる。/ 時間の受容: 砂時計のように「時間が流れるのを受け入れる」姿勢。焦らずに待つことで安心感が育まれる。/ 葛藤の見守り: 待つ中で生じる小さな葛藤を、保育者や仲間に見守られながら乗り越える経験。/ 成長の準備期間: 待つことが停滞ではなく、次の行動や学びへの「助走」となる。 ', 
+        '待つこと(逆)': '焦りや不満: 順番を待てずに不安や苛立ちが強く出る。/ 時間の停滞感: 待つことが「意味のある準備」ではなく「退屈や停滞」として感じられる。/ 葛藤の孤立: 見守りが不足し、子どもが一人で葛藤を抱え込んでしまう。/ 秩序の乱れ: 順番を守れず、集団の中で不均衡や混乱が生じる。 ', 
+        '変容(正)': '成長の節目: 子どもが新しい環境や段階に進む準備が整い、自然に移行できている。/ 変化の受容: 不安よりも期待をもって、新しい世界に一歩を踏み出す姿勢。/ 自己更新: 蛇の脱皮のように、古い習慣や殻を手放し、新しい自分を受け入れる。/ 未来への光: 太陽や蝶の象徴が示すように、変化が成長と希望につながる。 ', 
+        '変容(逆)': '変化への抵抗: 慣れ親しんだ環境に固執し、新しい段階に進むことを恐れる。/ 不安と停滞: 変化を「喪失」として捉え、前に進めずに足踏みしてしまう。/ 未熟な移行: 変化に向かう準備が整っていないまま、無理に進もうとして混乱する。/ 循環の滞り: 季節の移ろいのような自然な流れを受け入れられず、成長のリズムが乱れる。 ', 
+        '調和(正)': '協力と共鳴: 子ども同士が互いを尊重し、協力しながら活動できている。/ 心のつながり: 感情や思いが共鳴し合い、安心感と信頼関係が育まれている。/ バランスの取れた成長: 遊び・学び・休息のリズムが調和し、心身が健やかに育っている。/ 美しい循環: 音楽のように、個々の違いが合わさって一つの調和を生み出す。 ', 
+        '調和(逆)': '不協和音: 子ども同士の関係に摩擦や対立が生じ、協力が難しくなる。/ 孤立や断絶: 調和が崩れ、誰かが仲間から外れてしまう。/ アンバランスな成長: 遊びや学びの偏りが強く、心身のバランスが乱れる。/ 強制された調和: 表面的にはまとまって見えても、内面では無理や我慢が積み重なっている。 ', 
+        '素材(正)': '探究心の芽生え: 子どもが素材に触れ、試行錯誤しながら新しい発見をしている。/ 創造の源泉: 石・木・水・粘土など、素材そのものが遊びや学びの出発点となる。/ 五感を通じた学び: 触る・見る・匂う・音を聞くといった感覚を通じて、世界を理解する力が育つ。/ 自然とのつながり: 素材を通じて自然の循環や恵みを感じ取り、生命への敬意を育む。 ', 
+        '素材(逆)': '表面的な関わり: 素材をただ消費するだけで、探究や創造につながらない。/ 過剰な制限: 素材に触れる機会が制限され、子どもの自由な探究が妨げられる。/ 混乱や危険: 素材の扱い方が未熟で、散らかしや危険につながる。/ 自然からの断絶: 人工的なものに偏り、自然素材との出会いが乏しくなる。 ', 
+        '葛藤(正)': '成長の契機: 子ども同士の衝突が、互いを理解し合うきっかけとなる。/ 対話と調整: 意見の違いを通じて、譲り合いや交渉の力を学ぶ。/ 感情の表現: 怒りや不満を安全な場で表現し、受け止めてもらう経験。/ 社会性の芽生え: 「自分」と「他者」の違いを知り、関係性を築く力が育つ。 ', 
+        '葛藤(逆)': '対立の激化: 意見の違いが解決されず、仲間外れや疎外感につながる。/ 感情の抑圧: 不満を表に出せず、内にため込んでしまう。/ 解決の停滞: 対話や仲裁が機能せず、行き詰まりを感じる。/ 孤立感: 見守りや支えが不足し、葛藤が「孤独な体験」となってしまう。 ', 
+        '慰め(正)': '共感と寄り添い: 子どもの悲しみや不安を受け止め、安心感を与える。/ 感情の回復: 涙や不安が落ち着き、心が少しずつ和らいでいく。/ 支え合いの関係: 仲間や大人の存在が「一人ではない」という安心を育む。/ 安心の場の形成: 保育の場が「感情を表現しても受け止めてもらえる場所」であることを示す。 ', 
+        '慰め(逆)': '孤立感: 悲しみや不安を抱えても、十分に受け止めてもらえず孤独を感じる。/ 表面的な慰め: 形だけの声かけで、子どもの心に届かない。/ 感情の抑圧: 泣くことや弱さを表すことが否定され、感情を内に閉じ込めてしまう。/ 依存の危うさ: 慰めが過剰になり、自分で感情を整理する力が育ちにくくなる。 ', 
+        '物語(正)': '想像力の翼: 絵本やごっこ遊びを通じて、子どもが自由に物語を紡ぎ、世界を広げる。/ 共感と役割理解: 劇遊びやごっこ遊びで他者の立場を演じることで、共感や社会性が育まれる。/ 言葉と表現の豊かさ: 物語を語り、聞き、演じることで、言葉や表現力が自然に育つ。/ 共同の楽しみ: 仲間と一緒に物語を作り上げることで、協力や一体感が生まれる。 ', 
+        '物語(逆)': '想像の停滞: 物語や遊びに入り込めず、想像力が閉じてしまう。/ 役割の固定化: ごっこ遊びで特定の役割ばかりを押し付けられ、自由さが失われる。/ 孤立感: 仲間の物語に入り込めず、一人だけ外れてしまう。/ 表現の抑圧: 自分の物語や表現を否定され、言葉や想像を出しにくくなる。 ', 
+        '創造的自由(正)': '自由な表現の喜び: 子どもが自分のペースで、好きな方法で創造を楽しんでいる状態。/ 想像力の羽ばたき: 絵、音、動きなどを通じて、内なる世界を広げている。/ 遊びの中の探究: 手を使い、素材と向き合いながら、世界の仕組みを自分なりに理解している。/ 心の解放と安心感: 評価や制約から離れ、のびのびと自分を表現できている。 ', 
+        '創造的自由(逆)': '表現の抑圧: 自由に描いたり遊んだりすることが否定され、自己表現が萎縮している。/ 想像力の停滞: 遊びが型にはまり、創造の喜びが失われている。/ 過剰な干渉や管理: 大人の期待や枠組みによって、子どもの自由な創作が妨げられている。/ 自己否定の芽生え: 自分の表現が受け入れられないことで、自信を失っている。 ', 
+        '収集(正)': '好奇心の芽生え: 子どもが身の回りの世界に興味を持ち、小さな発見を大切にしている。/ 秩序づけの力: 集めたものを分類・整理することで、世界の構造を自分なりに理解しようとしている。/ 記憶と意味づけ: 収集したものに名前をつけたり、物語を与えたりすることで、記憶と感情が結びついていく。/ 安心と愛着の形成: お気に入りのものを集めることで、自己の世界が育まれ、安心感が得られる。 ', 
+        '収集(逆)': '混乱と過剰: 集めすぎて整理できず、秩序よりも混乱が生まれている。/ 執着と手放せなさ: 物へのこだわりが強くなり、手放すことに不安を感じている。/ 外的価値への依存: 自分の興味よりも「評価されるもの」を集めようとしてしまう。/ 孤立感: 収集が他者との共有ではなく、閉じた世界になってしまっている。 ', 
+        '祝祭(正)': '努力の成果を仲間と分かち合う喜び。/ 自分の存在が認められ、誇りを感じる瞬間。/ 仲間の達成を祝うことで、共感と絆が深まる。/ 保育の中での節目や成長を祝う大切な場面。 ', 
+        '祝祭(逆)': '達成が認められず、孤独や不満を感じる。/ 祝うことが形式的になり、心が置き去りになる。/ 他者との比較によって自己否定が生まれる。/ 過剰な期待や注目がプレッシャーになる。 ', 
+        '遊び(正)': '自発性と創造性の発揮: 子どもが自ら遊びを生み出し、自由に展開している状態。/ 発達の統合的促進: 感覚・運動・言語・社会性・情緒が遊びの中で自然に育まれている。/ 安心と関係性の中での遊び: 信頼できる場で、他者との関わりを通じて遊びが深まっている。/ 遊びを通じた世界理解: 模倣・構築・ごっこ遊びなどを通じて、子どもが世界を探索している。 ', 
+        '遊び(逆)': '遊びの停滞や形式化: 自由な遊びが減り、活動が指示や課題に偏っている。/ 遊びへの意欲の低下: 子どもが遊びに興味を示さず、受動的になっている。/ 関係性の不安定さ: 他者との関わりがうまくいかず、遊びが孤立的・衝突的になっている。/ 遊びの評価化: 「うまくできる」「成果を出す」ことが目的化し、遊びの本質が失われている。 ', 
+        '学び(正)': '探究心が芽生えている：子どもが「なぜ？」「どうして？」と問いを持ち始める。/ 思考の芽生え：観察・比較・推論など、認知的な働きが自然に育まれる。/ 試行錯誤を楽しむ：失敗を恐れず、繰り返し挑戦する姿勢。/ 理解の深まり：経験が意味づけられ、知識として定着し始める。/ 他者との学びの共有：友だちや保育者との対話を通じて学びが広がる。 ', 
+        '学び(逆)': '表面的な理解：活動が「やらされ感」になり、深い思考につながらない。/ 探究心の停滞：好奇心が十分に引き出されず、学びが受動的になる。興味が持てず、活動に参加しない。/ 混乱や誤解：情報が多すぎたり整理されず、子どもが混乱する。/ 成果への過度な期待：結果を求めすぎて、過程を楽しむ余裕が失われる。/ 理解の断片化：経験がつながらず、意味づけが不十分。/ 過度な不安や失敗回避：挑戦を避け、学びの機会を逃す。/ 模倣に偏る：自発性が乏しく、他者の真似に終始する。/ 環境との断絶：物や空間に働きかける意欲が低下している。 ', 
+        '身体(正)': '身体への気づきと尊重: 子どもが自分の身体に意識を向け、動きや感覚を楽しんでいる。/ 健康と安定の基盤: 呼吸・循環・姿勢などが安定し、身体が安心の場にある。/ 自然との調和: 裸足で地面に立つ、風を感じるなど、身体を通じて自然とつながっている。/ 発達の準備状態: 身体が整っていることで、遊び・学び・関係性への準備ができている。 ', 
+        '身体(逆)': '身体への無関心または過敏: 自分の身体に気づけず、動きがぎこちない／逆に過剰に反応してしまう。/ 健康の不安定さ: 疲れや不調、姿勢の崩れなどが、活動や情緒に影響している。/ 自然との断絶: 室内中心の生活で、身体が自然のリズムから切り離されている。/ 発達の停滞: 身体の準備が整っておらず、遊びや学びに入りづらい状態。 ', 
+        '響き(正)': '音への感受性：子どもが音を聴き、感じ、楽しむ姿。自然音や楽器の響きに心を開く。/ 身体と音の調和：太鼓を叩く、歌う、踊るなど、身体表現と音が結びつく。/ 共同のリズム：仲間と一緒に音を鳴らすことで、協調性や一体感が育まれる。/ 感情の解放：音を通じて喜びや安心を表現し、情緒の安定につながる。 ', 
+        '響き(逆)': '音への拒否や過敏：大きな音や不規則な響きに不安を感じる。/ 調和の乱れ：リズムが合わず、集団活動での一体感が得られにくい。/ 表現の停滞：音を楽しむ余裕がなく、活動が受動的になる。/ 環境の不整合：騒音や不快な音が多く、安定した感覚体験が難しい。 ', 
+        '手(正)': '器用さと集中力の発揮: 手先を使った活動に没頭し、細かな操作ができる状態。/ 創造の実践: 折る・切る・貼る・描くなど、手を通じてアイデアが形になる。/ 素材との対話: 手で触れることで、素材の性質を理解し、工夫が生まれる。/ 達成感と自己効力感: 「自分の手でできた」という実感が、自己肯定感につながる。 ', 
+        '手(逆)': '不器用さや焦り: 細かな作業がうまくいかず、苛立ちや自信の低下が起きている。/ 手の使い方への不安: 道具の扱いに戸惑い、活動への意欲が下がっている。/ 過度な干渉や指示: 大人の手が先に動いてしまい、子どもの手の自由が奪われている。/ 完成へのこだわり: 「うまく作ること」が目的化し、創造の楽しさが失われている。 ', 
+        '声(正)': '発語の芽生え：言葉になり始める音、意味のある発声が見られる。/ 自己表現の始まり：自分の思いや欲求を声で伝えようとする意志。/ 関係への働きかけ：他者に向かって声を発することで関係が始まる。/ 環境との応答：音や言葉を通じて周囲とやりとりする姿勢。/ 情緒の表出：喜びや不満などが声に乗って現れる。 ', 
+        '声(逆)': '発語の停滞：言葉が出にくく、発声が乏しい。/ 自己表現の抑制：思いや欲求を声に乗せることが難しい。/ 関係の閉じ：他者とのやりとりが声を通じて始まらない。/ 環境への反応の希薄化：音や言葉への応答が少ない。/ 情緒の沈黙：感情が声に乗らず、内面が閉じている。 ', 
+        '繋がり(正)': '信頼が育まれている：子ども同士、あるいは保育者との間に安心感がある。/ 共感的なやりとり：言葉・表情・行動を通じて互いに気持ちを受け止め合う。/ 協力や共有が生まれている：遊びや活動の中で、役割分担や助け合いが見られる。/ 関係の継続性：一時的な関わりではなく、継続的な絆が育っている。/ 環境との調和：人との関係だけでなく、場や物との関係も安定している。 ', 
+        '繋がり(逆)': '孤立感がある：他者との関わりが希薄で、ひとりで過ごす時間が多い。/ 共感の不足：気持ちが伝わらず、すれ違いや衝突が起きやすい。/ 関係の断絶：一度築いた関係が途切れてしまう、または築けない。/ 環境との不一致：場や物との関係が不安定で、落ち着かない様子が見られる。/ 関係への不安や拒否：関わりを避けたり、拒否的な態度が見られる。 ', 
+        '小さな勇気(正)': '段階的な挑戦への意欲: 子どもが自分のペースで新しいことに挑戦しようとしている。/ 不安と希望の共存: 少し怖いけれど「やってみたい」という気持ちが前に出ている。/ 自律性の芽生え: 大人の手を借りず、自分で一歩を踏み出そうとする姿勢。/ 日常の中の達成感: 靴を履く、階段を登る、初めての道具を使うなど、小さな成功が積み重なっている。 ', 
+        '小さな勇気(逆)': '挑戦への不安や回避: 新しいことに対して強い不安があり、避けようとしている。/ 自信の揺らぎ: 「できないかも」「失敗したらどうしよう」という気持ちが前に出ている。/ 過度な保護や介入: 大人が先回りしてしまい、子どもの挑戦の機会が奪われている。/ 挑戦の強制化: 「やらなきゃ」「できて当然」といったプレッシャーが、勇気を萎縮させている。 ', 
+        '安らぎ(正)': '安心できる場：子どもが心身を休め、安心して身を委ねられる環境。/ 情緒の安定：活動と活動の間にくつろぎの時間があることで、気持ちが落ち着く。/ 信頼関係の基盤：保育者や仲間との関わりの中で「守られている」という感覚が育つ。/ 回復と充電：休息を通じて次の活動へのエネルギーを蓄える。 ', 
+        '安らぎ(逆)': '落ち着けない環境：騒がしさや不安要素が多く、子どもが安心できない。/ 情緒の不安定：休息の機会が不足し、気持ちが揺れやすくなる。/ 信頼の揺らぎ：安心の場が確保されず、保育者や仲間との関係に不安が生じる。/ 疲労や緊張の蓄積：休むことができず、次の活動への意欲が低下する。 ', 
+        '真似っこ(正)': '模倣による学びの活性化: 子どもが保育者や仲間の動きを自然に模倣し、理解と習得が進んでいる。/ 関係性の中で育まれる模倣: 信頼や安心の場で、模倣が共感やつながりの手段として機能している。/ 身体的・言語的発達の促進: 手遊び、言葉の繰り返し、表情の模倣などを通じて、発達が支えられている。/ 遊びの中での自然な模倣: 模倣が強制ではなく、遊びの流れの中で自発的に行われている。 ', 
+        '真似っこ(逆)': '模倣の停滞や拒否: 他者の動きに興味を示さず、模倣が起きにくい状態。/ 関係性の不安定さ: 信頼関係が築かれていないため、模倣がぎこちなく、表面的になっている。/ 模倣の強制や形式化: 「こうしなさい」「真似しなさい」といった指示が先行し、模倣が学びではなく義務になっている。/ 模倣の誤解や混乱: 子どもが模倣した内容が誤って受け取られたり、否定されたりすることで、混乱や萎縮が生じている。 ', 
+        '温かさ(正)': '信頼が育まれている：子ども同士、あるいは保育者との間に安心感がある。/ 共感的なやりとり：言葉・表情・行動を通じて互いに気持ちを受け止め合う。/ 協力や共有が生まれている：遊びや活動の中で、役割分担や助け合いが見られる。/ 関係の継続性：一時的な関わりではなく、継続的な絆が育っている。/ 環境との調和：人との関係だけでなく、場や物との関係も安定している。 ', 
+        '温かさ(逆)': '孤立感がある：他者との関わりが希薄で、ひとりで過ごす時間が多い。/ 共感の不足：気持ちが伝わらず、すれ違いや衝突が起きやすい。/ 関係の断絶：一度築いた関係が途切れてしまう、または築けない。/ 環境との不一致：場や物との関係が不安定で、落ち着かない様子が見られる。/ 関係への不安や拒否：関わりを避けたり、拒否的な態度が見られる。 ', 
+        '笑顔(正)': '情緒の安定：子どもが安心し、穏やかな気持ちで過ごしている状態。/ 関係性の成熟：仲間との関係が安定し、協調的な関わりが生まれている。/ 信頼の可視化：保育者との信頼関係が笑顔として表出されている。/ 場の温かさ：保育環境が情緒的に満たされており、安心して活動できる。/ 共感と調和：他者の気持ちに寄り添い、自然な笑顔が生まれる関係性。 ', 
+        '笑顔(逆)': '情緒の揺らぎ：不安や緊張があり、笑顔が減っている。/ 関係の不安定さ：仲間との関係に摩擦や距離が生じている。/ 信頼の欠如：保育者との関係に不安があり、安心感が得られていない。/ 場の冷たさ：環境が情緒的に満たされておらず、孤立感が生まれやすい。/ 表面的な笑顔：本来の安心感が欠けており、笑顔が「演技」になっている可能性。 ', 
+        '共鳴(正)': '感性が響き合っている：言葉・音・表情・動作などが互いに呼応している。/ 関係が調和している：相手の存在に応じて、自分の表現が自然に変化する。/ 表現が連動している：音楽・遊び・対話などで、互いの表現がつながっている。/ 共感的な交流がある：気持ちや意図が伝わり、受け止め合う関係が育っている。/ 環境との一体感：場や物との関係も含めて、全体が調和している。 ', 
+        '共鳴(逆)': '感性の断絶：互いの表現がすれ違い、響き合わない。/ 関係の不調和：相手の存在に応じた変化が起きず、固定的なやりとりになる。/ 表現の孤立：自分の表現が周囲とつながらず、独立している。/ 共感の不足：気持ちや意図が伝わらず、誤解や衝突が起きやすい。/ 環境との違和感：場や物との関係が不安定で、落ち着かない。 ', 
+        '思いやり(正)': '他者への気づきと配慮: 子どもが相手の気持ちを察し、優しく接することができている。/ 道徳性の芽生え: 「してあげたい」「助けたい」という気持ちが自然に行動に表れている。/ 関係性の成熟: 相手との違いを受け入れ、共感や協力が生まれている。/ 安心の場で育まれる優しさ: 思いやりが強制ではなく、信頼の中で育っている。 ', 
+        '思いやり(逆)': '気づきの欠如: 他者の気持ちに気づけず、無意識に傷つけてしまうことがある。/ 道徳性の混乱: 「やらなきゃ」「褒められたい」という動機が先行し、本質的な思いやりが薄れている。/ 関係性の不安定さ: 相手との距離感がつかめず、関係がぎこちなくなっている。/ 優しさの押しつけ: 「良い子でいなきゃ」というプレッシャーが、自由な感情表現を妨げている。 ', 
+        '思い(正)': '感情の言語化：喜び・不安・期待などを言葉や表情で伝えられる/ 自己理解の進展：自分の気持ちを整理し、内面を意識できる/ 関係への働きかけ：思いを言葉にすることで、他者との理解が深まる/ 内面の可視化：心の中の感情が外に出て、共有される/ 発達の橋渡し：感情から言葉へ、言葉から思考へとつながるプロセス ', 
+        '思い(逆)': '感情の抑制：気持ちを言葉にできず、内面に閉じ込めてしまう/ 自己理解の停滞：心の整理が難しく、混乱や不安が続く/ 関係のすれ違い：思いが伝わらず、誤解や孤立が生じやすい/ 内面の不可視化：感情が表に出ず、周囲に理解されにくい/ 発達の停滞：感情から言葉への橋渡しが難しく、思考の展開が阻害される ', 
+        '育ち(正)': '発達の歩み・成長の連続性・変化の受容・成熟へのプロセス / 発達の自然な進展：身体・情緒・認知・社会性がバランスよく育っている / 小さな変化の積み重ね：日々の経験が次の段階へとつながっている/ 挑戦と達成の循環：新しい課題に挑み、達成感を得ることで次の成長へ進む/ 環境との調和：場や人との関わりが育ちを支えている/ 未来への希望：育ちが次の可能性を開いていく ', 
+        '育ち(逆)': '発達の停滞：次の段階へ進みにくく、同じ課題に留まっている/ 変化への不安：新しい挑戦を避け、安心できる範囲に閉じこもる/ バランスの乱れ：身体・情緒・認知のいずれかが偏って育っている/ 環境との不一致：場や人との関わりが育ちを阻害している/ 未来への不安：成長の見通しが立ちにくく、停滞感がある ', 
+        '種(正)': '可能性の萌芽：子どもの中に新しい力や関心が芽生えている/ 希望の始まり：未来に向けた期待や喜びが感じられる/ 育てる意志：保育者や環境が子どもの成長を支えようとする姿勢/ 環境との調和：土壌（場）や水（関わり）が整い、芽吹きが促される/ 小さな始まりの価値：まだ小さくても、未来につながる重要な一歩 ', 
+        '種(逆)': '可能性の停滞：新しい力や関心が育ちにくい/ 希望の欠如：未来への期待が見えず、不安や停滞感が強い/ 育てる意志の不足：保育者や環境が支えきれず、子どもの芽が伸びない/ 環境の不一致：土壌が硬く、水が不足するように、場や関わりが整わない/ 始まりの見失い：小さな芽吹きを見逃し、成長の機会を逸する ', 
+        '意欲(正)': '挑戦への前向きさ：新しい活動や課題に積極的に取り組む/ 内発的動機づけ：自分の興味や関心から行動が生まれる/ 持続する集中：やりたい気持ちが行動を支え、継続力につながる/ 自己表現の推進力：意欲が表情や行動に現れ、周囲に伝わる/ 環境との相互作用：場や人との関わりが意欲をさらに高める ', 
+        '意欲(逆)': '挑戦の回避：新しい活動や課題に消極的で、取り組みを避ける/ 外発的動機づけに依存：自分の興味よりも他者の指示や報酬に左右される/ 集中の途切れ：やる気が続かず、途中で投げ出す傾向/ 自己表現の停滞：意欲が表情や行動に現れず、周囲に伝わらない/ 環境との不一致：場や人との関わりが意欲を阻害している ', 
+        '風(正)': '自然とのつながり: 子どもが風に触れ、自然の動きやリズムを身体で感じている状態。/ 感覚の開放: 頬に風を受け、髪が揺れ、葉が舞うことで、触覚や視覚が刺激されている。/ 変化への気づき: 風の強弱や方向の違いを感じ取り、環境の変化に敏感になっている。/ 遊びのきっかけ: 風車や布、葉っぱなどを使って、風と遊ぶ創造的な活動が生まれる。 ', 
+        '風(逆)': '感覚の過敏または鈍化: 風の刺激が強すぎて不快になったり、逆に風に気づかないほど感覚が閉じている。/ 自然との断絶: 室内に閉じこもりすぎて、風や空気の流れを感じる機会が減っている。/ 変化への不安: 風の動きが「予測できないもの」として不安を呼び起こしている。/ 遊びの停滞: 外遊びや風との関わりが減り、感覚的な刺激が乏しくなっている。 ', 
+        '根(正)': '安心の基盤：子どもが安心して身を委ねられる「安全基地」が確立されている。/ 信頼関係の育成：保育者や仲間との関わりの中で、信頼が深まり安定感が育まれる。/ 持続する安定：生活リズムや環境が安定し、子どもの情緒が落ち着いている。/ 成長を支える土台：根がしっかり張ることで、発達や挑戦への準備が整う。 ', 
+        '根(逆)': '基盤の揺らぎ：安心できる場が不十分で、子どもが不安定になりやすい。/ 信頼の欠如：保育者や仲間との関係に不安があり、安心感が得られない。/ 生活の不安定さ：リズムや環境が乱れ、情緒の安定が難しい。/ 成長の停滞：土台が弱いために、挑戦や発達が進みにくい。 ', 
+        '雨(正)': '自然との感覚的なつながり: 雨の音、冷たさ、匂いなどを通じて、子どもが自然を全身で感じている。/ 季節の移ろいへの気づき: 雨が春・梅雨・秋などの季節を知らせ、生活リズムに彩りを与えている。/ 感覚統合の促進: 雨に触れることで、触覚・聴覚・視覚が統合され、身体と心が調和している。/ 環境への好奇心と安心: 雨の日でも外に出てみたい、濡れてみたいという意欲が育まれている。 ', 
+        '雨(逆)': '感覚過敏や不快感: 雨の刺激が強すぎて、子どもが不安や拒否を示している。/ 季節感の断絶: 室内中心の生活で、雨や天候の変化に気づきにくくなっている。/ 環境との距離感: 雨の日は「避けるべきもの」として扱われ、自然との関係が希薄になっている。/ 生活リズムの乱れ: 雨によって予定が崩れたり、活動が制限されることで、リズムが不安定になっている。 ', 
+        '実り(正)': '達成感の獲得：活動や挑戦の結果が形となり、子どもが満足感を得ている/ 成果の可視化：作品・行動・関係などが目に見える形で残る/ 努力の結晶：積み重ねた挑戦が成果につながり、次の成長を支える/ 自己肯定感の高まり：自分の力を認め、誇りを持つことができる/ 次の挑戦への意欲：成果が次のステップへの動機づけになる ', 
+        '実り(逆)': '達成感の欠如：活動の結果が見えず、満足感が得られない/ 成果の不可視化：努力が形にならず、子ども自身や周囲に伝わらない/ 停滞感：挑戦が成果につながらず、意欲が低下する/ 自己肯定感の不足：自分の力を認められず、不安や自信の欠如につながる/ 次の挑戦への躊躇：成果が見えないために、次のステップに進みにくい '
+    };
+
+
+// DOM要素のカード配列（シャッフル後に作成）★
+let cardElements = [];
+let draggedCard = null;
+let draggedIndex = -1;
+let initialX = 0;
+let initialY = 0;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function myFunction() {drawCards() }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// シャッフル開始★
+function startShuffle() {
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言（if外）
+    // Q長Chk
+    let text = document.getElementById('question').value;
+    if (text.length < 15) {
+        resultElement.innerHTML = "質問を詳しく入力してください（15文字以上）。";
+        document.getElementById('shuffleBtn').disabled = false;
+        return;
+    }
+    document.getElementById('suggest-theme').disabled = true;
+    shuffle(cards); // 内部で機械的ランダム配置完了
+        resultElement.innerHTML = "シャッフルして「これで生成」ボタンを押してください。<br>※シャッフルができない時、不具合のある時は非常ボタンを押すと自動でシャッフルしてカードをひきます。";
+    document.getElementById('table').style.display = 'block';
+    scatterCards(); // 散らばった裏面カード出現
+    document.getElementById('drawBtn').disabled = false; // 有効化
+    document.getElementById('shuffleBtn').disabled = true; // シャッフルボタン無効
+}
+// ★インタラクティブシャッフル用END★
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+</script>
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┛ -->
+
+
+<hr>
+<h2><strong>プロンプト：</strong></h2>
+<textarea id="textoo" name="textoo" rows="5" cols="40" style="line-height:160%;"></textarea><br><button id="pcp" class="calc-btn" onclick="copyPrompt();">クリップボードにコピー</button><br>
+★<a href="https://chatgpt.com/">ChatGPT</a>、<a href="https://claude.ai/">Claude(クロード)</a>、<a href="https://gemini.google.com/app">Google Gemini</a>、<a href="https://www.perplexity.ai/">perplexity</a>、他に、リンクは貼れませんが、X(旧ツイッター)のGrok、Microsoft Copilot(コパイロット) 、でも動作します。<br>※Google検索のAIモードでは動作しませんでした。
+<hr>
+
+
+
+<div id="ksn" class="am2"></div>
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+</script>
+
+
+
+
+<!-- 
+プロンプト構造
+
+
+
+【Meta 層】AIが何をすべきか
+あなたは保育士向けの物語生成エンジンです。
+以下の「数値構造」と「解釈タイプ」をもとに、
+5シーンの保育物語を生成します。
+
+・カード象徴は必ず物語の芯として扱う  
+・ユーザー選択した物語タイプ（解釈フィルター）を尊重  
+・物語の“語り口”はフレームに合わせて調整  
+
+
+【Data 層】数値データ（JSで生成）
+cards: {...}
+scenes: [...]
+coherence: 0.88
+tension: 0.31
+phase_pattern: [...]
+
+
+
+【Filter 層】ユーザー選択タイプ＋フレーム
+selected_type: "一貫成長"
+frame: "目標への一貫した前進と突破"
+keywords: ["挑戦", "積み重ね", "達成"]
+avoid: ["迷い", "後退"]
+arc: "右肩上がり（勢いが増していく）"
+
+
+【Control 層】Narrative Regulator（NR）（調整結果）
+nr_direction: {
+  coherence: +0.15,   // 一貫性を強く
+  tension:   +0.45    // 緊張感を少し上げる
+},
+nr_range: "medium",
+symbol_adjust: {
+  seed: "探索→前進のきっかけ",
+  engine: "繋がり→協力して挑む力",
+  resolve: "循環(逆)→停滞から抜け出す挑戦"
+}
+
+【Output指示】
+出力形式：
+① 5シーンのあらすじ
+② 保育活動への置き換え案（導入・展開・協力・気づき・終わり）
+③ 子ども向け簡易ナレーション（必要なら）
+
+
+
+
+
+ -->
+
+</body>
+</html>

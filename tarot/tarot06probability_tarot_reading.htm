@@ -1,0 +1,700 @@
+﻿<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>確率を出すタロット占い - chatGPT連携</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<style>
+body {line-height:160%;}
+.am2 {background: #eaf4ff; padding: 10px 10px; opacity: 0.9;}
+.tarolin {background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {background: #eaf4ff; padding: 10px 10px;}
+form dl dt {width: 120px; height: 30px; padding: 10px 0; line-height: 10px; float: left;}
+form dl dd {padding: 5px 0; margin: 0;}
+.box {box-sizing: border-box; width: 70px !important; height: 30px !important; margin: 0 !important; padding: 0 10px !important;}
+.calc-btn {width: 110px; height: 60px; border: 1px solid #333;}
+.calc-btn:hover { cursor: pointer; width: 110px; height: 60px;}
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#999999;margin:10px;line-height:190%;}
+@keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+    #table { 
+      position: absolute; /* relative;  */
+      width: 300px; 
+      height: 400px; 
+      border: 2px dashed #ccc; 
+      margin: 20px auto; 
+      background: #f9f9f9; background-image: url(../img/ita.gif); 
+      overflow: hidden;
+      touch-action: none; /* モバイルでスクロールを防ぐ */
+    }
+
+.card {
+  position: absolute;
+  width: 50px;
+  height: 85px;
+  cursor: move;
+  user-select: none;
+  transition: transform 0.3s ease, left 0.3s ease, top 0.3s ease; 
+/*   transition: all 0.3s ease-out; ← これが「ふわっ」と動く秘密 */
+  touch-action: none;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+    .card:hover { transform: scale(1.05); }
+    .card.dragging { opacity: 0.5; transform: rotate(5deg); z-index: 100; }
+    .card img { width: 100%; height: 100%; object-fit: cover; }
+    #shuffled-area { display: none; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #results { margin-top: 20px; }
+  #factCanvas {
+    position: fixed;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; の省略 */
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none; /* 下の要素をクリックできるように */
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+<canvas id="factCanvas"></canvas>
+
+
+<img src="../img/marseille/title.png">
+<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm">
+<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+
+<h3>確率を出してくれるタロット占い・ケルト十字法</h3>
+<img src="../img/ti8.jpg" width="200" height="" align="right">
+マルセイユタロットの大アルカナ22枚のみで占います。｢確率を教えて｣等を質問欄に入れたほうが確率を出してくれます。入れない場合は、各カード解釈の信頼度の確率を出したりします。<br><br><br>
+<label>「ほぼ確実」の確率閾値（%）：<input type="number" id="threshold" min="50" max="100" value="85" required style="width: 60px;"><small>（例: 85以上を「ほぼ確実」とする。50-100の間で調整。)※ほぼ確実が85％は甘いですが、最初95％以上に設定していたらちょっと厳しすぎたので。</small></label><br><br>
+<div id="table"></div>
+<div id="shuffled-area"></div>
+<label>質問：できるだけ具体的にどうぞ<br>
+<textarea id="question" name="q" rows="20" cols="40" placeholder="例: 私は参政党の支持者で、2025年の参議院選挙で参政党が10議席以上獲得する確率を知りたいです。党の主な政策である消費税の段階的廃止、社会保険料の負担軽減（国民負担率35%上限）、教育・少子化対策（子供の個性に寄り添った教育環境整備）、食と健康の推進（添加物規制など）が実現する可能性はどのくらいですか？党首の神谷宗幣氏のリーダーシップが党の支持率拡大にどれだけ寄与する確率は？また、外国人受け入れ政策の厳格化（日本人ファーストの理念）が有権者の反応を呼び、党の地方創生戦略（地域活性化）が成功する見込みは？全体として、参政党の将来性と政策実現の確率を詳しく教えてください。&#10;" style="line-height:160%;"></textarea></label>
+<br><button id="suggest-theme" class="calc-btn" onclick="suggestRandomTheme()">ランダムテーマ提案</button>
+<hr>
+
+<span id="kekka" style="background-image: url(../img/graa.gif);"></span>
+  <div id="results"></div>
+
+<button id="shuffleBtn" class="calc-btn" onclick="startShuffle()">シャッフル開始</button>
+<button id="drawBtn" class="calc-btn" onclick="drawCards()" disabled>これで占う</button><br>
+<button id="hiku" onclick="myFunction()">非常ボタン</button>
+
+
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+document.getElementById('table').style.display = 'none';
+
+// ★ファクトチェック効果: IIFEを通常関数に変更（即時実行をオフ）
+function startEffect() {
+  const canvas = document.getElementById('factCanvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  resize();
+
+  function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+  }
+  window.addEventListener('resize', resize);
+
+  const start = performance.now();
+  const duration = 3000; // 3秒
+  const code = ['fetch("/api")', 'if(valid) return true;', 'console.log("check")', 'verify()', '0xAF', 'status:200'];
+  const lines = [];
+
+  function spawnLine() {
+    lines.push({
+      text: code[Math.floor(Math.random() * code.length)],
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight,
+      life: 0,
+      maxLife: 400 + Math.random() * 600,
+    });
+  }
+
+  for (let i = 0; i < 50; i++) spawnLine();
+
+  let last = performance.now();
+  requestAnimationFrame(draw);
+
+  function draw(now) {
+    const dt = now - last;
+    last = now;
+
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.fillStyle = 'rgba(10,20,30,0.5)';
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+    ctx.font = '14px monospace';
+    ctx.textBaseline = 'top';
+
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const l = lines[i];
+      l.life += dt;
+      const alpha = 1 - l.life / l.maxLife;
+      ctx.fillStyle = `rgba(150,255,180,${alpha * 0.8})`;
+      ctx.fillText(l.text, l.x, l.y);
+      if (l.life > l.maxLife) {
+        lines.splice(i, 1);
+        spawnLine();
+      }
+    }
+
+    if (now - start < duration) {
+      requestAnimationFrame(draw);
+    } else {
+      // 3秒後：Canvasをフェードアウト→非表示
+      canvas.style.transition = 'opacity 0.6s ease';
+      canvas.style.opacity = '0';
+      setTimeout(() => (canvas.style.display = 'none'), 600);
+    }
+  }
+}
+
+const randomThemes = [
+    "2025年の世界経済成長率が3%を超える確率は？インフレ率の上昇要因（例: エネルギー危機や供給チェーン問題）とその影響を分析してください。金利政策の変更が景気回復に寄与する可能性は？",
+    "気候変動による2026年の海面上昇が沿岸都市に与える影響の確率を教えてください。例: 東京やニューヨークの洪水リスク、対策の成功率（例: 防波堤建設や移住政策）。全体的な適応戦略の有効性は？",
+    "AI技術の進化で、2030年までに人間の仕事の30%が自動化される確率は？影響を受ける職種（例: 製造業やクリエイティブ分野）と、再教育プログラムの成功率を詳しく。",
+    "次回の米大統領選挙で特定の候補（例: トランプ再選）の勝利確率は？外交政策（例: 中国との貿易戦争）の変更がグローバル市場に与える影響の可能性を分析。",
+    "パンデミック再発（例: 新型変異株）の確率と、グローバルワクチン配布の成功率は？WHOの対応と、各国経済への影響を未来予想してください。",
+    "再生可能エネルギーの普及で、2040年までに化石燃料依存が50%減少する確率は？障壁（例: コストや政治的抵抗）と、成功シナリオの環境・経済効果を。",
+    "宇宙探査の進展で、2035年までに火星移住が実現する確率は？SpaceXやNASAのプロジェクトの成功要因と、リスク（例: 放射線被曝や心理的影響）を詳しく。",
+    "暗号通貨（例: Bitcoin）の価格が2026年に10万ドルを超える確率は？規制強化や市場変動の影響を分析し、投資戦略の有効性を教えてください。",
+    "少子高齢化社会で、2050年までに日本が高齢者比率40%を超える確率と、社会保障制度の持続可能性は？移民政策やAI介護の導入効果を未来予想。",
+    "メタバースの普及で、2030年までに仮想経済が現実経済の20%を占める確率は？プライバシー問題や教育・エンタメへの影響を詳しく分析。"
+//    "",
+
+
+];
+
+function suggestRandomTheme() {
+    const randomIndex = Math.floor(Math.random() * randomThemes.length);
+    const selectedTheme = randomThemes[randomIndex];
+    document.getElementById('question').value = selectedTheme;
+}
+
+
+    // 22枚の大アルカナの名称をマルセイユタロット版で定義（0から21番）
+    let cards = [
+        { name: '00愚者' },      // 0
+        { name: '01魔術師' },  // 1
+        { name: '02女教皇' }, // 2
+        { name: '03女帝' },   // 3
+        { name: '04皇帝' },   // 4
+        { name: '05教皇' }, // 5
+        { name: '06恋人' },    // 6
+        { name: '07戦車' },   // 7
+        { name: '08正義' },       // 8
+        { name: '09隠者' },    // 9
+        { name: '10運命の輪' }, // 10
+        { name: '11力' },      // 11
+        { name: '12吊られた男' }, // 12
+        { name: '13死神' },         // 13
+        { name: '14節制' },    // 14
+        { name: '15悪魔' },     // 15
+        { name: '16塔' },     // 16
+        { name: '17星' },      // 17
+        { name: '18月' },      // 18
+        { name: '19太陽' },       // 19
+        { name: '20審判' },     // 20
+        { name: '21世界' }      // 21
+    ];
+
+    // カード意味のマップ（ポジティブ解釈）
+    const meanings = {
+        '愚者(正)': '無限の可能性と自由な精神、新しい冒険の始まり、怖れず一歩を踏み出して創造的な未来を開こう、無邪気な楽天家で可能性を広げよう',
+        '愚者(逆)': '内面的な自由を再発見、慎重さを加えて安定した冒険を楽しもう、夢想を現実的に見直し成長の機会を掴もう',
+        '魔術師(正)': '創造力と自信の溢れるスタート、才能を活かして素晴らしい始まりを、能力を信じて積極的に行動しよう',
+        '魔術師(逆)': '準備を整え直すタイミング、自信を養って持続的な成長を、小さな一歩から自分を信じて始めよう',
+        '女教皇(正)': '直観と内面的な智慧の輝き、冷静な判断で良い結果を、内なる英知を信頼して穏やかに進もう',
+        '女教皇(逆)': '過去の智慧を昇華させる好機、行動への移行で新しい可能性を、学んだことを活かして積極的に一歩を',
+        '女帝(正)': '豊かさと創造性の溢れ、生産的な発展と家庭的な幸せを、魅力的に振る舞って周囲を喜ばせよう',
+        '女帝(逆)': '休息を通じてバランスを整え、感情の揺らぎをコントロール、我儘を優しさに転換して満足を得よう',
+        '皇帝(正)': '安定と信頼の基盤、順風満帆な進展と社会的な達成感を、責任を果たして着実に前進しよう',
+        '皇帝(逆)': '柔軟性を加えて安定を強化、過信を謙虚さに変えて調和を、協力的な姿勢で自分らしい道を探求しよう',
+        '教皇(正)': '慈悲と優しさが尊敬を集め、人道的な判断で寛大な心を、法を守る姿勢で自信を持って進めよう',
+        '教皇(逆)': '保守的な考えを柔軟に更新、頑固さを手放して信頼を、不信を信頼に変えて関係を深めよう',
+        '恋人(正)': '運命的な選択と調和、情熱的な恋愛と純粋な喜びを、最善の選択を信じてポジティブに適応しよう',
+        '恋人(逆)': '迷いを解消する機会、誘惑を乗り越えて誠実な関係を、決断を明確に自分らしい選択を優先しよう',
+        '戦車(正)': '行動力と意志の強さが勝利へ、迅速な進展と自信を持って、目的地を明確に手綱を握って前進しよう',
+        '戦車(逆)': '目的を再確認し軌道修正、無気力を活力に変えて、精神と物質の調和で穏やかに目指そう',
+        '正義(正)': '冷静な判断と均衡、公正で平等な関係を築き、誠実さを心がけて第三の道を開こう',
+        '正義(逆)': '公平さを回復するタイミング、不均衡を修復して前向きに、不正を正義に変えて成長の糧にしよう',
+        '隠者(正)': '精神的な旅が真理を照らし、内観と慎重さで悟りを、静かな時間を活かして本質を見つけよう',
+        '隠者(逆)': '現実とのつながりを強め、消極性を積極性に転換、閉鎖的な状態から前向きな視点で抜け出そう',
+        '運命の輪(正)': '結果が現実化し幸運の節目、柔軟に受け止めてチャンスを、社会的な成功をポジティブに楽しもう',
+        '運命の輪(逆)': '時期を待つ智慧で内面的成長、アクシデントを学びに変えて、急激な変化を調和に導こう',
+        '力(正)': '不屈の精神と理性が目標達成、内なる力を信じてやり遂げ、強い意思で本能を制しよう',
+        '力(逆)': '力不足を忍耐で補い、諦めを希望に変えて、優柔不断さを決断力に育て成長しよう',
+        '吊られた男(正)': '試練を通じた努力が報われ、精神的な成長と忍耐強く、休養を活かして動ける時へ準備しよう',
+        '吊られた男(逆)': '報われない苦悩を解放、投げやりを前向きな視点に変え、心の充足を求めて新たな努力を始めよう',
+        '死神(正)': '変革と再起のターニングポイント、終焉を再生のチャンスに、変化をポジティブに受け入れて掴もう',
+        '死神(逆)': '休息を通じて英気を養い、再生と起死回生の好転、停止を活力あるスタートに変えよう',
+        '節制(正)': '調和と循環が順調な流れ、管理された生活でバランスを、丁寧なコミュニケーションで時間を味方につけよう',
+        '節制(逆)': '浪費を節約の学びに、不均衡を調和に変えて、惰性を活力ある行動に転換しよう',
+        '悪魔(正)': '強い意志が変化を創造、誘惑を乗り越えて自立を、依存を成長の糧にポジティブに活かそう',
+        '悪魔(逆)': '解放と再生の好機、執着を手放して目覚めの喜びを、欲望の支配から自分らしいバランスを',
+        '塔(正)': '突然の変化が再構築のチャンス、ショックを学びに変えて、壊れるものを委ねて新しい世界へ',
+        '塔(逆)': '不安定を安定へのステップ、緊迫状態を冷静に扱い、受難を克服の機会にポジティブに調整しよう',
+        '星(正)': '希望と直感が閃きを生み、目標への憧れを満たし、インスピレーションを信じて意志を強く持とう',
+        '星(逆)': '失望を新たな希望に変え、高望みを現実的な目標に、無気力を活力に回復してオープンマインドを',
+        '月(正)': '無意識の探求が新しい発見、不安を内省の機会に、タブーを解放して心の平穏を問いかけよう',
+        '月(逆)': 'トラウマの解消と回復の好転、本能をコントロールして葛藤を、脱却の明晰さで不安を自信に変えよう',
+        '太陽(正)': '天真爛漫な喜びと成功、無邪気さを活かして明るい未来を、感情を表現して成果を心から楽しもう',
+        '太陽(逆)': '不調を回復のチャンスに、落胆を前向きな行動に変え、悪化を好転の糧にポジティブに進めよう',
+        '審判(正)': '復活と祝福が再生を促し、再チャレンジの機会を与え、決断の時を活かして行いを振り返ろう',
+        '審判(逆)': '警告を改善のヒントに、罰を学びに変えて暗闇を光へ、冷静に振り返って再起の扉を開こう',
+        '世界(正)': '完成と成功が理想郷を実現、充足感を与えて完璧な達成を、感謝の心で螺旋の旅を楽しもう',
+        '世界(逆)': '未完成を完成へのステップ、惰性を活力に変えて、物足りなさを満足の源泉に柔軟に前進しよう'
+    };
+
+// DOM要素のカード配列（シャッフル後に作成）★
+let cardElements = [];
+let draggedCard = null;
+let draggedIndex = -1;
+let initialX = 0;
+let initialY = 0;
+
+function myFunction() { //Q長Chk,Qの改行を;に,22枚の大アルカナの名称をマルセイユタロット版で定義（0から21番）,Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル,視覚効果,シャッフル後、最初の10枚を選択,各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て,カード意味のマップ～アウトプットまで
+    const resultElement = document.getElementById('kekka');  // ← ifブロック外に移動（関数冒頭で1回だけ宣言）
+// Q長Chk
+    let text = document.getElementById('question').value;
+    if (text.length < 15) {
+        resultElement.innerHTML = "質問を詳しく入力してください（15文字以上）。";
+        document.getElementById('hiku').disabled = false;
+        return;
+    }
+
+    // 閾値チェック
+    const threshold = document.getElementById('threshold').value;
+    if (!threshold || threshold < 50 || threshold > 100) {
+        const resultElement = document.getElementById('kekka');
+        resultElement.innerHTML = "閾値を50-100の間で入力してください。";
+        document.getElementById('hiku').disabled = false;
+        return;
+    }
+
+    // Qの改行を;に
+    let textArray = text.split('\n');
+    let newText = textArray.join(';');
+
+
+
+    // ★ここでファクトチェックエフェクト発動
+    startEffect();
+    
+    // エフェクト完了後に結果出力（setTimeoutで同期）
+    setTimeout(() => {
+        // ... (output生成と resultElement.innerHTML = output; など)
+    }, 5000);  // 5秒遅延（エフェクト持続時間分）
+
+    // シャッフル後、最初の10枚を選択
+    shuffle(cards); 
+    const selectedCards = cards.slice(0, 10);
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+selectedCards.forEach(card => {card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆'; });
+
+    // 結果をHTMLの<span id="kekka">に挿入
+    let output = '<h3>Selected 10 cards from 22 (Marseille Tarot):</h3><span style=\"color:red;\">カードの意味は気にしないでください。ここはざっと読み飛ばしてください。</span>';
+    selectedCards.forEach((card, index) => {
+        output += '<div class="bgb">';
+        if(index===0){output+="現在の状況"}
+        if(index===1){output+="援助(助けになるもの)"}
+        if(index===2){output+="過去"}
+        if(index===3){output+="最近の出来事"}
+        if(index===4){output+="起こりうる未来"}
+        if(index===5){output+="近い未来"}
+        if(index===6){output+="質問者の態度"}
+        if(index===7){output+="質問者の環境"}
+        if(index===8){output+="期待と恐れ"}
+        if(index===9){output+="最終結果"}
+        output += '</div>';
+
+ let threshold = document.getElementById('threshold').value;  // ★閾値設定★宣言let
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+        output += `<ul><li><img align="right" src="../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png" alt="${card.name.slice(2)}">${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})<br><span class="usu">${meaning}</span><br clear="right"></li></ul>`;
+    });
+    output += '<h2 align="center">ここでchatGPTが質問内容を踏まえて占い結果カードを詳しくリーディングします!!<br>↓　↓　↓　↓　↓<br><a href="https://chatgpt.com/?q=大アルカナ22枚によるケルト十字占から助言と最適解を導出;ポジション:';
+    selectedCards.forEach((card, index) => {
+        output += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    output += ';質問:' + encodeURIComponent(newText) + ';以下手順で質問の確率に関する視点で検証し出力;P→T[1..10],vfy CHEp(%)＆CHE,out;[I]:P [O]:T[i],CHEp[i],CHE[i] ∀i∈{1,2,3,4,5,6,7,8,9,10};[T]:T[1..10]←S(P,10;[V]:∀i∈{1,2,3,4,5,6,7,8,9,10}:;CHEp[i]←CV(T[i],k,%);CHE[i]←PR(T[i],s)|AB(T[i],o)|LA(T[i],p)  CI[i]←SA(CHEp[i],' + threshold + '%);[O]:Pr(T[1],CHEp[1],CHE[1],...,T[10],CHEp[10],CHE[10])" target="_blank">結果発表</a></h2>';
+
+    resultElement.innerHTML = output;  // ← 定義済みで使用
+
+    let kopipuro = '大アルカナ22枚によるケルト十字占から助言と最適解を導出;ポジション:'
+selectedCards.forEach((card, index) => {
+        kopipuro += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    kopipuro += ';質問:' + newText + ';以下手順で質問の確率に関する視点で検証し出力;P→T[1..10],vfy CHEp(%)＆CHE,out;[I]:P [O]:T[i],CHEp[i],CHE[i] ∀i∈{1,2,3,4,5,6,7,8,9,10};[T]:T[1..10]←S(P,10;[V]:∀i∈{1,2,3,4,5,6,7,8,9,10}:;CHEp[i]←CV(T[i],k,%);CHE[i]←PR(T[i],s)|AB(T[i],o)|LA(T[i],p)  CI[i]←SA(CHEp[i],' + threshold + '%);[O]:Pr(T[1],CHEp[1],CHE[1],...,T[10],CHEp[10],CHE[10])';
+    document.getElementById('textoo').innerHTML = kopipuro;  // ← getElementByIdで取得
+
+    // ボタンを無効化して重複実行防止
+    document.getElementById('suggest-theme').disabled = true;
+    document.getElementById('hiku').disabled = true;
+    document.getElementById('shuffleBtn').disabled = true;
+}
+
+// 軽量シャッフル（配列の後半半分だけシャッフル）★
+function lightShuffle(array) {
+    const mid = Math.floor(array.length / 2);
+    for (let i = array.length - 1; i >= mid; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// カードを画面に散らばらせる★
+function scatterCards() {
+    const table = document.getElementById('table');
+    table.innerHTML = ''; // クリア
+    cardElements = [];
+
+    cards.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card';
+        cardEl.dataset.index = index;
+        cardEl.innerHTML = '<img src="https://jdp.zouri.jp/img/ura.png" alt="裏面" />';
+
+        // デスクトップ用にドラッグを有効化（重要）
+        cardEl.draggable = true;
+
+        // 画像自体のデフォルトドラッグを無効にする（これがないと画像だけドラッグされ親の dataset が取れない）
+        const img = cardEl.querySelector('img');
+        if (img) img.draggable = false;
+
+        // ランダム位置に配置
+        //const x = Math.random() * (table.offsetWidth - 50);
+        //const y = Math.random() * (table.offsetHeight - 85);
+const x = (table.offsetWidth / 2) + (Math.random() - 0.5) * table.offsetWidth * 0.7;
+const y = (table.offsetHeight / 2) + (Math.random() - 0.5) * table.offsetHeight * 0.7;
+        cardEl.style.left = x + 'px';
+        cardEl.style.top = y + 'px';
+
+        // ランダム角度を追加（-20〜20度の範囲でランダム）
+        const angle = (Math.random() * 40) - 20;
+        cardEl.style.transform = `rotate(${angle}deg)`;
+// const delay = Math.random() * 200; // 最大0.2秒ランダム遅延
+// cardEl.style.transitionDelay = `${delay}ms`;
+
+        // デスクトップドラッグイベント
+        cardEl.addEventListener('dragstart', handleDragStart);
+        cardEl.addEventListener('dragend', handleDragEnd);
+
+        // モバイルタッチイベント
+        cardEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+        cardEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+        cardEl.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+        table.appendChild(cardEl);
+        cardElements.push(cardEl);
+
+    });
+}
+
+
+// デスクトップドラッグ開始（親 .card を必ず取得する）
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+// デスクトップドラッグ開始（親 .card を必ず取得する）
+function handleDragStart(e) {
+    const card = e.target.closest('.card');
+    if (!card) return;
+
+    draggedCard = card;
+    draggedIndex = parseInt(card.dataset.index, 10);
+
+    // マウス位置とカード位置の差分を記録
+    const rect = card.getBoundingClientRect();
+    dragOffsetX = e.clientX - rect.left;
+    dragOffsetY = e.clientY - rect.top;
+
+    card.classList.add('dragging');
+
+    // ブラウザ既定のドラッグイメージを消す
+    const img = new Image();
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+    e.dataTransfer.setDragImage(img, 0, 0);
+    e.dataTransfer.setData('text/plain', String(draggedIndex));
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragEnd(e) {
+    const card = e.target.closest('.card') || draggedCard;
+    if (card && card.classList.contains('dragging')) {
+        card.classList.remove('dragging');
+    }
+    draggedCard = null;
+    draggedIndex = -1;
+}
+
+// モバイルタッチ開始★
+function handleTouchStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    // imgタグをタッチしたときも.cardを取得
+    draggedCard = e.target.closest('.card');
+    if (!draggedCard) return;
+    draggedIndex = parseInt(draggedCard.dataset.index);
+    draggedCard.classList.add('dragging');
+
+    const rect = draggedCard.getBoundingClientRect();
+    initialX = touch.clientX - rect.left;
+    initialY = touch.clientY - rect.top;
+}
+
+// モバイルタッチ移動★
+function handleTouchMove(e) {
+    if (!draggedCard) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const table = document.getElementById('table');
+    const tableRect = table.getBoundingClientRect();
+
+    // 現在のタッチ位置に合わせてカードを動かす
+    let newX = touch.clientX - tableRect.left - initialX;
+    let newY = touch.clientY - tableRect.top - initialY;
+
+    // 境界チェック（カードがはみ出ないように）
+    newX = Math.max(0, Math.min(newX, tableRect.width - draggedCard.offsetWidth));
+    newY = Math.max(0, Math.min(newY, tableRect.height - draggedCard.offsetHeight));
+
+    draggedCard.style.left = `${newX}px`;
+    draggedCard.style.top = `${newY}px`;
+}
+
+// モバイルタッチ終了（ドロップ処理）★
+function handleTouchEnd(e) {
+    if (!draggedCard) return;
+    e.preventDefault();
+    draggedCard.classList.remove('dragging');
+
+    // 軽量シャッフルと全カードの再配置（バラバラ効果）
+    lightShuffle(cards);
+    const table = document.getElementById('table');
+    const tableRect = table.getBoundingClientRect();
+    cardElements.forEach((el, i) => {
+        const newX = Math.random() * (tableRect.width - 50);
+        const newY = Math.random() * (tableRect.height - 85);
+        const angle = (Math.random() * 60) - 30; // -30〜+30度のランダム回転
+        el.style.left = `${newX}px`;
+        el.style.top = `${newY}px`;
+        el.style.transform = `rotate(${angle}deg)`; // ←追加！
+        el.dataset.index = i;
+    });
+
+    draggedCard = null;
+    draggedIndex = -1;
+}
+
+// ドロップゾーンイベント（デスクトップ用）★
+const table = document.getElementById('table');
+// デスクトップ中のドラッグ移動
+table.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    if (!draggedCard) return;
+
+    const rect = table.getBoundingClientRect();
+    let newX = e.clientX - rect.left - dragOffsetX;
+    let newY = e.clientY - rect.top - dragOffsetY;
+
+    newX = Math.max(0, Math.min(newX, rect.width - draggedCard.offsetWidth));
+    newY = Math.max(0, Math.min(newY, rect.height - draggedCard.offsetHeight));
+
+    draggedCard.style.left = `${newX}px`;
+    draggedCard.style.top = `${newY}px`;
+});
+table.addEventListener('drop', handleDrop);
+
+// ドロップ完了後のシャッフル
+function handleDrop(e) {
+  e.preventDefault();
+  const target = e.target.closest('.card');
+  const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+
+  // ドロップ時のカード入れ替え処理（もし使っていれば）
+  if (target && target.dataset.index !== undefined) {
+    const targetIndex = parseInt(target.dataset.index, 10);
+    const temp = cards[draggedIndex];
+    cards[draggedIndex] = cards[targetIndex];
+    cards[targetIndex] = temp;
+  }
+
+  // ドラッグ中のスタイル解除
+  const dragging = document.querySelector('.dragging');
+  if (dragging) dragging.classList.remove('dragging');
+
+  // ここを追加：「ドロップしたら全カードを散らす」
+  setTimeout(scatterCards, 300);
+}
+
+// シャッフル開始★
+function startShuffle() {
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言（if外）
+    // 閾値チェック
+    const threshold = document.getElementById('threshold').value;
+    if (!threshold || threshold < 50 || threshold > 100) {
+        const resultElement = document.getElementById('kekka');
+        resultElement.innerHTML = "閾値を50-100の間で入力してください。";
+        document.getElementById('hiku').disabled = false;
+        return;
+    }
+    // Q長Chk
+    let text = document.getElementById('question').value;
+    if (text.length < 15) {
+        resultElement.innerHTML = "質問を詳しく入力してください（15文字以上）。";
+        document.getElementById('shuffleBtn').disabled = false;
+        return;
+    }
+    document.getElementById('suggest-theme').disabled = true;
+    shuffle(cards); // 内部で機械的ランダム配置完了
+        resultElement.innerHTML = "シャッフルして「これで占う」ボタンを押してください。<br>※シャッフルができない時、不具合のある時は非常ボタンを押すと自動でシャッフルしてカードをひきます。";
+    document.getElementById('table').style.display = 'block';
+    scatterCards(); // 散らばった裏面カード出現
+    document.getElementById('drawBtn').disabled = false; // 有効化
+    document.getElementById('shuffleBtn').disabled = true; // シャッフルボタン無効
+}
+// ★インタラクティブシャッフル用END★
+
+
+// 占う（これで占うボタン）★★★★
+function drawCards() {
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言
+    // シャッフル完了後、最初の10枚を選択
+    const selectedCards = cards.slice(0, 10);
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+    selectedCards.forEach(card => {
+        card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+    });
+
+    // 質問の改行をセミコロンに
+    let text = document.getElementById('question').value;
+    let textArray = text.split('\n');
+    let newText = textArray.join(';');
+
+    // Qの改行を;に
+    // const resultElement = document.getElementById('kekka');
+    // let textArray = text.split('\n');
+    // let newText = textArray.join(';');
+
+// 視覚効果
+    // ★ここでファクトチェックエフェクト発動
+    startEffect();
+    
+    // エフェクト完了後に結果出力（setTimeoutで同期）
+    setTimeout(() => {
+        // ... (output生成と resultElement.innerHTML = output; など)
+    }, 5000);  // 5秒遅延（エフェクト持続時間分）
+
+
+    // 結果をHTMLの<span id="kekka">に挿入
+    let output = '<h3>Selected 10 cards from 22 (Marseille Tarot):</h3><span style=\"color:red;\">カードの意味は気にしないでください。ここはざっと読み飛ばしてください。</span>';
+    selectedCards.forEach((card, index) => {
+        output += '<div class="bgb">';
+        if(index===0){output+="現在の状況"}
+        if(index===1){output+="援助(助けになるもの)"}
+        if(index===2){output+="過去"}
+        if(index===3){output+="最近の出来事"}
+        if(index===4){output+="起こりうる未来"}
+        if(index===5){output+="近い未来"}
+        if(index===6){output+="質問者の態度"}
+        if(index===7){output+="質問者の環境"}
+        if(index===8){output+="期待と恐れ"}
+        if(index===9){output+="最終結果"}
+        output += '</div>';
+
+     threshold = document.getElementById('threshold').value;  // ★閾値設定★宣言なし
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+        output += `<ul><li><img align="right" src="../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png" alt="${card.name.slice(2)}">${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})<br><span class="usu">${meaning}</span><br clear="right"></li></ul>`;
+    });
+    output += '<h2 align="center">ここでchatGPTが質問内容を踏まえて占い結果カードを詳しくリーディングします!!<br>↓　↓　↓　↓　↓<br><a href="https://chatgpt.com/?q=大アルカナ22枚によるケルト十字占から助言と最適解を導出;ポジション:';
+    selectedCards.forEach((card, index) => {
+        output += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    output += ';質問:' + encodeURIComponent(newText) + ';以下手順で質問の確率に関する視点で検証し出力;P→T[1..10],vfy CHEp(%)＆CHE,out;[I]:P [O]:T[i],CHEp[i],CHE[i] ∀i∈{1,2,3,4,5,6,7,8,9,10};[T]:T[1..10]←S(P,10;[V]:∀i∈{1,2,3,4,5,6,7,8,9,10}:;CHEp[i]←CV(T[i],k,%);CHE[i]←PR(T[i],s)|AB(T[i],o)|LA(T[i],p)  CI[i]←SA(CHEp[i],' + threshold + '%);[O]:Pr(T[1],CHEp[1],CHE[1],...,T[10],CHEp[10],CHE[10])" target="_blank">結果発表</a></h2>';
+
+    resultElement.innerHTML = output;  // ← 定義済みで使用
+
+    let kopipuro = '大アルカナ22枚によるケルト十字占から助言と最適解を導出;ポジション:'
+selectedCards.forEach((card, index) => {
+        kopipuro += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    kopipuro += ';質問:' + newText + ';以下手順で質問の確率に関する視点で検証し出力;P→T[1..10],vfy CHEp(%)＆CHE,out;[I]:P [O]:T[i],CHEp[i],CHE[i] ∀i∈{1,2,3,4,5,6,7,8,9,10};[T]:T[1..10]←S(P,10;[V]:∀i∈{1,2,3,4,5,6,7,8,9,10}:;CHEp[i]←CV(T[i],k,%);CHE[i]←PR(T[i],s)|AB(T[i],o)|LA(T[i],p)  CI[i]←SA(CHEp[i],' + threshold + '%);[O]:Pr(T[1],CHEp[1],CHE[1],...,T[10],CHEp[10],CHE[10])';
+    document.getElementById('textoo').innerHTML = kopipuro;  // ← getElementByIdで取得
+
+    // ボタンを無効化して重複実行防止
+    document.getElementById('hiku').disabled = true;
+    document.getElementById('shuffleBtn').disabled = true; // シャッフルボタン無効
+
+
+//    const results = document.getElementById('results');
+//    let output = '<h3>Selected 10 cards from 22 (Marseille Tarot, with orientation):</h3>';
+//    output += '<ul>';
+//    selectedCards.forEach((card, index) => {
+//        output += `<li>${index + 1}: ${card.name}(${card.orientation})</li>`;
+//    });
+//    output += '</ul>';
+//    output += '<a href="https://chatgpt.com/?q=大アルカナ22枚によるケルト十字占から助言と最適解を導出;ポジション:';
+//    selectedCards.forEach((card, index) => {
+//        output += `${index + 1}:${card.name}(${card.orientation});`;
+//    });
+//    output += ';質問:' + newText + '">結果発表</a>';
+//    results.innerHTML = output;
+
+    // シャッフルエリアを非表示
+    document.getElementById('table').style.display = 'none';
+    document.getElementById('shuffled-area').style.display = 'block';
+    document.getElementById('drawBtn').disabled = true;
+    // document.getElementById('shuffleBtn').disabled = false;
+}
+
+    // Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+</script>
+
+<hr>
+<h3>うまくいかない時は・・・</h3>
+<ul>
+<li>ChatGPTの画面に履歴が残っている場合、文字を消して画面を閉じて、再度このページからリンクを踏んでください。
+<li>または、以下に表示されたプロンプトをコピーして、ChatGPTの画面に貼り付ければ確実です。
+<li>XのGrokやCopilot、Claude、Geminiなど、他のAIアシスタントでも問題なく動作します。
+</ul>
+<strong>プロンプト：</strong><br>
+<textarea id="textoo" name="textoo" rows="5" cols="40" style="line-height:160%;"></textarea>
+
+<hr>
+<!-- admax -->
+<div id="ksn" class="am2"></div>
+
+<!--
+改良後
+
+◆
+
+
+◆
+
+改良前
+◆
+
+-->
+
+</body>
+</html>

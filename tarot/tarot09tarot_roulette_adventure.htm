@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>運命賭博サーガ★タロットルーレット</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+  <style>
+body {line-height:160%;}
+.am2 {background: #eaf4ff;
+padding: 10px 10px;
+  opacity: 0.9;
+}
+.tarolin {
+  background: #ebf4f8;
+  border-left: 12px solid #99BDDE;
+  margin-bottom: 3px;
+  padding: .5em;
+}
+.lupd {background:green;font-family:serif;color:white;}
+
+.diet_form {background: #eaf4ff;
+padding: 10px 10px;
+}
+form dl dt {
+width: 120px;
+height: 30px;
+padding: 10px 0;
+line-height: 10px;
+float: left;
+}
+form dl dd {padding: 5px 0;margin: 0;}
+.box {box-sizing: border-box;width: 70px !important;height: 30px !important;margin: 0 !important;padding: 0 10px !important;
+}
+.calc-btn {width: 110px;height: 60px;border: 1px solid #333;margin: 5px;
+}
+.calc-btn:hover {cursor: pointer;width: 110px;height: 60px;
+}
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#999999;margin:10px;line-height:190%;}
+#card-grid {display: grid; grid-template-columns: repeat(5, 80px); gap: 10px; margin: 20px auto; width: fit-content;}
+.card-img {width: 80px; height: 138px; cursor: pointer; transition: transform 0.5s;}
+.card-img.hint-positive {filter: brightness(1.1); box-shadow: 0 0 5px yellow;}
+.card-img.hint-negative {filter: brightness(0.8); box-shadow: 0 0 5px black;}
+.card-img.opened {transform: rotateY(360deg);} /* 簡易翻転アニメ */
+.card-img.hit-highlight {transform: scale(1.2); box-shadow: 0 0 10px red; z-index: 10;}
+.sector-list {display: flex; flex-wrap: wrap; margin: 10px;}
+.sector-label {margin: 5px;}
+.status {font-weight: bold; font-size:18px; margin: 6px; position: absolute; top: 87px; right: 10px; background: rgba(255,255,255,0.8); padding: 4px; border-radius: 4px;}
+.betto {margin: 0px; position: absolute; top: 0px; right: 10px; width: 536px; height: 88px; background: url(../img/marseille/bet.png); padding: 0px; border-style: none; background-size: contain; z-index: 100;}
+.betto img {position: absolute; top: 0; left: 0; width: 100%; height: 100%;}
+.kekka {margin: 10px; position: absolute; top: 120px; left: 120px; background: rgba(255,255,255,0.8); padding: 10px; border-radius: 15px;}
+.highlight {background: yellow; color: black;} /* セクターハイライト */
+.whisper {font-style: italic; color: purple;}
+.hit-card {font-size: 1.5em; color: red; font-weight: bold; text-align: center; margin: 10px 0;}
+ @keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+
+
+// アナウンス用Start┓
+.container {
+  width: 200px;
+  max-width: 280px;
+  height: 50px;
+  max-height: 300px;
+  border: 5px solid black;
+  background: #121212;
+position: absolute; top: 0px; left: 0px;
+//  position: relative;
+  display: flex;
+  justify-content: left;
+  align-items: start;
+}
+
+.typingText {
+  font-size: 15px;
+  color: white;
+  text-align: start;
+}
+
+.typingText::after {
+  content: "┃";
+  color: cyan;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+// アナウンス用End┛
+
+//#popup {
+//  display: none !important; /* label でコントロールするので input は非表示に */
+//}
+// チェックボックスの左のチェック欄非表示。
+// しかし↑何かのタグの干渉で効かなくなった。
+// ↓これで治った。display: none がイベント（label クリック）を無効にするリスクを避けつつ隠す方法。
+#popup {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  opacity: 0 !important; /* 追加で視覚的に完全に隠す */
+}
+
+.popup-open {
+  cursor: pointer; background:yellow; margin:10px;/* マウスオーバーでカーソルの形状を変えることで、クリックできる要素だとわかりやすいように */
+}
+
+.popup-overlay {
+  display: none; /* input にチェックが入るまでは非表示に */
+}
+
+#popup:checked ~ .popup-overlay {
+  display: block;
+  z-index: 99999;
+  background-color: #00000070;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.popup-window {
+width: 90%;
+max-width: 90%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup-text {
+  margin: 0;
+}
+
+.popup-text:not(:last-of-type) {
+  margin-bottom: 1em
+}
+
+.popup-close {
+  cursor: pointer;
+  position: absolute;
+  top: -26px;
+  right: 0;
+}
+
+
+#popup2 {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  opacity: 0 !important; /* 追加で視覚的に完全に隠す */
+}
+
+.popup2-open {
+  cursor: pointer; background:yellow; margin:10px;/* マウスオーバーでカーソルの形状を変えることで、クリックできる要素だとわかりやすいように */
+}
+
+.popup2-overlay {
+  display: none; /* input にチェックが入るまでは非表示に */
+}
+
+#popup2:checked ~ .popup2-overlay {
+  display: block;
+  z-index: 99999;
+  background-color: #00000070;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.popup2-window {
+width: 90%;
+max-width: 90%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup2-text {
+  margin: 0;
+}
+
+.popup2-text:not(:last-of-type) {
+  margin-bottom: 1em
+}
+
+.popup2-close {
+  cursor: pointer;
+  position: absolute;
+  top: -26px;
+  right: 0;
+}
+
+
+</style>
+  <script type="text/javascript" defer>
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+//            target = document.getElementById("betto"); target.innerHTML = "<img src=\"../img/marseille/bet1.png\" width=\"536\" height=\"88\">";
+}
+    console.log('Script loading start'); // ロード確認
+    var GAME_KEY = 'gambleGameState';
+
+const music = new Audio('spo_ge_toranpu_shafu02.mp3');
+
+    // 22枚の大アルカナ
+    var cards = [
+        { name: '00愚者' }, { name: '01魔術師' }, { name: '02女教皇' }, { name: '03女帝' },
+        { name: '04皇帝' }, { name: '05教皇' }, { name: '06恋人' }, { name: '07戦車' },
+        { name: '08正義' }, { name: '09隠者' }, { name: '10運命の輪' }, { name: '11力' },
+        { name: '12吊られた男' }, { name: '13死神' }, { name: '14節制' }, { name: '15悪魔' },
+        { name: '16塔' }, { name: '17星' }, { name: '18月' }, { name: '19太陽' },
+        { name: '20審判' }, { name: '21世界' }
+    ];
+
+    // カード解釈（運命の囁き用）
+    var cardInterpretations = {
+        '愚者': '未知への一歩、自由な冒険の始まり。',
+        '魔術師': '創造力と可能性の顕現。',
+        '女教皇': '内なる叡智と神秘の声。',
+        '女帝': '豊饒と母性の力。',
+        '皇帝': '構造と権威の確立。',
+        '教皇': '伝統と指導の役割。',
+        '恋人': '選択と調和の関係。',
+        '戦車': '勝利への前進と制御。',
+        '正義': '公平と因果応報。',
+        '隠者': '内省と導きの光。',
+        '運命の輪': '変化のサイクルと運命。',
+        '力': '内なる強さと忍耐。',
+        '吊られた男': '視点の転換と犠牲。',
+        '死神': '終わりと変容の始まり。',
+        '節制': 'バランスと統合の芸術。',
+        '悪魔': '束縛と物質的誘惑。',
+        '塔': '突然の崩壊と啓示。',
+        '星': '希望とインスピレーション。',
+        '月': '幻想と潜在意識の深み。',
+        '太陽': '成功と喜びの輝き。',
+        '審判': '再生と呼びかけ。',
+        '世界': '完成と全体性の達成。'
+    };
+
+    // セクター定義（象徴効果追加、ボーナス強化）
+    var sectors = [
+        { name: '正位置', multiplier: 2, check: null, effect: function(state) { state.points += 100; return '明晰さの贈り物: +100ポイント'; } }, // 修正: 効果簡略化
+        { name: '逆位置', multiplier: 2, check: null, effect: function(state) { state.points = Math.max(0, state.points - Math.floor(state.points * 0.1)); return '影の代償: ポイント10%ペナルティ'; } },
+        { name: '外意識', multiplier: 3, check: function(card) { return parseInt(card.name.slice(0,2)) >= 1 && parseInt(card.name.slice(0,2)) <= 7; }, effect: function(state) { state.points += 100; return '行動の拡大: +100ポイント'; } },
+        { name: '内意識', multiplier: 3, check: function(card) { return parseInt(card.name.slice(0,2)) >= 8 && parseInt(card.name.slice(0,2)) <= 14; }, effect: function(state) { state.points += 50; return '調和の余韻: +50ポイント'; } },
+        { name: '超意識', multiplier: 3, check: function(card) { return parseInt(card.name.slice(0,2)) >= 15 && parseInt(card.name.slice(0,2)) <= 21; }, effect: function(state) { state.points += 50; state.spins = Math.max(1, state.spins + 1); return '超越の波及: +50ポイント & スピン+1'; } },
+        { name: '思考', multiplier: 7, check: function(card) { return ['女教皇', '隠者', '月'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += 200; return '予見の力: +200ポイント'; } },
+        { name: '快楽', multiplier: 7, check: function(card) { return ['女帝', '恋人', '悪魔'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += Math.floor(state.points * 0.1); return '誘惑の甘さ: ポイント10%追加'; } },
+        { name: '社会', multiplier: 7, check: function(card) { return ['教皇', '正義', '節制'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += state.selectedBets.length * 50; return '規律の果実: ベット数×50pt追加'; } },
+        { name: '希望', multiplier: 7, check: function(card) { return ['星', '太陽', '世界'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += 300; return '光の遺産: +300ポイント'; } },
+        { name: '始まり', multiplier: 10, check: function(card) { return ['愚者', '魔術師'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.spins += 2; state.points += 200; return '旅の始動: スピン+2 & +200ポイント'; } },
+        { name: '行動力', multiplier: 10, check: function(card) { return ['皇帝', '戦車'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += 100; return '推進の勢い: +100ポイント'; } },
+        { name: '受容', multiplier: 10, check: function(card) { return ['力', '吊られた男'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.points += 150; return '忍耐の盾: +150ポイント'; } },
+        { name: '変化', multiplier: 10, check: function(card) { return ['運命の輪', '塔'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { state.spins += 1; return '運命の転換: スピン+1'; } },
+        { name: '再生', multiplier: 10, check: function(card) { return ['死神', '審判'].indexOf(card.name.slice(2)) !== -1; }, effect: function(state) { var lost = Math.max(0, 1000 - state.points); state.points += Math.floor(lost * 0.3); return '蘇生の恵み: 失ポイント30%回復'; } }
+    ];
+
+    // セクター説明
+    var sectorDescriptions = [
+        'ヒットカードが正位置でヒット',
+        'ヒットカードが逆位置でヒット',
+        '1魔術師～7戦車',
+        '8正義～14節制',
+        '15悪魔～21世界',
+        '女教皇, 隠者, 月',
+        '女帝, 恋人, 悪魔',
+        '教皇, 正義, 節制',
+        '星, 太陽, 世界',
+        '愚者, 魔術師',
+        '皇帝, 戦車',
+        '力, 吊られた男',
+        '運命の輪, 塔',
+        '死神, 審判'
+    ];
+
+    // テーマコンボ定義（例: 隣接indexで簡易）
+    var comboPairs = [[2,5], [3,7], [4,8], [9,10], [11,12]]; // 外意識+思考, 内意識+社会, 超意識+希望, 始まり+行動力, 受容+変化 など
+
+    // Fisher-Yatesシャッフル
+    function shuffle(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // リセット関数
+    function resetGame() {
+        if (confirm('ゲームをリセットしますか？')) {
+            localStorage.removeItem(GAME_KEY);
+            location.reload();
+        }
+    }
+
+    // 状態ロード
+    function loadGameState() {
+        var saved = localStorage.getItem(GAME_KEY);
+        var state = saved ? JSON.parse(saved) : { points: 1000, spins: 10, openedCount: 0, manualOpenedCount: 0, chapter: 1, continuousPositive: 0, continuousNegative: 0, nextBonus: false, hitHistory: [], betHistory: [], currentCards: [], multiplierBonus: 1, betLimitBonus: 0, selectedBets: [], betLimit: Infinity };
+        state.points = Math.max(0, state.points);
+        state.spins = Math.max(0, state.spins);
+        state.openedCount = Math.max(0, state.openedCount);
+        state.manualOpenedCount = Math.max(0, state.manualOpenedCount);
+        state.chapter = Math.max(1, state.chapter);
+        state.continuousPositive = Math.max(0, state.continuousPositive);
+        state.continuousNegative = Math.max(0, state.continuousNegative);
+        state.nextBonus = Boolean(state.nextBonus);
+        state.hitHistory = Array.isArray(state.hitHistory) ? state.hitHistory : [];
+        state.betHistory = Array.isArray(state.betHistory) ? state.betHistory : [];
+        state.currentCards = Array.isArray(state.currentCards) ? state.currentCards : [];
+        state.multiplierBonus = state.multiplierBonus || 1;
+        state.betLimitBonus = state.betLimitBonus || 0;
+        state.selectedBets = Array.isArray(state.selectedBets) ? state.selectedBets : [];
+        state.betLimit = state.betLimit || Infinity;
+        console.log('Loaded state:', JSON.stringify(state));
+        return state;
+    }
+
+    // 状態保存
+    function saveGameState(state) {
+        localStorage.setItem(GAME_KEY, JSON.stringify(state));
+        updateStatus(state);
+    }
+
+    // ステータス更新
+function updateStatus(state) {
+    var statusEl = document.getElementById('status');
+    if (statusEl) {  // nullチェック追加
+        statusEl.innerHTML = `章: ${state.chapter} | ポイント: ${state.points} | スピン: ${state.spins}`;
+    } else {
+        console.warn('Status element not found yet. Retrying...');  // デバッグ用
+    }
+    if (state.points <= 0 || state.spins <= 0) {
+        gameOver(state);
+    }
+}
+
+    // シャッフル関数
+    function shuffleCards() {
+        if (!window.shuffleCards) {
+            console.error('shuffleCards is not defined');
+            return alert('エラー: 関数がロードされていません。ページをリロードしてください。');
+        }
+
+    //視覚効果始
+music.currentTime = 0;
+music.play();
+// シャドウ・カード・フラッシュ (影のカード予兆)演出開始
+document.body.style.transition = 'opacity 0.2s';
+document.body.style.opacity = '0.3';
+const shadowInterval = setInterval(() => {
+const shadow = document.createElement('div');
+shadow.style.position = 'fixed'; shadow.style.top = Math.random()*100 + '%';
+shadow.style.left = Math.random()*100 + '%';
+shadow.style.width = '50px'; shadow.style.height = '70px'; shadow.style.background = 'rgba(0,0,0,0.7)'; shadow.style.borderRadius = '5px';
+shadow.style.animation = 'flash 0.5s infinite';
+document.body.appendChild(shadow);
+setTimeout(() => shadow.remove(), 500);
+}, 300);
+setTimeout(() => {
+clearInterval(shadowInterval);
+document.body.style.opacity = '1';
+// シャッフルコードへ
+}, 3000);
+    //視覚効果終
+
+        // ベット表の画像をクリア（bet1.png ~ bet12.png を非表示）
+        var bettoDiv = document.getElementById('betto');
+        if (bettoDiv) {
+            bettoDiv.innerHTML = '';
+        }
+
+        var gameState = loadGameState();
+        if (gameState.spins <= 0 || gameState.points <= 0) return alert('ゲームオーバーです。リセットして再スタートしてください。');
+
+        shuffle(cards);
+        gameState.currentCards = cards.slice(0, 10).map(function(card) {
+            var orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+            return { ...card, opened: false, orientation: orientation, hintClass: orientation === 'u正' ? 'hint-positive' : 'hint-negative' };
+        });
+        gameState.selectedBets = [];
+        gameState.multiplierBonus = 1; // リセット
+        gameState.betLimitBonus = 0; // リセット
+        gameState.openedCount = 0; // リセット (自動オープン用)
+        gameState.manualOpenedCount = 0; // リセット (手動オープン用)
+        // gameState.betLimit = Infinity; // 削除: 制限の永続を防ぐためspinRoulette()でリセット
+        saveGameState(gameState);
+
+        var gridOutput = '<div id="card-grid">';
+        gameState.currentCards.forEach(function(card, index) {
+            gridOutput += `<img id="card-${index}" src="../img/ura.png" alt="裏面: ${card.name.slice(2)}" class="card-img ${card.hintClass}" onclick="window.openCard(${index})">`;
+        });
+        gridOutput += '</div>';
+
+        var betOutput = '<h4>ベットするセクターを選択 (各100ポイント)</h4><div class="sector-list" id="sector-list">';
+        sectors.forEach(function(sector, index) {
+            betOutput += `<label class="sector-label"><input type="checkbox" class="bet-checkbox" data-index="${index}"> ${sector.name} (x${sector.multiplier}) <span onclick="alert('${sectorDescriptions[index]}')" style="cursor: pointer;">?</span></label>`;
+        });
+        betOutput += '</div>';
+
+        betOutput += '<button id="spin-btn" class="calc-btn" onclick="window.spinRoulette()">スピン！ (1スピン消費)</button>';
+
+        var resultElement = document.getElementById('kekka');
+        resultElement.innerHTML = gridOutput + betOutput;
+
+        document.getElementById('shuffle-btn').disabled = true;
+        document.getElementById('spin-btn').style.display = 'inline-block';
+        console.log('Shuffled cards:', gameState.currentCards.map(function(c) { return c.name; }));
+
+        // ベットチェックボックスのイベントリスナーを追加（透過PNGの追加/削除）
+        document.querySelectorAll('.bet-checkbox').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var bettoDiv = document.getElementById('betto');
+                var sectorIndex = parseInt(this.dataset.index);
+                var imgId = `bet-img-${sectorIndex}`;
+                var existingImg = document.getElementById(imgId);
+                if (this.checked) {
+                    if (!existingImg && sectorIndex >= 2 && sectorIndex <= 13) { // 正位置と逆位置を除外
+                        var betNum = sectorIndex - 1; // bet1.png ~ bet12.png (sector 2 -> bet1, 3->bet2, ..., 13->bet12)
+                        var img = document.createElement('img');
+                        img.src = `../img/marseille/bet${betNum}.png`;
+                        img.width = 536;
+                        img.height = 88;
+                        img.id = imgId;
+                        bettoDiv.appendChild(img);
+                    }
+                } else {
+                    if (existingImg) {
+                        existingImg.remove();
+                    }
+                }
+            });
+        });
+    }
+    window.shuffleCards = shuffleCards; // グローバル登録
+
+    // オープン関数（権利廃止、何枚でも可能）
+    function openCard(index) {
+        var gameState = loadGameState();
+        if (!gameState.currentCards || index < 0 || index >= gameState.currentCards.length || gameState.currentCards[index].opened) {
+            console.log(`Open rejected: index=${index}, cardsExist=${!!gameState.currentCards}, opened=${gameState.currentCards[index]?.opened}`);
+            return alert('無効な操作です。');
+        }
+
+    const audio = new Audio('hiku.mp3'); // めくる音
+    audio.play();
+        gameState.currentCards[index].opened = true;
+        gameState.manualOpenedCount++; // 手動オープンカウント
+        gameState.openedCount = gameState.manualOpenedCount; // 同期
+        saveGameState(gameState);
+
+        var card = gameState.currentCards[index];
+        var cardElement = document.getElementById(`card-${index}`);
+        cardElement.src = `../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png`;
+        cardElement.alt = `${card.name.slice(2)} (${card.orientation.slice(1)})`;
+        cardElement.classList.add('opened');
+        // セクターハイライト
+        sectors.forEach(function(sector, sIdx) {
+            if (sector.check && sector.check(card)) {
+                var checkbox = document.querySelector(`.bet-checkbox[data-index="${sIdx}"]`);
+                if (checkbox) checkbox.parentElement.classList.add('highlight');
+            }
+        });
+        updateStatus(gameState);
+        console.log(`Card opened: ${card.name.slice(2)} (${card.orientation.slice(1)}), manualOpenedCount=${gameState.manualOpenedCount}`);
+    }
+    window.openCard = openCard; // グローバル登録
+
+    // スピン関数（ボーナスイベント追加）
+    function spinRoulette() {
+        var gameState = loadGameState();
+        if (gameState.spins <= 0 || !gameState.currentCards) return alert('スピンがありません！またはシャッフルしてください。');
+
+        var betCheckboxes = document.querySelectorAll('.bet-checkbox:checked');
+
+        // ポイント不足時の自動調整
+        if (gameState.points < 100) {
+            // 全ベット解除
+            document.querySelectorAll('.bet-checkbox').forEach(function(cb) { cb.checked = false; });
+            betCheckboxes = document.querySelectorAll('.bet-checkbox:checked'); // 再取得
+            if (betCheckboxes.length === 0 && gameState.spins > 0) {
+                // ランダムで1つベットを選択
+                var randomSector = Math.floor(Math.random() * sectors.length);
+                var randomCheckbox = document.querySelector(`.bet-checkbox[data-index="${randomSector}"]`);
+                if (randomCheckbox) {
+                    randomCheckbox.checked = true;
+                    betCheckboxes = [randomCheckbox]; // 手動で1つセット
+                    alert('ポイント不足のため、自動で1箇所ベットを選択しました。');
+                }
+            }
+        }
+
+        if (betCheckboxes.length === 0) return alert('ベットを選択してください！');
+        var maxBets = Math.min(Math.floor(gameState.points / 100) + gameState.betLimitBonus, gameState.betLimit);
+        if (betCheckboxes.length > maxBets) return alert('ベット上限超過！');
+        var betAmount = betCheckboxes.length * 100;
+        // ポイント不足時は残ポイントでベット
+        if (gameState.points < betAmount) {
+            betAmount = gameState.points;
+        }
+        if (betAmount <= 0) return alert('ポイント不足！');
+
+        // チェックボックスとスピンボタン非表示（直後）
+        var sectorList = document.getElementById('sector-list');
+        if (sectorList) sectorList.style.display = 'none';
+        var spinBtn = document.getElementById('spin-btn');
+        if (spinBtn) spinBtn.style.display = 'none';
+
+        gameState.points -= betAmount;
+        gameState.selectedBets = Array.from(betCheckboxes).map(function(cb) { return parseInt(cb.dataset.index); });
+        gameState.spins--;
+        gameState.chapter++;
+        gameState.betLimitBonus = 0; // リセット
+        gameState.betLimit = Infinity; // リセット: ベットチェック後にリセット
+        // openedCountのリセットを削除し、既存のものを保持（手動オープン分を反映）
+
+        // テーマコンボチェック
+        var comboBonus = 1;
+        comboPairs.forEach(function(pair) {
+            if (gameState.selectedBets.includes(pair[0]) && gameState.selectedBets.includes(pair[1])) {
+                comboBonus += 1;
+            }
+        });
+        gameState.multiplierBonus *= comboBonus;
+
+        var hitIndex = Math.floor(Math.random() * 10);
+        var hitCard = gameState.currentCards[hitIndex];
+
+        // ベットメッセージ直後表示
+        var resultOutput = `<p><img src="../img/marseille/cip.png" width="72" height="50">ベット: ${gameState.selectedBets.map(function(idx) { return sectors[idx].name + '(x' + sectors[idx].multiplier + ')'; }).join(', ')} に ${betAmount}ポイントをベット！ (コンボ倍率: x${comboBonus})</p>`;
+        document.getElementById('kekka').innerHTML += resultOutput;
+
+const audio = new Audio('spo_ge_ruretto01.mp3'); // スピン音
+audio.play();
+
+const ghosts = []; // 幽霊カードの群れ
+for (let i = 0; i < 50; i++) {
+    const ghost = document.createElement('div');
+    ghost.style.position = 'fixed'; ghost.style.width = '40px'; ghost.style.height = '60px'; ghost.style.background = 'rgba(255,255,255,0.3)'; ghost.style.borderRadius = '5px';
+    ghost.style.left = Math.random()*100 + '%'; ghost.style.top = Math.random()*100 + '%';
+    ghost.vx = (Math.random()-0.5)*2; ghost.vy = (Math.random()-0.5)*2; // 速度
+    document.body.appendChild(ghost);
+    ghosts.push(ghost);
+}
+function swarm() {
+    ghosts.forEach(g => {
+        g.style.left = parseFloat(g.style.left) + g.vx + '%';
+        g.style.top = parseFloat(g.style.top) + g.vy + '%';
+        if (Math.random() < 0.01) g.remove(); // ランダム消滅
+    });
+    if (ghosts.length > 0) requestAnimationFrame(swarm);
+    else {
+        // オーブ形成
+    }
+}
+swarm();
+setTimeout(() => { tsuginisusumu() }, 6000);
+function tsuginisusumu() {
+        // 全カードオープン（順番にアニメーションでバグ回避）
+        function openAllCards(i) {
+            if (i >= gameState.currentCards.length) {
+                // 全開後、openedCountを更新（自動オープン分追加）
+                gameState.openedCount = gameState.currentCards.filter(c => c.opened).length;
+                // ただしペナ計算用は手動分のみ使用（自動分は追加せず）
+                // saveGameState(gameState);  // 削除: ポイント消費後の保存を避ける
+                continueSpin();
+                return;
+            }
+            var card = gameState.currentCards[i];
+            if (!card.opened) {
+                var cardElement = document.getElementById(`card-${i}`);
+                cardElement.src = `../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png`;
+                cardElement.alt = `${card.name.slice(2)} (${card.orientation.slice(1)})`;
+                cardElement.classList.add('opened');
+                card.opened = true;
+            }
+            setTimeout(() => openAllCards(i + 1), 200); // 0.2秒遅延
+        }
+        openAllCards(0);
+    }
+
+    function continueSpin() {
+        // var gameState = loadGameState();  // 削除: 外側のgameStateを使用
+
+        var isPositiveHit = hitCard.orientation === 'u正';
+        var isNegativeHit = !isPositiveHit;
+
+        var reward = 0;
+        var hitSectors = [];
+        var effects = [];
+        var multiplier = gameState.multiplierBonus;
+        gameState.selectedBets.forEach(function(betIdx) {
+            var sector = sectors[betIdx];
+            var hit = false;
+            if (betIdx === 0) hit = isPositiveHit;
+            else if (betIdx === 1) hit = isNegativeHit;
+            else hit = sector.check ? sector.check(hitCard) : false;
+            if (hit) {
+                hitSectors.push(sector.name);
+                reward += 100 * sector.multiplier;
+                if (sector.effect) {
+                    var effectMsg = sector.effect(gameState);
+                    effects.push(effectMsg);
+                }
+            }
+        });
+
+        // 追加ボーナスイベント: ランダムボーナス (20%確率)
+        var randomBonus = Math.random() < 0.2;
+        if (randomBonus) {
+            const bonusAudio = new Audio('sharara.mp3');
+            bonusAudio.play();
+            var bonusType = Math.floor(Math.random() * 3);
+            if (bonusType === 0) {
+                gameState.points += 200;
+                effects.push('幸運の輪: +200ポイント');
+            } else if (bonusType === 1) {
+                multiplier += 2;
+                effects.push('運命の加護: 倍率+2');
+            } else {
+                gameState.spins += 1;
+                effects.push('再生の息吹: スピン+1');
+            }
+        }
+
+        // 章ボーナス: 奇数章で追加倍率
+        if (gameState.chapter % 2 === 1) {
+            multiplier += 1;
+            effects.push('章の恵み: 倍率+1 (奇数章ボーナス)');
+        }
+
+        // 連続ボーナス拡張（4連続で追加）
+        if (hitCard.orientation === 'u正') {
+            gameState.continuousPositive++;
+            gameState.continuousNegative = 0;
+            if (gameState.continuousPositive === 2) {
+                gameState.nextBonus = true;
+                alert('正位置2連続！ 次回ヒットでボーナス (ポイント300 or スピン1, 3倍報酬)');
+            } else if (gameState.continuousPositive === 3) {
+                multiplier += 1;
+                gameState.chapter++; // 進捗2倍
+                effects.push('大覚醒: 倍率+1 & 章進捗2倍');
+            } else if (gameState.continuousPositive === 4) {
+                gameState.points += 500;
+                effects.push('究極の輝き: +500ポイント');
+            } else if (gameState.nextBonus && hitSectors.length > 0) {
+                const bonusAudio = new Audio('sharara.mp3');
+                bonusAudio.play();
+                var bonusType = Math.random() < 0.5 ? 'ポイント300' : 'スピン1';
+                if (bonusType === 'ポイント300') gameState.points += 300;
+                else gameState.spins += 1;
+                multiplier *= 3;
+                gameState.nextBonus = false;
+                gameState.continuousPositive = 0;
+                effects.push(`ボーナス獲得: ${bonusType}, 報酬3倍！`);
+            }
+        } else {
+            gameState.continuousNegative++;
+            gameState.continuousPositive = 0;
+            gameState.nextBonus = false;
+            if (gameState.continuousNegative === 3) {
+                gameState.betLimit = 1; // 次スピンでベット1箇所制限
+                alert('影の試練: 次スピンベット1箇所のみ！');
+            }
+        }
+
+        // オープン罰則(ペナ) - 手動オープン分のみ適用
+        var penaltyMultiplier = (1 - (gameState.manualOpenedCount * 0.05));
+        reward *= penaltyMultiplier;
+        reward = Math.max(0, Math.floor(reward));
+
+        reward *= multiplier;
+        gameState.points += reward;
+        var hitStr = hitCard.name.slice(2) + `(${hitCard.orientation.slice(1)})`;
+        gameState.hitHistory.push(hitStr);
+        gameState.betHistory.push(`${betAmount}ポイントベット`);
+
+        saveGameState(gameState);
+
+
+    const audio = new Audio('coin.mp3'); // コイン音
+    audio.play();
+
+        var resultOutput = `<div class="hit-card">  ヒットカード: ${hitStr}  = ${hitSectors.join(', ') || 'ミス'}のセクターにヒット！</div>`;
+
+if (resultOutput.slice(-18)==="ミスのセクターにヒット！</div>"){
+// ☆☆☆ガーンSTART
+// スタイルを追加（一度だけ、既に追加済みならスキップ）
+if (!document.querySelector('#failEffectStyle')) {
+  const style = document.createElement('style');
+  style.id = 'failEffectStyle';
+  style.textContent = `
+    @keyframes failShake {
+      0%, 100% { transform: translate(0, 0); }
+      10%, 30%, 50%, 70%, 90% { transform: translate(-5px, 5px); }
+      20%, 40%, 60%, 80% { transform: translate(5px, -5px); }
+    }
+    @keyframes failFlash {
+      0%, 100% { opacity: 1; background: transparent; }
+      50% { opacity: 0.8; background: rgba(220, 20, 60, 0.7); }
+    }
+    @keyframes debrisFall {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) rotate(360deg);
+      }
+    }
+    .fail-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+      z-index: 9999;
+      animation: failFlash 0.5s ease-out 3; /* 3回フラッシュ */
+    }
+    .fail-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: bold;
+      color: rgba(220, 20, 60, 1);
+      pointer-events: none;
+      z-index: 10000;
+      animation: failShake 0.5s ease-in-out;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    .debris {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: rgba(139, 0, 0, 0.6);
+      pointer-events: none;
+      z-index: 9998;
+      top: 50%;
+      left: 50%;
+      animation: debrisFall 1.5s ease-out forwards;
+      border-radius: 2px;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ハズレエフェクト開始
+const overlay = document.createElement('div');
+overlay.className = 'fail-overlay';
+document.body.appendChild(overlay);
+
+const text = document.createElement('div');
+text.className = 'fail-text';
+text.textContent = 'Missed It!';
+document.body.appendChild(text);
+
+// 破片を複数生成（10個で散らばり感）
+for (let i = 0; i < 10; i++) {
+  setTimeout(() => {
+    const debris = document.createElement('div');
+    debris.className = 'debris';
+    const angle = Math.random() * Math.PI * 2;
+    const distanceX = (Math.random() - 0.5) * 400;
+    const distanceY = Math.random() * 300 + 100; // 下向きに落ちる
+    debris.style.setProperty('--dx', `${distanceX}px`);
+    debris.style.setProperty('--dy', `${distanceY}px`);
+    document.body.appendChild(debris);
+    setTimeout(() => debris.remove(), 1500);
+  }, i * 50);
+}
+
+setTimeout(() => {
+  overlay.remove();
+  text.remove();
+  // ルーレットハズレ後のコードへ（例: 次のターンへ）
+}, 2000);
+// ☆☆☆ガーンEND
+}
+else{
+// ★★★視覚効果START★★★
+// スタイルを追加（一度だけ、既に追加済みならスキップ）
+if (!document.querySelector('#holyLightStyle')) {
+  const style = document.createElement('style');
+  style.id = 'holyLightStyle';
+  style.textContent = `
+    @keyframes holyGlow {
+      0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.5) rotate(180deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2) rotate(360deg);
+      }
+    }
+    @keyframes beamShine {
+      0% { opacity: 0; transform: rotate(0deg); }
+      50% { opacity: 1; }
+      100% { opacity: 0; transform: rotate(360deg); }
+    }
+    .holy-light {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0.4) 40%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: holyGlow 2s ease-out forwards;
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.6);
+    }
+    .light-beam {
+      position: fixed;
+      width: 2px;
+      height: 300px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 1), transparent);
+      pointer-events: none;
+      z-index: 9998;
+      top: 50%;
+      left: 50%;
+      transform-origin: center;
+      animation: beamShine 2s ease-out forwards;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// 神聖な光エフェクト開始
+const light = document.createElement('div');
+light.className = 'holy-light';
+document.body.appendChild(light);
+
+// 放射状の光線を複数生成（8本で神聖感）
+for (let i = 0; i < 8; i++) {
+  setTimeout(() => {
+    const beam = document.createElement('div');
+    beam.className = 'light-beam';
+    const angle = (i * 45) * (Math.PI / 180); // 45度間隔
+    beam.style.transform = `translate(-50%, -50%) rotate(${i * 45}deg)`;
+    document.body.appendChild(beam);
+    setTimeout(() => beam.remove(), 2000);
+  }, i * 100); // 少しずつ遅延で広がり感
+}
+
+setTimeout(() => {
+  light.remove();
+  // ルーレット当たり後のコードへ（例: 結果表示）
+}, 2000);
+// ★★★視覚効果END★★★
+}
+       resultOutput += `<p class="whisper">運命の囁き: ${cardInterpretations[hitCard.name.slice(2)]}</p>`;
+        resultOutput += `<p>象徴効果 & ボーナス: ${effects.join(', ') || 'なし'}</p>`;
+        resultOutput += `<p>マルチプライヤー: x${multiplier} | 獲得: ${reward}ポイント (オープンペナ: x${penaltyMultiplier.toFixed(2)})</p>`;
+        document.getElementById('kekka').innerHTML += resultOutput;
+
+// #####################################
+const typingText = document.querySelector(".typingText");
+const tekisuto = resultOutput;
+let typeindex = 1;
+setTimeout(typeText, 1000);
+// #####################################
+
+
+        // ヒットカードハイライト
+        var hitCardElement = document.getElementById(`card-${hitIndex}`);
+        hitCardElement.classList.add('hit-highlight');
+
+        document.getElementById('shuffle-btn').disabled = false;
+    }
+    window.spinRoulette = spinRoulette; // グローバル登録
+}
+
+
+// #####################################
+function typeText() {
+  typingText.textContent = tekisuto.slice(0, typeindex);
+  if (typeindex < tekisuto.length) {
+    typeindex++;
+    const randomInterval = Math.floor(Math.random() * 190) + 1;
+    setTimeout(typeText, randomInterval);
+  } else {
+    setTimeout(eraseText, 11500);
+  }
+}
+
+function eraseText() {
+  typeindex--;
+  typingText.textContent = tekisuto.slice(0, typeindex);
+  if (typeindex > 0) {
+    setTimeout(eraseText, 30);
+  } else {
+    setTimeout(typeText, 13500);
+  }
+}
+// #####################################
+
+
+    // ゲームオーバー関数
+    function gameOver(state) {
+        var resultElement = document.getElementById('kekka');
+        var jsonData = JSON.stringify({chapter: state.chapter, total_points: state.points, hit_history: state.hitHistory, bet_history: state.betHistory});
+
+        // ChatGPTへ渡すプロンプト決めスタート━━━┓
+        // プロンプト3種を乱数で決める
+        var prpt1 = '[TASK]T(タロット運命の冒険サーガ第n章を執筆;入力JSON: ' + encodeURIComponent(jsonData) + ';)→O:章ストーリー(導入-試練-クライマックス-解決),対話スクリプト(3-5シーン),感情マップ(各カードの影響),次章ヒント[/TASK][LOGIC]①hit_historyの各カードを関係者視点(例: 吊られた男=犠牲の味方, 死神=変革の導師)に割り当て②bet_historyを主人公の選択(例: 200ポイントベット=慎重な賭け, 300=大胆な挑戦)として反映③total_pointsを章の「運命値」として成長曲線を描く④バイアスフリー(正逆の両面をバランス)⑤劇形式Markdownで出力(章タイトル/シーン/[対話]/感情: ...);'
+
+        var prpt2 = '[DEF]lang=ja;T=Task(タロット運命の冒険サーガ第n章執筆);S=Steps(10);I={I₁,...,Iₙ},n≤10(各カードの解釈アイデア);Rᵢ=Score[0,1](ストーリー適合度);O=Output(統合ストーリー)[/DEF][TASK]T(JSON: ' + encodeURIComponent(jsonData) + ';主人公:プレイヤー。hit_historyを運命の試練に, bet_historyを選択の賭けに, total_pointsを達成感に反映)→O:発想(多角的解釈),検証(論理的一貫性),視点転換(逆位置の意外性)[/TASK][LOGIC]1.T→I:各hit_historyカードを多角的発想(例: 塔逆=崩壊後の再建)で最大10アイデアに分割;2.S=|I|でアイデア数確認;3.∀Iᵢ:Rᵢ算出(ベット履歴との整合でスコア);視点転換(正逆スイッチ);Rᵢ<0.5?新規発想:Rᵢ<0.8?拡張(総ポイント連動);S--;4.S=0&未完?逆転思考(死神=再生)で枠拡大;5.bet_historyを分岐点(if 200ベット then 安全ルート else 冒険ルート)に統合;6.O=Markdown(第n章: タイトル/試練: カード解釈/ナラティブ記述/達成ポイント: {total_points}の影響)';
+
+        var prpt3 = 'I:T=\"タロット運命の冒険サーガ第n章: JSON ' + encodeURIComponent(jsonData) + 'に基づき、主人公(プレイヤー)の冒険を描け。hit_historyをイベント仮説に, bet_historyを選択証拠に, total_pointsを全体スコアに。\";P:1.H={H₁,H₂,H₃,...}←GenHypotheses(T,n≥5)(例: H₁=吊られた男逆:犠牲の予兆);2.∀Hᵢ:Hᵢ→Pᵢ(Observe:カード意味解釈, DataCollect:bet_historyの影響, ExternalRef:タロット伝統);Eᵢ←Execute(Pᵢ)(ストーリーシーン生成);Eval(Eᵢ.reliability:正逆整合, conflicts:ベット矛盾);Sᵢ←Score(Hᵢ,Eᵢ,[0,100])(total_points加重);3.C←Integrate({S₁,S₂,...},T.validity)(高スコア仮説をナラティブに融合);O:Markdown(《Hypotheses:トップ3仮説リスト, P∧E: Methods & Evidence〔カード+ベットの説明〕, Scores:各イベントの達成度, Conclusion ＆ Insights:章の教訓と次章予感》)';
+
+        var rdmnum =  Math.floor(Math.random() * 3) + 1; // 1～3の乱数
+        var puronputo;
+        if (rdmnum===1){puronputo=prpt1;}
+        else if (rdmnum===2){puronputo=prpt2;}
+        else if (rdmnum===3){puronputo=prpt3;}
+
+        // ChatGPTへ渡すプロンプト決めEND━━━━┛
+
+        var overOutput = '<h3>ゲームオーバー！ 第' + state.chapter + '章 総ポイント: ' + state.points + '</h3>';
+        overOutput += '<p>ヒット履歴: ' + state.hitHistory.join(', ') + '</p>';
+        overOutput += '<p>ベット履歴: ' + state.betHistory.join(', ') + '</p>';
+        overOutput += '<h2 align="center"><a href="https://chatgpt.com/?q=' + puronputo + '" target="_blank">ChatGPTで結末ストーリー生成</a></h2>';
+        resultElement.innerHTML += overOutput;
+        document.getElementById('shuffle-btn').style.display = 'none';
+        document.getElementById('spin-btn').style.display = 'none';
+    }
+
+    // 初期状態ロード
+    document.addEventListener('DOMContentLoaded', function(){
+        var initialState = loadGameState();
+        saveGameState(initialState);
+        updateStatus(initialState);
+        console.log('Initial load completed');
+    });
+
+
+  </script>
+</head>
+<body style="background-image: url(../img/marseille/rurekabe.png); position: relative;">
+<div style="width:400px; height:312px; background-image: url(../img/marseille/tai2.png);">
+
+
+<!-- h3>運命賭博サーガ</h3 -->
+<br><br><br>
+<span style="color:white;font-size:12px;">マルセイユタロットの大アルカナ22枚のみでルーレット！ベットしてスピン！ スピン0でゲーム終了。結果をChatGPTに渡し、エンディングはどうなるか！？</span>
+
+</div>
+
+
+<input type="checkbox" id="popup" style="position: absolute !important; left: -9999px !important; top: -9999px !important; opacity: 0 !important;">
+<label class="popup-open" for="popup">&nbsp;セクター表&nbsp;</label>
+<div class="popup-overlay">
+    <div class="popup-window">
+        <p class="popup-text"><a href="../img/marseille/sec.png" target="_blank"><img src="../img/marseille/sec.png"></a></p>
+        <label class="popup-close" for="popup">
+            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+            </svg>
+        </label>
+    </div>
+</div>
+<br>
+<input type="checkbox" id="popup2" style="position: absolute !important; left: -9999px !important; top: -9999px !important; opacity: 0 !important;">
+<label class="popup2-open" for="popup2">&nbsp;説明&nbsp;</label>
+<div class="popup2-overlay">
+    <div class="popup2-window">
+        <p class="popup2-text"><h3>運命賭博サーガ◆タロットルーレット</h3><ol><li><b>【ゲームの流れ】</b><ul><li>[シャッフル]ボタンを押す→裏面カードが10枚配られる。この10枚カードのどれか1枚にルーレットがヒットしますので、そのカードを当てるのがねらい。<li>[カードをめくる]カードは見ても見なくてもいいです。<br>[ベット]当たると思うセクターにベットします。<li>[スピン]ボタンを押すと、どれか1枚にヒット。セクターの倍率のポイントを獲得。<li>再度[シャッフル]ボタンを押す・・・の繰り返し。</ul>1スピンするごとに章が進みます。スピンが0になるとゲーム終了。最終結果によりChatGPTで物語が生成されます。<li><b>【カードをめくる】</b>裏面カードはクリックして何枚でもめくることができます。すべてめくった場合、22枚の大アルカナのうち、場に配られた10枚を事前に知ることができますが、オープンペナとして1枚めくる度に報酬が5%減。10枚全部めくると50%減=半分の報酬になります。めくると、そのカードがヒットした時のセクターに目印のヒントが出ます。<li><b>【セクター】</b>セクターは14種類。正・逆位置セクターはヒットカードの正逆を当てます。それ以外のセクターはセクター表参照。持ちポイント内で何ヶ所でもベットでき、ベット額は1ヶ所100ポイント固定です。ベットしたポイントは消費されます。<li><b>【ボーナスイベント】</b>正位置連続やその他の条件、またはランダムでボーナスイベントがあります。ポイント獲得・倍率アップ・スピン獲得・章進捗2倍などなど。良いことばかりでなく、影の試練も。</ol></p>
+        <label class="popup2-close" for="popup2">
+            <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                <line x1="0" y1="0" x2="18" y2="18" stroke="white" stroke-width="3"></line>
+                <line x1="0" y1="18" x2="18" y2="0" stroke="white" stroke-width="3"></line>
+            </svg>
+        </label>
+    </div>
+</div>
+
+<div id="card-grid"></div>
+
+<!-- アナウンス -->
+<div class="container">
+  <p class='typingText'></p>
+</div>
+
+<!-- h4>ベットするセクターを選択 (各100ポイント)</h4 -->
+<div class="sector-list" id="sector-list"></div>
+<hr>
+<button id="shuffle-btn" class="calc-btn" onclick="window.shuffleCards()">シャッフル</button><br>
+<!-- button id="spin-btn" class="calc-btn" onclick="window.spinRoulette()" style="display:none;">スピン！</button -->
+<button id="reset-btn" class="calc-btn" onclick="resetGame()">リセット</button>
+<span class="kekka" id="kekka"></span>
+<hr>
+<div class="status" id="status">章: 1 | ポイント: 1000 | スピン: 10</div>
+
+<!-- admax -->
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<div id="ksn" class="am2"></div>
+
+<div class="betto" id="betto"></div>
+
+</body>
+</html>

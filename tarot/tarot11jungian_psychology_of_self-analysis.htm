@@ -1,0 +1,724 @@
+﻿<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>タロットでユングの心理的自己分析ツール - ChatGPT連携</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<style>
+body {line-height:160%; color: #bfc9e0; }
+.am2 {background: #eaf4ff; padding: 10px 10px; opacity: 0.9;}
+.tarolin {background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {background: #eaf4ff; padding: 10px 10px;}
+form dl dt {width: 120px; height: 30px; padding: 10px 0; line-height: 10px; float: left;}
+form dl dd {padding: 5px 0; margin: 0;}
+.box {box-sizing: border-box; width: 70px !important; height: 30px !important; margin: 0 !important; padding: 0 10px !important;}
+.calc-btn {width: 110px; height: 60px; border: 1px solid #333;}
+.calc-btn:hover { cursor: pointer; width: 110px; height: 60px;}
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#999999;margin:10px;line-height:190%;}
+@keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+    #table { 
+      position: absolute; /* relative;  */
+      width: 300px; 
+      height: 400px; 
+      border: 2px dashed #ccc; 
+      margin: 20px auto; 
+      background: #f9f9f9; background-image: url(../img/ita.gif); 
+      overflow: hidden;
+      touch-action: none; /* モバイルでスクロールを防ぐ */
+    }
+
+.card {
+  position: absolute;
+  width: 50px;
+  height: 85px;
+  cursor: move;
+  user-select: none;
+  transition: transform 0.3s ease, left 0.3s ease, top 0.3s ease; 
+/*   transition: all 0.3s ease-out; ← これが「ふわっ」と動く秘密 */
+  touch-action: none;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+    .card:hover { transform: scale(1.05); }
+    .card.dragging { opacity: 0.5; transform: rotate(5deg); z-index: 100; }
+    .card img { width: 100%; height: 100%; object-fit: cover; }
+    #shuffled-area { display: none; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #results { margin-top: 20px; }
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe2.jpg);">
+
+
+<img src="../img/marseille/title.png">
+<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm">
+<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+
+<h3>ユング心理学の視点から自己分析・内省支援</h3>
+<img src="../img/ti10.jpg" align="right">
+
+ユングの元型理論との親和性が高い、タロットの大アルカナ22枚で占い…じゃなくて、自己分析です。<br>
+タロットは無意識の象徴として機能し、特に大アルカナが「元型（archetypes）」の視覚化に直結します。ユングの言う普遍的な無意識のイメージ（例: 皇帝=父元型、悪魔=シャドウ、世界=Self）を直接反映するわけです。<br>
+ケルト十字の各ポジションでカードを引くと、人生の主要テーマや心理的転換点が象徴的に浮かび上がり、無意識の深層探求がしやすくなります。ユング派のタロット実践では、これを「心理的旅のマップ」として使い、カード間の矛盾を内的葛藤として分析しています。
+<br><br>ユング心理学の枠組み《特に元型理論、シャドウの概念、自己(Self)の統合》に適用した、構造化された自己分析ツール。伝統的なタロット占いの象徴性を、心理療法的な内省支援に転用します。単なる予言ではなく「心理的盲点の発見」と「成長機会の提案」に焦点を当てています。娯楽的な占いを「心理的ツール」へ昇華させた点が特徴で、ユング派のカウンセリングや自己啓発ワークに適しています。
+
+<br><br>
+
+<div style="color:black;font-size:10pt; background-image: url(../img/marseille/kabe.jpg);">
+《語句説明》これらの用語は、最初は抽象的に感じるかもですが、タロットや夢日記で実践すると実感が湧きます。
+<ul>
+<li>Archetype (元型)…人間の心に生まれつき備わっている、普遍的なイメージやパターン（例: 母親像や英雄像）。神話や夢に現れやすい。無意識の「テンプレート」を知ることで、自分の行動パターンを理解しやすくなる。</li>
+<li>Shadow (シャドウ)…自分の中に抑圧（隠している）されている、嫌な部分や弱さ（例: 怒りや嫉妬）。無意識の「暗い影」。これを無視せず向き合うと、自己成長の鍵になる。統合しないと、他人に投影してトラブルを起こす。</li>
+<li>Persona (ペルソナ)…社会で着用する「仮面」のような、外向きの自分。職場や友人に見せる理想像。仮面が本当の自分を隠しすぎると、ストレスが増す。バランスを取るのが大事。</li>
+<li>Anima (アニマ)…男性の無意識にある「内なる女性像」。感情や創造性を象徴する。女性版は「アニムス」。異性の側面を無視すると、人間関係が偏る。統合すると、心が豊かになる。</li>
+<li>Self (セルフ、自己)…心の全体像で、無意識と意識の中心。ユングの目指す「完全な自分」。人生の目標は、このSelfを実現すること。個性化のゴール。</li>
+<li>Individuation (個性化)…無意識の要素（影や元型）を意識的に統合し、本当の自分になるプロセス。単なる成長じゃなく、「自分らしさ」を手に入れる旅。悩みの解決に繋がる。</li>
+<li>Hero Archetype (英雄元型)…冒険や挑戦を乗り越える勇者のイメージ。困難に立ち向かうパワー。モチベーションが低い時、これを呼び起こすと行動力が湧く。</li>
+<li>Wise Man Archetype (賢者元型)…知恵や指導を与える老人のイメージ。内なるアドバイザー役。決断に迷う時、冷静な視点を提供。依存を減らす助けに。</li>
+<li>Chaos Archetype (混沌元型)…無秩序や変革の力。創造の源だが、混乱も生む。変化の時期に現れやすい。恐れず受け入れると、新しいアイデアが生まれる。</li>
+<li>Trickster Archetype (トリックスター元型)…いたずら好きでルールを崩すトリックスターのイメージ。ユーモアや意外性を象徴。堅苦しいルーチンを壊すきっかけに。創造性を刺激するが、注意が必要。</li>
+<li>Light (ライト、強み):…これはユングの厳密な用語ではありませんが、Shadowの反対で、自分のポジティブな側面（才能や美徳）を指す。ユングの考えでは、Lightを活かしてShadowを照らすイメージ。</li>
+</ul></div>
+<div id="table"></div>
+<div id="shuffled-area"></div>
+
+占う時は、ユングの基本概念（元型、シャドウ）を軽く予習すると、より深い洞察が得られます。<br>
+<a href="https://www.earthship-c.com/jung-psychology/archetype/" target="_blank">元型とは何か《ユング心理学》- アースシップ・コンサルティング</a>
+<br>
+<label><b>現在の悩みや人生のテーマ</b>：ユングの視点から、無意識の探求や統合を求める質問が効果を発揮します。
+
+<br>
+
+<textarea id="question" name="q" rows="14" cols="40" placeholder="例《現在の悩み（即時的な無意識探求：シャドウの可視化と葛藤の言語化を重視）》&#10;◆人間関係の対立: 「最近の友人との衝突で、私のシャドウ（抑圧された怒り）がどのように現れているか？ タロット結果から無意識の投影を統合する道は？」&#10;◆仕事のモチベーション低下: 「キャリアの停滞感が、無意識の『英雄元型』の拒絶から来ているとしたら、現在の悩みをLight（創造性）でどうバランスさせるか？」&#10;◆不安や恐怖の繰り返し: 「夜間の不安発作が、幼少期の影の記憶を呼び起こすなら、タロットでそのパターンを探求し、統合の第一歩を提案して。」&#10;◆自己価値の低下: 「最近の失敗体験で感じる無力感が、アニマ（内なる女性性）の抑圧を示すなら、現在の悩みをどう自己受容へ転換するか？」&#10;◆依存的な関係性: 「パートナーへの過度な依存が、無意識の『賢者元型』の欠如を表す場合、タロット分析でシャドウを解放する戦略は？」&#10;&#10;《人生のテーマ（長期的な統合：Self実現に向けた元型の調和を重視）》&#10;◆創造性の発揮: 「私の人生テーマ『創造性』が、無意識の混沌元型と対立する場合、タロットから統合の3ステップを導き、成長機会を教えて。」&#10;◆目的意識の探求: 「人生のテーマ『使命感』で感じる虚空が、影の側面（怠惰の恐れ）から来るなら、無意識を探求してSelfへの道筋を描いて。」&#10;◆調和とバランス: 「人生のテーマ『人間関係の調和』が、ペルソナ（仮面）とシャドウの葛藤を生むなら、タロットでパターンを認識し、統合提案を。」&#10;◆精神的な成長: 「私のテーマ『内面的成長』が、無意識のトリックスター元型（混乱の誘惑）で阻害される場合、タロットからLightを強化する内省を。」&#10;◆遺産と継承: 「人生のテーマ『家族の遺産』が、祖先の影を投影するなら、無意識の探求を通じて個性化プロセスを進める道は何か？」&#10;&#10;" style="line-height:160%;"></textarea></label><br>
+<button id="suggest-theme" class="calc-btn" onclick="suggestRandomTheme()">ランダムテーマ提案</button>
+<hr>
+
+<span id="kekka" style="background-image: url(../img/kurahai.png);"></span>
+  <div id="results"></div>
+
+<button id="shuffleBtn" class="calc-btn" onclick="startShuffle()">シャッフル開始</button>
+<button id="drawBtn" class="calc-btn" onclick="drawCards()" disabled>これで占う</button><br>
+<button id="hiku" onclick="myFunction()">非常ボタン</button>
+
+
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+document.getElementById('table').style.display = 'none';
+
+const randomThemes = [
+    
+    "心理的盲点の探求: 最近の人間関係のトラブルで、私の無意識のシャドウ(自身が無意識に抑圧した、否定的な側面や「認めたくない自分」)は何を表しているか？",
+    "強みの活用と成長戦略: キャリアの停滞感を乗り越えるために、私のLight（強み）をどう強化すべきか？（悩み：仕事のモチベーション低下）",
+    "内的葛藤の解消: 家族との対立で感じる矛盾を、タロットからどう統合するか？（人生のテーマ：調和）葛藤を自己理解に。",
+    "人生テーマの深掘り: 私の人生のテーマ『創造性』を自己実現へつなげる道筋は？",
+    "繰り返すパターンの打破: 過去の失敗パターンをタロットから分析し、ジャーナリングでどう向き合うか？",
+    "人間関係の対立: 最近の友人との衝突で、私のシャドウ（抑圧された怒り）がどのように現れているか？ タロット結果から無意識の投影を統合する道は？",
+    "仕事のモチベーション低下: キャリアの停滞感が、無意識の『英雄元型』の拒絶から来ているとしたら、現在の悩みをLight（創造性）でどうバランスさせるか？",
+    "心理的盲点の探求（シャドウの可視化と無意識の投影を掘り下げる）- 創造性のブロック: 最近のアイデア枯渇が、無意識の『トリックスター元型』の抑圧から来ているなら、タロット結果からその盲点を明らかにし、投影を統合するヒントを。",
+    "心理的盲点の探求（シャドウの可視化と無意識の投影を掘り下げる）- 他人への疑念が、私のシャドウ（幼少期の裏切り記憶）を反映する場合、タロットで無意識の盲点を分析し、自己信頼への道を開いて。",
+    "強みの活用と成長戦略（Lightの強化と個性化の行動計画を重視）- リーダーシップの活性化: 私の強み『リーダーシップ』を、無意識の英雄元型として活かす戦略は？ タロットから成長の3ステップを提案して、現在のキャリア悩みを克服しよう。",
+    "強みの活用と成長戦略（Lightの強化と個性化の行動計画を重視）- 共感力の深化: 共感のLightをアニマ元型として強化し、感情的な成長を促すには？ タロット分析で、日常の人間関係にどう適用するか戦略を。",
+    "内的葛藤の解消（元型の対立を言語化し、調和へ導く）- 独立 vs. 所属: 一人でいたい欲求と集団への渇望の葛藤が、無意識のペルソナとシャドウの対立なら、タロットでその言語化をし、統合のバランスを教えて。",
+    "内的葛藤の解消（元型の対立を言語化し、調和へ導く）- 成功の恐れ: 達成への野心と失敗の恐怖が内的葛藤を生む場合、タロット結果から元型の矛盾を解消し、Self中心の調和へ導く道筋を。",
+    "人生テーマの深掘り（長期的なSelf実現と無意識のパターンを探求）- 癒しの探求: 人生のテーマ『癒し』が、無意識の傷跡元型と結びつくなら、タロットで深掘りし、個性化プロセスを進めるための内省ステップを。",
+    "人生テーマの深掘り（長期的なSelf実現と無意識のパターンを探求）- 冒険の呼び声: 私のテーマ『冒険』が、シャドウの安定欲求で阻まれる場合、タロットから無意識の深層を探求し、統合的な人生道筋を描いて。",
+    "繰り返すパターンの打破（パターン認識とシャドウの解放を重視）- 先延ばしの習慣: タスクの先延ばしパターンが、無意識の怠惰シャドウを示すなら、タロットで繰り返しの原因を特定し、打破のためのジャーナリング質問を。",
+    "繰り返すパターンの打破（パターン認識とシャドウの解放を重視）- 過度な完璧主義: 完璧を求める繰り返しが、賢者元型の歪みを生む場合、タロット分析でパターンを打破し、柔軟な自己受容への成長機会を提案して。"
+];
+
+
+function suggestRandomTheme() {
+    const randomIndex = Math.floor(Math.random() * randomThemes.length);
+    const selectedTheme = randomThemes[randomIndex];
+    document.getElementById('question').value = selectedTheme;
+}
+
+    // 22枚の大アルカナの名称をマルセイユタロット版で定義（0から21番）
+    let cards = [
+        { name: '00愚者' },      // 0
+        { name: '01魔術師' },  // 1
+        { name: '02女教皇' }, // 2
+        { name: '03女帝' },   // 3
+        { name: '04皇帝' },   // 4
+        { name: '05教皇' }, // 5
+        { name: '06恋人' },    // 6
+        { name: '07戦車' },   // 7
+        { name: '08正義' },       // 8
+        { name: '09隠者' },    // 9
+        { name: '10運命の輪' }, // 10
+        { name: '11力' },      // 11
+        { name: '12吊られた男' }, // 12
+        { name: '13死神' },         // 13
+        { name: '14節制' },    // 14
+        { name: '15悪魔' },     // 15
+        { name: '16塔' },     // 16
+        { name: '17星' },      // 17
+        { name: '18月' },      // 18
+        { name: '19太陽' },       // 19
+        { name: '20審判' },     // 20
+        { name: '21世界' }      // 21
+    ];
+
+// カード意味のマップ（ユング心理学視点：無意識探求・夢分析対応）
+const meanings = {
+    '愚者(正)': '無意識の純粋な元型（トリックスターの自由）が目覚め、無限の可能性を呼び起こす。夢の中で現れる無邪気な旅立ちとして、個性化の始まりを象徴し、抑圧された創造性を解放して新たな自己発見の冒険へ踏み出そう',
+    '愚者(逆)': 'シャドウの慎重さが内面的自由を再定義する機会、無意識の恐れを夢のシンボルとして探求し、現実的な一歩で成長の橋渡しを。潜在的な無秩序を統合し、安定した無意識の流れを育もう',
+    '魔術師(正)': '創造元型（マギ）の顕現が自信を呼び、無意識の才能を意識へ橋渡し。夢分析で道具を操るイメージとして、潜在能力の統合を促し、積極的な行動でSelfの表現を始めよう',
+    '魔術師(逆)': '無意識の準備不足がシャドウとして浮上、夢の混乱シンボルから自信を養うプロセスへ。小さな内省を通じて持続的な個性化を、抑圧された力を現実的に呼び起こそう',
+    '女教皇(正)': 'アニマの智慧元型が直観を照らし、無意識の深層を穏やかに開く。夢の神秘的な女性像として、内なる英知を信頼し、冷静な判断で無意識のバランスを整えよう',
+    '女教皇(逆)': '抑圧された過去の智慧がシャドウ化、夢の閉ざされた扉として行動への移行を促す。学んだ無意識のパターンを活かし、積極的な統合で新しい自己実現の扉を開こう',
+    '女帝(正)': '豊饒の母元型が創造性を溢れさせ、無意識の養育性を家庭的な調和へ。夢の豊かな大地イメージで、魅力的な自己表現を通じて周囲とのつながりを深めよう',
+    '女帝(逆)': '感情のシャドウがバランスを乱す休息の時、夢の枯れた庭として我儘を優しさに転換。無意識の揺らぎを内省し、満足の統合へ導く機会を掴もう',
+    '皇帝(正)': '父元型の安定が信頼の基盤を築き、無意識の秩序を社会的な達成へ。夢の堅固な城塞として、責任ある行動で個性化の構造を着実に強化しよう',
+    '皇帝(逆)': '過信のシャドウが柔軟性を求める、夢の崩れゆく壁として謙虚さを呼び起こす。協力的な無意識の探求で、自分らしい調和の道を切り開こう',
+    '教皇(正)': '賢者元型の慈悲が無意識の指導性を呼び、人道的な判断で寛容を育む。夢の聖なる指導者像として、法のバランスを保ち、自信ある内省を進めよう',
+    '教皇(逆)': '保守のシャドウが信頼を阻む更新の時、夢の古い教えとして頑固さを手放す。無意識の不信を信頼へ転換し、関係の深層統合を果たそう',
+    '恋人(正)': 'アニマ/アニムスの統合元型が運命的な選択を促し、無意識の調和を情熱へ。夢の二元性シンボルとして、最善の決断で純粋な喜びの自己合一を信じよう',
+    '恋人(逆)': '迷いのシャドウが誠実な関係を試す機会、夢の分かれた道として誘惑を乗り越える。無意識の葛藤を明確にし、自分らしい選択で統合の道を選ぼう',
+    '戦車(正)': '英雄元型の意志が無意識の対立を勝利へ導き、行動力で進展を。夢の疾走する戦士として、目的地を明確に手綱を握り、精神の調和を前進させよう',
+    '戦車(逆)': '無気力のシャドウが目的再確認を促す、夢の停滞した車輪として軌道修正を。無意識の活力と物質のバランスで、穏やかな個性化の旅を続けよう',
+    '正義(正)': '均衡元型が無意識の公正を呼び、冷静な判断で関係を築く。夢の天秤イメージとして、誠実さを基に第三の道を開き、倫理的自己統合を果たそう',
+    '正義(逆)': '不均衡のシャドウが公平の回復を求める、夢の傾いた秤として不正を修復。無意識の葛藤を正義の糧に変え、前向きな成長へ導こう',
+    '隠者(正)': '賢者元型の内観が無意識の真理を照らし、精神的な旅で悟りを。夢の灯火を持つ孤独者として、静かな探求で本質的なSelfを発見しよう',
+    '隠者(逆)': '閉鎖のシャドウが現実接続を促す、夢の暗い洞窟として積極性を呼び起こす。無意識の消極性を前向きに転換し、外界との統合を始めよう',
+    '運命の輪(正)': 'シンクロニシティの元型が無意識の節目を幸運へ、柔軟な受け止めでチャンスを。夢の回転する輪として、社会的成功をポジティブに統合しよう',
+    '運命の輪(逆)': '変化のシャドウが内面的成長を待つ智慧を、夢の止まった輪として学びに変える。無意識のアクシデントを調和の糧に、時期を味方につけよう',
+    '力(正)': '獣と調和の元型が不屈の精神を呼び、無意識の本能を理性で制す。夢の穏やかな獅子操りとして、内なる力を信じ、目標の個性化をやり遂げよう',
+    '力(逆)': '力不足のシャドウが忍耐の成長を促す、夢の弱々しい獣として諦めを希望へ。無意識の優柔を決断力に育て、統合の道を歩もう',
+    '吊られた男(正)': '犠牲元型が試練を通じ無意識の成長を、忍耐で精神的な報酬を。夢の逆さの視界として、休養を活かし、動けるSelfへの準備を整えよう',
+    '吊られた男(逆)': '苦悩のシャドウが解放を求める、夢の解かれた縄として投げやりを前向きへ。無意識の充足を探求し、新たな努力の統合を始めよう',
+    '死神(正)': '変革元型が無意識の終焉を再生へ、無意識の死のシンボルとしてチャンスを。夢の骸骨の使者で、変化をポジティブに受け入れ、個性化の転換点を掴もう',
+    '死神(逆)': '停止のシャドウが休息を通じ英気を養う、夢の遅れた収穫として起死回生を。無意識の活力あるスタートへ、再生のプロセスを加速させよう',
+    '節制(正)': '調和元型が無意識の循環を順調に、管理された流れでバランスを。夢の天使の混合として、丁寧な内省で時間をSelf実現の味方につけよう',
+    '節制(逆)': '浪費のシャドウが節約の学びを促す、夢の溢れた杯として不均衡を修復。無意識の惰性を活力へ転換し、行動の統合を果たそう',
+    '悪魔(正)': '影の元型が強い意志で変化を創造、無意識の誘惑を自立の糧に。夢の鎖の幻影として、依存を成長へポジティブに活かし、解放の喜びを味わおう',
+    '悪魔(逆)': '執着のシャドウが解放の好機を、夢の壊れた鎖として目覚めを促す。無意識の欲望支配からバランスのSelfへ、手放しのプロセスを進めよう',
+    '塔(正)': '崩壊元型が突然の変化を再構築へ、無意識のショックを学びのシンボルに。夢の雷撃の塔として、壊れるものを委ね、新しい無意識の世界を築こう',
+    '塔(逆)': '不安定のシャドウが安定へのステップを、夢の揺らぐ塔として冷静な扱いを。無意識の受難を克服の機会に、ポジティブな調整で統合しよう',
+    '星(正)': '希望元型が無意識の直感を閃きへ、目標の憧れを満たす。夢の夜空の星として、インスピレーションを信じ、意志の強いSelf表現を',
+    '星(逆)': '失望のシャドウが新たな希望を育む、夢のくすんだ星として高望みを現実へ。無意識の無気力を活力に回復し、オープンな探求を続けよう',
+    '月(正)': '無意識の深淵元型が探求を促し、不安を内省の機会に。夢の幻想の月光として、タブーを解放し、心の平穏な統合を問いかけよう',
+    '月(逆)': 'トラウマのシャドウが解消の好転を、夢の霧の月として本能をコントロール。無意識の葛藤を明晰さに変え、不安を自信の糧にしよう',
+    '太陽(正)': '光の元型が無意識の喜びを天真爛漫に、無邪気さを明るい未来へ。夢の輝く太陽として、感情を表現し、成果の心からの統合を楽しもう',
+    '太陽(逆)': '不調のシャドウが回復のチャンスを、夢の曇った太陽として落胆を前向きへ。無意識の悪化を好転の糧に、ポジティブなプロセスを進めよう',
+    '審判(正)': '再生元型が無意識の復活を祝福へ、再チャレンジの機会を。夢の喇叭の呼び声として、決断の振り返りで個性化の扉を開こう',
+    '審判(逆)': '警告のシャドウが改善のヒントを、夢の沈黙の喇叭として罰を学びに。無意識の暗闇を光へ変え、冷静な再起の統合を果たそう',
+    '世界(正)': 'Self元型の完成が無意識の理想を充足へ、完璧な達成を。夢の舞う女性として、感謝の螺旋旅で全体の調和を楽しもう',
+    '世界(逆)': '未完成のシャドウが完成へのステップを、夢の止まった輪舞として惰性を活力へ。無意識の物足りなさを満足の源に、柔軟な前進を'
+};
+
+
+// DOM要素のカード配列（シャッフル後に作成）★
+let cardElements = [];
+let draggedCard = null;
+let draggedIndex = -1;
+let initialX = 0;
+let initialY = 0;
+
+function myFunction() { //Q長Chk,Qの改行を;に,22枚の大アルカナの名称をマルセイユタロット版で定義（0から21番）,Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル,視覚効果,シャッフル後、最初の10枚を選択,各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て,カード意味のマップ～アウトプットまで
+    const resultElement = document.getElementById('kekka');  // ← ifブロック外に移動（関数冒頭で1回だけ宣言）
+    document.getElementById('suggest-theme').disabled = true;
+    document.getElementById('drawBtn').disabled = true;
+// Q長Chk
+    let text = document.getElementById('question').value;
+    if (text.length < 15) {
+        resultElement.innerHTML = "質問を詳しく入力してください（15文字以上）。";
+        document.getElementById('hiku').disabled = false;
+    document.getElementById('suggest-theme').disabled = false;
+        return;
+    }
+
+
+    // Qの改行を;に
+    let textArray = text.split('\n');
+    let newText = textArray.join(';');
+
+
+// スタイルを追加（一度だけ、既に追加済みならスキップ）
+if (!document.querySelector('#sparkStyle')) {
+  const style = document.createElement('style');
+  style.id = 'sparkStyle';
+  style.textContent = `
+    @keyframes sparkFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(360deg);
+      }
+    }
+    .spark {
+      position: fixed;
+      width: 50px; /* 大きく調整（4px → 12px） */
+      height: 50px; /* 大きく調整（4px → 12px） */
+      background: radial-gradient(circle, hsl(var(--hue), 100%, 50%) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+      animation: sparkFly 1.5s ease-out forwards;
+      box-shadow: 0 0 8px hsl(var(--hue), 100%, 50%); /* 光のハロー効果でさらに目立たせる */
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// フェードなしでスパークのみ開始
+const sparkInterval = setInterval(() => {
+  const spark = document.createElement('div');
+  spark.className = 'spark';
+  spark.style.setProperty('--hue', Math.random() * 60); // 暖色系カラー
+  const angle = Math.random() * Math.PI * 2;
+  const distance = Math.random() * 200 + 100;
+  spark.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+  spark.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+  document.body.appendChild(spark);
+  setTimeout(() => spark.remove(), 1500);
+}, 50); // 高速で複数生成してスパーク感
+
+setTimeout(() => {
+  clearInterval(sparkInterval);
+  // シャッフルコードへ
+}, 2000);
+
+
+
+    // シャッフル後、最初の10枚を選択
+    shuffle(cards); 
+    const selectedCards = cards.slice(0, 10);
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+    selectedCards.forEach(card => {
+        card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+    });
+
+
+    // 結果をHTMLの<span id="kekka">に挿入
+    let output = '<h3>Selected 10 cards from 22 (Marseille Tarot):</h3><img src="../img/marseille/ke.png" align="left">カードの意味はユング心理学視点：無意識探求・夢分析対応ですが、気にしないでください。ここはざっと読み飛ばしてください。<br><br>';
+    selectedCards.forEach((card, index) => {
+        output += '<div class="bgb">';
+        if(index===0){output+="現在の状況"}
+        if(index===1){output+="援助(助けになるもの)"}
+        if(index===2){output+="過去"}
+        if(index===3){output+="最近の出来事"}
+        if(index===4){output+="起こりうる未来"}
+        if(index===5){output+="近い未来"}
+        if(index===6){output+="質問者の態度"}
+        if(index===7){output+="質問者の環境"}
+        if(index===8){output+="期待と恐れ"}
+        if(index===9){output+="最終結果"}
+        output += '</div>';
+
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+        output += `<ul><li><img align="right" src="../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png" alt="${card.name.slice(2)}">${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})<br><span class="usu">${meaning}</span><br clear="right"></li></ul>`;
+    });
+    output += '<h2 align="center">ここでchatGPTが質問内容を踏まえて占い結果カードを詳しくリーディングします!!<br>↓　↓　↓　↓　↓<br><a href="https://chatgpt.com/?q=[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF][TASK]T(タロット占い結果から心理的盲点と成長機会を発見);Input:{占い結果【';
+    selectedCards.forEach((card, index) => {
+        output += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    output += '】,現在の悩みや人生のテーマ【' + encodeURIComponent(newText) + '】}→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK][LOGIC]①各カード→ユング心理学の元型へ変換;②逆位置→抑圧された側面/シャドウの可視化;③カード間矛盾→内的葛藤の言語化;④ポジション横断分析→パターン認識(繰り返す課題);⑤統合的視点→Self実現への3ステップ提案;⑥Output=深層心理レポート+ジャーナリング質問10;[/LOGIC]" target="_blank">結果発表</a></h2>';
+    resultElement.innerHTML = output;  // ← 定義済みで使用
+
+    let kopipuro = '[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF][TASK]T(タロット占い結果から心理的盲点と成長機会を発見);Input:{占い結果【'
+selectedCards.forEach((card, index) => {
+        kopipuro += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    kopipuro += '】,現在の悩みや人生のテーマ【' + newText + '】}→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK][LOGIC]①各カード→ユング心理学の元型へ変換;②逆位置→抑圧された側面/シャドウの可視化;③カード間矛盾→内的葛藤の言語化;④ポジション横断分析→パターン認識(繰り返す課題);⑤統合的視点→Self実現への3ステップ提案;⑥Output=深層心理レポート+ジャーナリング質問10;[/LOGIC]';
+    document.getElementById('textoo').innerHTML = kopipuro;  // ← getElementByIdで取得
+
+
+    // ボタンを無効化して重複実行防止
+    document.getElementById('hiku').disabled = true;
+    document.getElementById('shuffleBtn').disabled = true;
+    document.getElementById('suggest-theme').disabled = true;
+}
+
+// 軽量シャッフル（配列の後半半分だけシャッフル）★
+function lightShuffle(array) {
+    const mid = Math.floor(array.length / 2);
+    for (let i = array.length - 1; i >= mid; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// カードを画面に散らばらせる★
+function scatterCards() {
+    const table = document.getElementById('table');
+    table.innerHTML = ''; // クリア
+    cardElements = [];
+
+    cards.forEach((card, index) => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'card';
+        cardEl.dataset.index = index;
+        cardEl.innerHTML = '<img src="https://jdp.zouri.jp/img/ura.png" alt="裏面" />';
+
+        // デスクトップ用にドラッグを有効化（重要）
+        cardEl.draggable = true;
+
+        // 画像自体のデフォルトドラッグを無効にする（これがないと画像だけドラッグされ親の dataset が取れない）
+        const img = cardEl.querySelector('img');
+        if (img) img.draggable = false;
+
+        // ランダム位置に配置
+        //const x = Math.random() * (table.offsetWidth - 50);
+        //const y = Math.random() * (table.offsetHeight - 85);
+const x = (table.offsetWidth / 2) + (Math.random() - 0.5) * table.offsetWidth * 0.7;
+const y = (table.offsetHeight / 2) + (Math.random() - 0.5) * table.offsetHeight * 0.7;
+        cardEl.style.left = x + 'px';
+        cardEl.style.top = y + 'px';
+
+        // ランダム角度を追加（-20〜20度の範囲でランダム）
+        const angle = (Math.random() * 40) - 20;
+        cardEl.style.transform = `rotate(${angle}deg)`;
+// const delay = Math.random() * 200; // 最大0.2秒ランダム遅延
+// cardEl.style.transitionDelay = `${delay}ms`;
+
+        // デスクトップドラッグイベント
+        cardEl.addEventListener('dragstart', handleDragStart);
+        cardEl.addEventListener('dragend', handleDragEnd);
+
+        // モバイルタッチイベント
+        cardEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+        cardEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+        cardEl.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+        table.appendChild(cardEl);
+        cardElements.push(cardEl);
+
+    });
+}
+
+
+// デスクトップドラッグ開始（親 .card を必ず取得する）
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+// デスクトップドラッグ開始（親 .card を必ず取得する）
+function handleDragStart(e) {
+    const card = e.target.closest('.card');
+    if (!card) return;
+
+    draggedCard = card;
+    draggedIndex = parseInt(card.dataset.index, 10);
+
+    // マウス位置とカード位置の差分を記録
+    const rect = card.getBoundingClientRect();
+    dragOffsetX = e.clientX - rect.left;
+    dragOffsetY = e.clientY - rect.top;
+
+    card.classList.add('dragging');
+
+    // ブラウザ既定のドラッグイメージを消す
+    const img = new Image();
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+    e.dataTransfer.setDragImage(img, 0, 0);
+    e.dataTransfer.setData('text/plain', String(draggedIndex));
+    e.dataTransfer.effectAllowed = 'move';
+}
+
+function handleDragEnd(e) {
+    const card = e.target.closest('.card') || draggedCard;
+    if (card && card.classList.contains('dragging')) {
+        card.classList.remove('dragging');
+    }
+    draggedCard = null;
+    draggedIndex = -1;
+}
+
+// モバイルタッチ開始★
+function handleTouchStart(e) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    // imgタグをタッチしたときも.cardを取得
+    draggedCard = e.target.closest('.card');
+    if (!draggedCard) return;
+    draggedIndex = parseInt(draggedCard.dataset.index);
+    draggedCard.classList.add('dragging');
+
+    const rect = draggedCard.getBoundingClientRect();
+    initialX = touch.clientX - rect.left;
+    initialY = touch.clientY - rect.top;
+}
+
+// モバイルタッチ移動★
+function handleTouchMove(e) {
+    if (!draggedCard) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    const table = document.getElementById('table');
+    const tableRect = table.getBoundingClientRect();
+
+    // 現在のタッチ位置に合わせてカードを動かす
+    let newX = touch.clientX - tableRect.left - initialX;
+    let newY = touch.clientY - tableRect.top - initialY;
+
+    // 境界チェック（カードがはみ出ないように）
+    newX = Math.max(0, Math.min(newX, tableRect.width - draggedCard.offsetWidth));
+    newY = Math.max(0, Math.min(newY, tableRect.height - draggedCard.offsetHeight));
+
+    draggedCard.style.left = `${newX}px`;
+    draggedCard.style.top = `${newY}px`;
+}
+
+// モバイルタッチ終了（ドロップ処理）★
+function handleTouchEnd(e) {
+    if (!draggedCard) return;
+    e.preventDefault();
+    draggedCard.classList.remove('dragging');
+
+    // 軽量シャッフルと全カードの再配置（バラバラ効果）
+    lightShuffle(cards);
+    const table = document.getElementById('table');
+    const tableRect = table.getBoundingClientRect();
+    cardElements.forEach((el, i) => {
+        const newX = Math.random() * (tableRect.width - 50);
+        const newY = Math.random() * (tableRect.height - 85);
+        const angle = (Math.random() * 60) - 30; // -30〜+30度のランダム回転
+        el.style.left = `${newX}px`;
+        el.style.top = `${newY}px`;
+        el.style.transform = `rotate(${angle}deg)`; // ←追加！
+        el.dataset.index = i;
+    });
+
+    draggedCard = null;
+    draggedIndex = -1;
+}
+
+// ドロップゾーンイベント（デスクトップ用）★
+const table = document.getElementById('table');
+// デスクトップ中のドラッグ移動
+table.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    if (!draggedCard) return;
+
+    const rect = table.getBoundingClientRect();
+    let newX = e.clientX - rect.left - dragOffsetX;
+    let newY = e.clientY - rect.top - dragOffsetY;
+
+    newX = Math.max(0, Math.min(newX, rect.width - draggedCard.offsetWidth));
+    newY = Math.max(0, Math.min(newY, rect.height - draggedCard.offsetHeight));
+
+    draggedCard.style.left = `${newX}px`;
+    draggedCard.style.top = `${newY}px`;
+});
+table.addEventListener('drop', handleDrop);
+
+// ドロップ完了後のシャッフル
+function handleDrop(e) {
+  e.preventDefault();
+  const target = e.target.closest('.card');
+  const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+
+  // ドロップ時のカード入れ替え処理（もし使っていれば）
+  if (target && target.dataset.index !== undefined) {
+    const targetIndex = parseInt(target.dataset.index, 10);
+    const temp = cards[draggedIndex];
+    cards[draggedIndex] = cards[targetIndex];
+    cards[targetIndex] = temp;
+  }
+
+  // ドラッグ中のスタイル解除
+  const dragging = document.querySelector('.dragging');
+  if (dragging) dragging.classList.remove('dragging');
+
+  // ここを追加：「ドロップしたら全カードを散らす」
+  setTimeout(scatterCards, 300);
+}
+
+// シャッフル開始★
+function startShuffle() {
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言（if外）
+    document.getElementById('suggest-theme').disabled = true;
+    // Q長Chk
+    let text = document.getElementById('question').value;
+    if (text.length < 15) {
+        resultElement.innerHTML = "質問を詳しく入力してください（15文字以上）。";
+        document.getElementById('shuffleBtn').disabled = false;
+        return;
+    }
+    shuffle(cards); // 内部で機械的ランダム配置完了
+        resultElement.innerHTML = "シャッフルして「これで占う」ボタンを押してください。<br>※シャッフルができない時、不具合のある時は非常ボタンを押すと自動でシャッフルしてカードをひきます。";
+    document.getElementById('table').style.display = 'block';
+    scatterCards(); // 散らばった裏面カード出現
+    document.getElementById('drawBtn').disabled = false; // 有効化
+    document.getElementById('shuffleBtn').disabled = true; // シャッフルボタン無効
+}
+// ★インタラクティブシャッフル用END★
+
+
+// 占う（これで占うボタン）★★★★
+function drawCards() {
+    const resultElement = document.getElementById('kekka');  // ← 関数冒頭で1回だけ宣言
+    // シャッフル完了後、最初の10枚を選択
+    const selectedCards = cards.slice(0, 10);
+
+    // 各カードにランダムで正位置（Upright）または逆位置（Reversed）を割り当て
+    selectedCards.forEach(card => {
+        card.orientation = Math.random() < 0.5 ? 'u正' : 'r逆';
+    });
+
+    // 質問の改行をセミコロンに
+    let text = document.getElementById('question').value;
+    let textArray = text.split('\n');
+    let newText = textArray.join(';');
+
+    // Qの改行を;に
+    // const resultElement = document.getElementById('kekka');
+    // let textArray = text.split('\n');
+    // let newText = textArray.join(';');
+
+// 視覚効果
+// スタイルを追加（一度だけ、既に追加済みならスキップ）
+if (!document.querySelector('#sparkStyle')) {
+  const style = document.createElement('style');
+  style.id = 'sparkStyle';
+  style.textContent = `
+    @keyframes sparkFly {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(360deg);
+      }
+    }
+    .spark {
+      position: fixed;
+      width: 50px; /* 大きく調整（4px → 12px） */
+      height: 50px; /* 大きく調整（4px → 12px） */
+      background: radial-gradient(circle, hsl(var(--hue), 100%, 50%) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+      animation: sparkFly 1.5s ease-out forwards;
+      box-shadow: 0 0 8px hsl(var(--hue), 100%, 50%); /* 光のハロー効果でさらに目立たせる */
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// フェードなしでスパークのみ開始
+const sparkInterval = setInterval(() => {
+  const spark = document.createElement('div');
+  spark.className = 'spark';
+  spark.style.setProperty('--hue', Math.random() * 60); // 暖色系カラー
+  const angle = Math.random() * Math.PI * 2;
+  const distance = Math.random() * 200 + 100;
+  spark.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+  spark.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+  document.body.appendChild(spark);
+  setTimeout(() => spark.remove(), 1500);
+}, 50); // 高速で複数生成してスパーク感
+
+setTimeout(() => {
+  clearInterval(sparkInterval);
+  // シャッフルコードへ
+}, 2000);
+
+
+
+    // 結果をHTMLの<span id="kekka">に挿入
+    let output = '<h3>Selected 10 cards from 22 (Marseille Tarot):</h3><img src="../img/marseille/ke.png" align="left">カードの意味はユング心理学視点：無意識探求・夢分析対応ですが、気にしないでください。ここはざっと読み飛ばしてください。';
+    selectedCards.forEach((card, index) => {
+        output += '<div class="bgb">';
+        if(index===0){output+="現在の状況"}
+        if(index===1){output+="援助(助けになるもの)"}
+        if(index===2){output+="過去"}
+        if(index===3){output+="最近の出来事"}
+        if(index===4){output+="起こりうる未来"}
+        if(index===5){output+="近い未来"}
+        if(index===6){output+="質問者の態度"}
+        if(index===7){output+="質問者の環境"}
+        if(index===8){output+="期待と恐れ"}
+        if(index===9){output+="最終結果"}
+        output += '</div>';
+
+        const key = `${card.name.slice(2)}(${card.orientation.slice(1)})`;
+        const meaning = meanings[key] || '意味不明（再抽選をおすすめします）';
+        output += `<ul><li><img align="right" src="../img/marseille/${card.name.slice(0,2)}${card.orientation.slice(0,1)}.png" alt="${card.name.slice(2)}">${index + 1}: ${card.name.slice(2)}(${card.orientation.slice(1)})<br><span class="usu">${meaning}</span><br clear="right"></li></ul>`;
+    });
+    output += '<h2 align="center">ここでchatGPTが質問内容を踏まえて占い結果カードを詳しくリーディングします!!<br>↓　↓　↓　↓　↓<br><a href="https://chatgpt.com/?q=[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF][TASK]T(タロット占い結果から心理的盲点と成長機会を発見);Input:{占い結果【';
+    selectedCards.forEach((card, index) => {
+        output += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    output += '】,現在の悩みや人生のテーマ【' + encodeURIComponent(newText) + '】}→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK][LOGIC]①各カード→ユング心理学の元型へ変換;②逆位置→抑圧された側面/シャドウの可視化;③カード間矛盾→内的葛藤の言語化;④ポジション横断分析→パターン認識(繰り返す課題);⑤統合的視点→Self実現への3ステップ提案;⑥Output=深層心理レポート+ジャーナリング質問10;[/LOGIC]" target="_blank">★結果発表★</a></h2>';
+    resultElement.innerHTML = output;  // ← 定義済みで使用
+
+    let kopipuro = '[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF][TASK]T(タロット占い結果から心理的盲点と成長機会を発見);Input:{占い結果【'
+selectedCards.forEach((card, index) => {
+        kopipuro += `${index + 1}:${card.name.slice(2)}(${card.orientation.slice(1)});`;
+    });
+    kopipuro += '】,現在の悩みや人生のテーマ【' + newText + '】}→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK][LOGIC]①各カード→ユング心理学の元型へ変換;②逆位置→抑圧された側面/シャドウの可視化;③カード間矛盾→内的葛藤の言語化;④ポジション横断分析→パターン認識(繰り返す課題);⑤統合的視点→Self実現への3ステップ提案;⑥Output=深層心理レポート+ジャーナリング質問10;[/LOGIC]';
+    document.getElementById('textoo').innerHTML = kopipuro;  // ← getElementByIdで取得
+
+    // ボタンを無効化して重複実行防止
+    document.getElementById('hiku').disabled = true;
+//    document.getElementById('shuffleBtn').disabled = true; // シャッフルボタン無効
+    document.getElementById('suggest-theme').disabled = true;
+
+
+    // シャッフルエリアを非表示
+    document.getElementById('table').style.display = 'none';
+    document.getElementById('shuffled-area').style.display = 'block';
+    document.getElementById('drawBtn').disabled = true;
+    // document.getElementById('shuffleBtn').disabled = false;
+}
+
+    // Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+</script>
+
+<hr>
+<h3>うまくいかない時は・・・</h3>
+<ul>
+<li>ChatGPTの画面に履歴が残っている場合、文字を消して画面を閉じて、再度このページからリンクを踏んでください。
+<li>または、以下に表示されたプロンプトをコピーして、ChatGPTの画面に貼り付ければ確実です。
+<li>XのGrokやCopilot、Claude、Geminiなど、他のAIアシスタントでも問題なく動作します。
+</ul>
+<strong>プロンプト：</strong><br>
+<textarea id="textoo" name="textoo" rows="5" cols="40" style="line-height:160%;"></textarea>
+
+<hr>
+<!-- admax -->
+
+<div id="ksn" class="am2"></div>
+<!-- 
+
+◆
+[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF][TASK]T(タロット占い結果から心理的盲点と成長機会を発見);Input:{占い結果【カード結果】,現在の悩みや人生のテーマ【質問テキスト】}→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK][LOGIC]①各カード→ユング心理学の元型へ変換;②逆位置→抑圧された側面/シャドウの可視化;③カード間矛盾→内的葛藤の言語化;④ポジション横断分析→パターン認識(繰り返す課題);⑤統合的視点→Self実現への3ステップ提案;⑥Output=深層心理レポート+ジャーナリング質問10;[/LOGIC]
+
+◆**自己分析・内省支援プロンプト**
+[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question[/DEF]
+[TASK]T(タロット占い結果から心理的盲点と成長機会を発見)
+Input:{占い結果,現在の悩みや人生のテーマ}
+→Output:{Shadow発見,Light強化戦略,統合への道筋}[/TASK]
+[LOGIC]
+①各カード→ユング心理学の元型へ変換
+②逆位置→抑圧された側面/シャドウの可視化
+③カード間矛盾→内的葛藤の言語化
+④ポジション横断分析→パターン認識(繰り返す課題)
+⑤統合的視点→Self実現への3ステップ提案
+⑥Output=深層心理レポート+ジャーナリング質問10[/LOGIC]
+ -->
+
+</body>
+</html>

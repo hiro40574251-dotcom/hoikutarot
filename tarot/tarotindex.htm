@@ -1,0 +1,828 @@
+﻿<html><head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+  <title>AI制御・連携タロット占い - トップページ</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+
+
+<style>
+body {line-height:160%;}
+.am2 {background: #eaf4ff;
+padding: 10px 10px;
+  opacity: 0.9;
+}
+.tarolin {
+  background: #ebf4f8;
+  border-left: 12px solid #99BDDE;
+  margin-bottom: 3px;
+  padding: .5em;
+}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {
+    background: #eaf4ff;
+    padding: 10px 10px;
+}
+
+form dl dt {
+    width: 120px;
+    height: 30px;
+    padding: 10px 0;
+    line-height: 10px;
+    float: left;
+}
+
+form dl dd {
+    padding: 5px 0;
+    margin: 0;
+}
+
+.box {
+    box-sizing: border-box;
+    width: 70px !important;
+    height: 30px !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+}
+
+.calc-btn {
+    width: 110px;
+    height: 60px;
+    border: 1px solid #333;
+}
+
+.calc-btn:hover {
+    cursor: pointer;
+    width: 110px;
+    height: 60px;
+}
+
+        .spread-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            margin: 0;
+            font-family: 'Shippori Mincho', serif;
+            font-size: 1.4rem;
+        }
+
+        .card-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+
+        .usage-tag {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            background: rgba(236, 112, 0, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .card-body {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+        }
+        .positions {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f0f7ff;
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        .features {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+            background: linear-gradient(transparent 70%, rgba(0, 153, 130, 0.1) 70%);
+        }
+
+        .card-image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .algorithm {
+            font-size: 0.75rem;
+            color: var(--accent-pink);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .features-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .features-list li {
+            margin-bottom: 8px;
+        }
+
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#999999;margin:10px;line-height:190%;}
+@keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+</style>
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+</script>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+<img src="../img/marseille/title.png"><br>
+<span style="font:8px;"><a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+<h2>AI制御・連携タロット</h2><h3>～プロンプト遊びシリーズ～</h3>
+ChatGPTにURLクエリパラメータが使えることを知り、面白いことを思いついたので、いくつかのコンテンツを作って遊んでみました。<br>
+タロットカードの大アルカナ22枚を使い、ケルト十字スプレッドで10枚のカードを選びます。その続きをChatGPTと連携すれば、様々なバリエーションが無限に広がり、占い以外の活用法も広がります。<br>
+
+例えば、アイデア生成や確率予測、物語創作まで。タロットのシンボルは無限の解釈が可能で、ユーザーの疑問とAIの知能が融合すれば、驚きの結果が生まれます。<br>
+
+タロット占いに興味がある人はもちろん、AIの新しい使い方を探している人、ゲーム好きの人やクリエイターにぴったりです。<br>
+
+好奇心を刺激し、きっと新しい視点が得られるはずです。<br><br>
+
+<div class="container">
+    <header>
+        <h2>占い</h2>
+    </header>
+
+<span class="card-title">タイトル</span><span class="usage-tag">用途</span>
+<span class="positions">プロンプト設計</span>
+<span class="algorithm">特徴</span>
+
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot01celtic_cross_spread.htm" target="_blank">ケルト十字法</a></h3>
+                <span class="usage-tag">現状の深掘り・恋愛/人間関係・仕事/決断など</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        プロンプトはノーマルです。「今日の運勢は？」「仕事はうまくいきますか？」「彼はどう思ってますか？」だけでなく、できるだけ具体的に詳しく書いたほうが精度の高い細かいアドバイスがもらえます。
+                        
+
+                    </div>
+                    <div class="positions">
+                        大アルカナ22枚によるケルト十字占から助言と最適解を導出;
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot01celtic_cross_spread.htm" target="_blank">
+                        <img src="../img/marseille/ke.png" alt="ケルト十字法">
+                    </a>
+                    <div class="algorithm">汎用性の高いオーソドックスな占い</div>
+                </div>
+            </div>
+        </article>
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot03astrology_and_tarot_integration.htm" target="_blank">アストロ・フュージョン・リーディング</a></h3>
+                <span class="usage-tag">恋愛相性占い</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        「占星術×タロット」のハイブリッド占いです。自分と相手の生年月日を入力して相性を占いましょう。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]<br>
+lang=ja; T=Task; S=Steps(20); I={I₁,...,Iₙ},n≤20; Rᵢ=Score[0,1]; O=Output<br>
+<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占からアストロフュージョンを導出;<br>
+ポジションとユーザー入力:省略;)<br>
+→O:惑星影響分析(精度スコア付き),ハウス別アドバイス,リチュアル提案<br>
+<br><br>
+
+[LOGIC]
+<ul><li>①T→I:カードを星座/ハウスに多角的マップ(例:愚者=牡羊座の始まりor水瓶座の革新)で最大20アイデア生成</li><li>②S=|I|でアイデア数確認</li><li>③∀Iᵢ:Rᵢ算出(チャート適合度・質問関連性でスコア);クロス検証(カード正逆と惑星アスペクトの整合チェック);視点転換(逆位置=課題の機会);Rᵢ<0.5?新規マップ提案:Rᵢ<0.8?拡張(生年月日連動調整);S--</li><li>④S=0＆未完?逆転思考(例:塔=破壊的変革を調和ハウスで再解釈)で枠拡大</li><li>⑤パーソナルチャート合成(高Rᵢアイデア優先統合)＆ポジティブアクション</li><li>⑥O=Markdown{<br>
+## アストロフュージョン占い結果<br>
+### 惑星影響分析:[惑星]:[カードマップ](Rᵢ:XX％)-影響:...<br>
+### ハウス別アドバイス:[ハウスX]:[アドバイス](精度:高/中/低)<br>
+### リチュアル提案:[ステップ]:...<br>
+### チャート図:(簡易テーブル/ASCIIアートで惑星-カード配置)}
+</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot03astrology_and_tarot_integration.htm" target="_blank">
+                        <img src="../img/j375_11_3.png" alt="アストロ・フュージョン">
+                    </a>
+                    <div class="algorithm">占星術×タロット</div>
+                </div>
+            </div>
+        </article>
+
+
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot03astrology_and_tarot_integration.htm" target="_blank">イェス/ノー・ディシジョン・オラクル </a></h3>
+                <span class="usage-tag">Yes/No形式即決支援</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        Yes/No形式の決定質問で即決の回答が出ます。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]省略<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占からYes/No決定を導出;<br>
+ポジションとユーザー入力:省略;)<br>
+→O:Yes/No確率(精度スコア付き),リスク分析,代替パス3つ(R_i上位優先)<br>
+<br><br>
+
+
+[LOGIC]
+<ul><li>①T→I:カード正逆をYes/Noパスに多角的マップ(例:正位置=Yes寄り成功ルートor逆=潜在リスク)で最大20アイデア生成</li>
+<li>②S=|I|でアイデア数確認</li>
+<li>③∀Iᵢ:Rᵢ算出(質問適合度・リスクバランスでスコア);クロス検証(ポジション間の整合チェック);視点転換(逆位置=意外の機会);Rᵢ<0.5?新規パス提案:Rᵢ<0.8?拡張(リスク緩和追加);S--</li>
+<li>④S=0＆未完?逆転思考(例:死神逆=終わりを新たな始まりに)で枠拡大</li>
+<li>⑤決定木構築(高Rᵢアイデア優先統合)＆バイアスフリー調整</li>
+<li>⑥O=劇形式Markdown{<br>
+## Yes/No決断劇<br>
+### シーン1:導入-質問:[質問](Yes/No確率:XX％[精度:R_avg])<br>
+### リスク分析:[詳細](例:塔正の崩壊確率)<br>
+### 代替パス:パス1[高R_i]:[説明]...<br>
+### 結末:[劇的解決]}
+</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot03astrology_and_tarot_integration.htm" target="_blank">
+                        <img src="../img/marseille/tapic1.png" alt="Yes/No決断">
+                    </a>
+                    <div class="algorithm">Yes/No決断即決リーディング</div>
+                </div>
+            </div>
+        </article>
+
+<br>
+
+
+
+    <header>
+        <h2>アイデア出し</h2>
+    </header>
+
+
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot02brainstorm_ideas.htm" target="_blank">汎用ブレストツール</a></h3>
+                <span class="usage-tag">アイデアリストアップ・ブレインストーミング </span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        質問とカード解釈から、アイデアや可能性をリストアップして採点し、多角的視点で詳細にアドバイスします。非常に汎用性が高いです。普通の占いとしても使えますが、何でも使えます。ビジネス案、コンセプトや市場細分化、製品差別化、解釈してほしいもの、罰ゲーム考案、防犯対策案、デート戦略、面接練習案、…質問欄に合わせていくらでも応用がきいた回答を出します。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]省略<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占から助言と最適解を導出;<br>
+ポジションとユーザー入力:省略;)<br>
+→O:発想,検証,視点転換<br>
+<br><br>
+
+
+[LOGIC]
+<ul><li>①T→I:多角的発想で最大20アイデアに分割</li>
+<li>②S=|I|でアイデア数確認</li>
+<li>③∀Iᵢ:Rᵢ算出;視点転換;Rᵢ<0.5?新規発想:Rᵢ<0.8?拡張;S--</li>
+<li>④S=0＆未完?逆転思考等で枠拡大</li>
+<li>⑤発想統合</li>
+<li>⑥O=Markdown
+</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot02brainstorm_ideas.htm" target="_blank">
+                        <img src="../img/ti4.jpg" alt="ブレインストーミング">
+                    </a>
+                    <div class="algorithm">アイデアを出し、低スコアなら視点転換、新規発想、拡張</div>
+                </div>
+            </div>
+        </article>
+
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot07creative_inspiration_tarot.htm" target="_blank">クリエイティブ・スパーク・リーディング</a></h3>
+                <span class="usage-tag">創作活動のインスピレーション</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        カードを創作活動のインスピレーションを得るツールとして使います。
+例えば、小説のプロットアイデア、詩、アートのコンセプト、ブログ記事アイデア、MVのストーリーボード、ゲームの世界観、漫画ストーリーのコンセプト、ダンスパフォーマンスのテーマ、料理レシピに紐づけたストーリー、ゲームのルールアイデア、小説のキャラ開発…などなど。ファンタジー物・冒険物・RPGに限らず、何にでもどうにでも解釈可能です。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]省略<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占からクリエイティブプロンプトを生成;<br>
+ポジションとユーザー入力:省略;)<br>
+→O:短編ストーリーor詩(R_i優先),ビジュアルプロンプト,拡張アイデア(品質スコア付き)<br>
+<br><br>
+
+
+[LOGIC]
+<ul><li>①T→I:カードをナラティブ要素に多角的マップ(例: 塔=破壊的クライマックス or テーマ融合のメタファー)で最大20アイデア生成</li>
+<li>②S=|I|でアイデア数確認</li>
+<li>③∀Iᵢ:Rᵢ算出(テーマ適合度・オリジナル性でスコア);クロス検証(ポジション間のナラティブ一貫性チェック);視点転換(逆位置=意外のクリエイティブひねり);Rᵢ<0.5?新規要素提案:Rᵢ<0.8?拡張(ジャンル適応追加);S--</li>
+<li>④S=0＆未完?逆転思考(例: 死神=終末をルネサンスに)で枠拡大</li>
+<li>⑤ジャンル適応＆オリジナル性確保(高Rᵢアイデア優先統合)</li>
+<li>⑥O=インタラクティブMarkdown(<br>
+## クリエイティブプロンプト<br>
+### 短編/詩: [タイトル] - [内容](R_avg: XX%)<br>
+### ビジュアルプロンプト: [記述](例: Midjourney用: 霧の塔と星の旅人)<br>
+### 拡張アイデア: アイデア1[高R_i]: [詳細]... (インタラクティブ: 次展開の選択肢)<br>
+### 品質ノート: [全体評価])
+</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot02brainstorm_ideas.htm" target="_blank">
+                        <img src="../img/ti5.jpg" alt="インスピレーション">
+                    </a>
+                    <div class="algorithm">創作発想ひらめき</div>
+                </div>
+            </div>
+        </article>
+
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot07creative_inspiration_tarot.htm" target="_blank">ナラティブ・ビルダー・リーディング</a></h3>
+                <span class="usage-tag">物語生成</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        タロットからストーリーを作ります。シード（テーマやプロットアイデア）を入力し、連載風ナラティブを生成。続きはブラウザに保存される点が特徴。
+
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]省略<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占からナラティブをビルド;<br>
+ポジションとストーリーシード、前章要約、現在の章:省略;)<br>
+→O:章別プロット,キャラクターアーク,クリフハンガーエンド<br>
+<br><br>
+
+[LOGIC]
+<ul><li>①カードをプロットビートに</li>
+<li>②シード拡張</li>
+<li>③インタラクティブ続き</li>
+<li>④エピソード形式Markdown</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot07creative_inspiration_tarot.htm" target="_blank">
+                        <img src="../img/ti1.jpg" alt="物語生成">
+                    </a>
+                    <div class="algorithm">ストーリーテリング拡張・続編対応</div>
+                </div>
+            </div>
+        </article>
+
+
+<br>
+
+
+
+
+
+
+
+
+
+
+    <header>
+        <h2>検証・計算</h2>
+    </header>
+
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot05fact-checking_tarot.htm" target="_blank">ファクトチェック・タロット</a></h3>
+                <span class="usage-tag">ファクトチェック</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        ファクトチェックをします。
+たとえば、現実的な未来予想を書いて占ってみると、それがどれだけ事実に基づいているか、バイアスがないかを検証します。
+タロットカードの結果を絡めるので面白い視点が出てきたりします。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]lang=ja;T=Task;S=Steps(動的:初期20,複雑時+10,max=30);L={L₁,...,Lₙ},n≤S;Rᵢ=Score[0,1](重み付き平均:ソース信頼性0.4+証拠一致0.3+バイアス中立0.3);O=Output(Markdown+テーブル+ASCIIアート);E=Ethics(娯楽目的警告:これは娯楽・参考情報です。専門家相談を推奨);Ext=Extensions(ツールコール:web_search/x_keyword_search forクロス検証;カードシミュレーション:code_execution);MajorArcana=22枚リスト(0:愚者,1:魔術師,...,21:世界);CelticCross=10ポジション(1:現在,2:障害,3:過去,4:未来,5:上,6:下,7:自己,8:環境,9:希望/恐れ,10:結果);<br><br>
+[TASK]<br>
+T{大アルカナ22枚限定のケルト十字スプレッドから、質問内容とカード解釈を絡めて示唆する回答を導出;<br>
+ポジションと質問:省略;(逆位置オプション:Rᵢ<0.5時適用)<br>
++感情キーワード(例: 懸念/希望,自動抽出orユーザー指定);融合ルール:各カードを主張の事実/バイアス/示唆にマッピング(例:塔=崩壊予兆→科学的証拠+感情的警告);}
+→O:主張分解(テーブル形式),ソース確認(外部ツール使用),クロス検証(多角ソース:web/X検索);
+解釈レイヤー: ①事実ベース(客観検証), ②象徴ベース(カードメタファー), ③統合示唆(パーソナルアドバイス);<br>
+<br><br>
+
+
+[LOGIC]
+<ul><li>
+1.T→L:主張分析(質問テキストをL={主張1,...,主張n}に分解,n∝S動的調整。感情キーワード抽出:NLP簡易or手動);</li>
+<li>2.L検証:S=|L|;</li>
+<li>3.∀Lᵢ:{実行→Rᵢ;解釈生成:ポジションiにカード割り当て→レイヤー①-③適用;Rᵢ計算:重み付き平均スコア(ソース評価:browse_page/web_search,証拠確認:x_keyword_search,バイアスチェック:多角視点);条件分岐:Rᵢ<0.5? 逆位置再解釈+やり直し(外部ツールコール);Rᵢ<0.8? 調整(クロス検証追加);S--(完了カウント);};</li>
+<li>4.S=0＆未完? 延長;</li>
+<li>5.事実補正:全L統合(矛盾解消,倫理E挿入);O=Markdown出力:{ヘッダー:質問再述;テーブル:|ポジション|カード(正/逆)|解釈レイヤー①(事実)|②(象徴)|③(示唆)|Rᵢ|;フッタ:E警告;}<br>
+</li>
+</ul>
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot05fact-checking_tarot.htm" target="_blank">
+                        <img src="../img/ti7.jpg" alt="ファクトチェック">
+                    </a>
+                    <div class="algorithm">ソース信頼性 + 証拠一致 + バイアス中立</div>
+                </div>
+            </div>
+        </article>
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot06probability_tarot_reading.htm" target="_blank">確率を出すタロット</a></h3>
+                <span class="usage-tag">確率を数字で出す</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        リアルな社会情勢などの確率を出します。回答は、質問の仕方によりますが、｢確率を教えて｣等を質問欄に入れるか、入れない場合は、各カード解釈の信頼度の確率を出したりします。
+                        
+
+                    </div>
+                    <div class="positions">
+
+大アルカナ22枚によるケルト十字占から助言と最適解を導出<br>
+ポジションと質問:省略;<br>
+以下手順で質問の確率に関する視点で検証し出力;<br>
+<br>
+P → T[1..10], vfy CHEp(%) & CHE<br><br>
+
+out[I]: P<br> 
+[O]: T[i], CHEp[i], CHE[i] ∀i ∈ {1,2,3,4,5,6,7,8,9,10}<br><br>
+
+[T]: <br>
+T[1..10] ← S(P, 10);<br><br>
+
+[V]: <br>
+∀i ∈ {1,2,3,4,5,6,7,8,9,10}:; <br>
+&nbsp;&nbsp;  CHEp[i] ← CV(T[i], k, %); <br>
+&nbsp;&nbsp;  CHE[i] ← PR(T[i], s) | AB(T[i], o) | LA(T[i], p); <br>
+&nbsp;&nbsp;  CI[i] ← SA(CHEp[i], 85%); <br><br>
+
+[O]: <br>
+Pr(T[1], CHEp[1], CHE[1], ..., T[10], CHEp[10], CHE[10])<br><br>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot06probability_tarot_reading.htm" target="_blank">
+                        <img src="../img/ti8.jpg" alt="確率を出す">
+                    </a>
+                    <div class="algorithm">形式化アルゴリズム思考</div>
+                </div>
+            </div>
+        </article>
+
+<br>
+
+
+    <header>
+        <h2>自己洞察ツール</h2>
+    </header>
+
+
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot10personal_growth.htm" target="_blank">パーソナルグロースプラン</a></h3>
+                <span class="usage-tag">自己成長プラン</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        タロットを自己成長ツールとして使います。ポジティブ心理学の要素（習慣ループ）を織り交ぜて、タロットの象徴を自己変革のステップにマッピングし、ChatGPTに渡すことで長期的なモチベーションを促すプランを生成します。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]lang=ja;T=Task;S=Steps(15);G={G₁,...,Gₘ},m≤15;Rᵢ=Score[0,1];O=Output<br>
+[TASK]<br>
+T(
+大アルカナ22枚によるケルト十字占からパーソナルグロースプランを導出;<br>
+ポジションと成長目標:省略;)<br>
+→O:習慣形成ステップ,進捗トラッキング指標,モチベーションリチュアル<br>
+<br>
+
+
+[LOGIC]
+<ul><li>①T→G:カードを成長フェーズにマップ(例: 愚者=スタートの勇気, 世界=達成の統合)で最大15の習慣アイデアに分割</li>
+<li>②S=|G|でアイデア数確認</li>
+<li>③∀Gᵢ:Rᵢ算出(目標適合度と現実性でスコア);視点転換(逆位置=課題克服のヒント);Rᵢ<0.5？新規習慣提案:Rᵢ<0.8？拡張(1週間ループ追加);S--</li>
+<li>④S=0＆未完？逆転思考(例: 塔=破壊後の再構築)で枠拡大</li>
+<li>⑤成長目標を習慣ループ(キュー:合図-報酬)に統合</li>
+<li>⑥O=Markdown(<br>
+## パーソナルグロースプラン<br>
+### ステップ1: [カード解釈] - 習慣: ...<br>
+### トラッキング: KPI(例: 日誌スコア)<br>
+### リチュアル: 毎日の瞑想ヒント<br>
+### 全体進捗: 3ヶ月ロードマップ)
+
+</li>
+</ul>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot10personal_growth.htm" target="_blank">
+                        <img src="../img/ti9.jpg" alt="自己成長">
+                    </a>
+                    <div class="algorithm">「自己改善のロードマップ」に特化した実用性</div>
+                </div>
+            </div>
+        </article>
+
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot10personal_growth.htm" target="_blank">ユング心理学の視点から自己分析・内省支援</a></h3>
+                <span class="usage-tag">ユング派のカウンセリングや自己啓発ワーク</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        タロットを使った自己分析ツールです。無意識の深層探求がしやすくなります。ユング派では、これを「心理的旅のマップ」として使っています。
+                        
+
+                    </div>
+                    <div class="positions">
+[DEF]T=Task;A=Archetype;Shadow=潜在課題;Light=強み;Q=Question<br>
+[TASK]<br>
+T(
+タロット占い結果から心理的盲点と成長機会を発見;<br>
+ポジションと現在の悩みや人生のテーマ:省略;)<br>
+→Output:{Shadow発見,Light強化戦略,統合への道筋}<br>
+<br>
+
+
+[LOGIC]
+<ul><li>①各カード→ユング心理学の元型へ変換</li>
+<li>②逆位置→抑圧された側面/シャドウの可視化</li>
+<li>③カード間矛盾→内的葛藤の言語化</li>
+<li>④ポジション横断分析→パターン認識(繰り返す課題)</li>
+<li>⑤統合的視点→Self実現への3ステップ提案</li>
+<li>⑥Output=深層心理レポート+ジャーナリング質問10</li>
+</ul>
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot10personal_growth.htm" target="_blank">
+                        <img src="../img/ti10.jpg" alt="ユング">
+                    </a>
+                    <div class="algorithm">ユングの元型理論で無意識の深層探求</div>
+                </div>
+            </div>
+        </article>
+
+
+
+<br>
+
+
+    <header>
+        <h2>ゲーム</h2>
+    </header>
+
+
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot12memory_match.htm" target="_blank">大アルカナ神経衰弱(PC用)</a></h3>
+                <span class="usage-tag">メモリーマッチ</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        タロット神経衰弱。22枚の大アルカナ×2のペアを探して高得点を狙え！マッチすると占いメッセージが出るよ。ゲーム終了時の残り秒数、残りライフ数で大ボーナススコア！
+
+                        
+
+                    </div>
+                    <div class="positions">無し
+
+
+                    </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot12memory_match.htm" target="_blank">
+                        <img src="../img/ma1.png" alt="タロット神経衰弱">
+                    </a>
+                    <div class="algorithm">戦略スコアアタック要素</div>
+                </div>
+            </div>
+        </article>
+
+<br>
+
+        <!-- ◆◆◆◆ -->
+        <article class="spread-card" style="background:#f7ebfa;">
+            <div class="card-header">
+                <h3 class="card-title"><a href="./tarot09tarot_roulette_adventure.htm" target="_blank">タロットルーレットアドベンチャー「運命賭博サーガ」</a></h3>
+                <span class="usage-tag">ルーレットゲーム</span>
+            </div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="features">
+                        タロット大アルカナ22枚でルーレット！ベットしてスピン！ スピン0でゲーム終了。カードをめくる選択と、セクター表による報酬倍率、ボーナス/ペナルティイベント、そしてChatGPTによるエンディングはどうなるか！？
+                        
+
+                    </div>
+                    <div class="positions">
+
+
+<ol>3種からランダム: 
+
+<li>
+[TASK]<br>
+T(
+タロット運命の冒険サーガ第n章を執筆;<br>
+ゲーム結果:省略;)<br>
+→O:章ストーリー(導入-試練-クライマックス-解決),対話スクリプト(3-5シーン),感情マップ(各カードの影響),次章ヒント<br>
+<br>
+
+
+[LOGIC]
+<ul><li>①hit_historyの各カードを関係者視点(例: 吊られた男=犠牲の味方, 死神=変革の導師)に割り当て</li>
+<li>②bet_historyを主人公の選択(例: 200ポイントベット=慎重な賭け, 300=大胆な挑戦)として反映</li>
+<li>③total_pointsを章の「運命値」として成長曲線を描く</li>
+<li>④バイアスフリー(正逆の両面をバランス)</li>
+<li>⑤劇形式Markdownで出力(章タイトル/シーン/[対話]/感情: ...)</li>
+</ul>
+</li>
+<li>
+[DEF]lang=ja;T=Task(タロット運命の冒険サーガ第n章執筆);S=Steps(10);I={I₁,...,Iₙ},n≤10(各カードの解釈アイデア);Rᵢ=Score[0,1](ストーリー適合度);O=Output(統合ストーリー)<br><br>
+
+[TASK]<br>
+T(
+ゲーム結果:省略;<br>
+主人公:プレイヤー。hit_historyを運命の試練に, bet_historyを選択の賭けに, total_pointsを達成感に反映)<br>
+→O:発想(多角的解釈),検証(論理的一貫性),視点転換(逆位置の意外性)
+<ol>[LOGIC]
+<li>T→I:各hit_historyカードを多角的発想(例: 塔逆=崩壊後の再建)で最大10アイデアに分割</li>
+<li>S=|I|でアイデア数確認</li>
+<li>∀Iᵢ:Rᵢ算出(ベット履歴との整合でスコア);視点転換(正逆スイッチ);Rᵢ<0.5?新規発想:Rᵢ<0.8?拡張(総ポイント連動);S--;</li>
+<li>S=0&未完?逆転思考(死神=再生)で枠拡大</li>
+<li>bet_historyを分岐点(if 200ベット then 安全ルート else 冒険ルート)に統合</li>
+<li>O=Markdown(第n章: タイトル/試練: カード解釈/ナラティブ記述/達成ポイント: {total_points}の影響)</li>
+</ol>
+
+</li>
+
+<li>
+I:T="タロット運命の冒険サーガ第n章: XXXX に基づき、主人公(プレイヤー)の冒険を描け。hit_historyをイベント仮説に, bet_historyを選択証拠に, total_pointsを全体スコアに。"<br><br>
+
+P:<br>
+1.H={H₁,H₂,H₃,...}←GenHypotheses(T,n≥5)(例: H₁=吊られた男逆:犠牲の予兆);<br>
+2.∀Hᵢ:Hᵢ→Pᵢ(Observe:カード意味解釈, DataCollect:bet_historyの影響, ExternalRef:タロット伝統);Eᵢ←Execute(Pᵢ)(ストーリーシーン生成);Eval(Eᵢ.reliability:正逆整合, conflicts:ベット矛盾);Sᵢ←Score(Hᵢ,Eᵢ,[0,100])(total_points加重);<br>
+3.C←Integrate({S₁,S₂,...},T.validity)(高スコア仮説をナラティブに融合);<br><br>
+
+O:<br>
+Markdown(《Hypotheses:トップ3仮説リスト, P∧E: Methods & Evidence〔カード+ベットの説明〕, Scores:各イベントの達成度, Conclusion ＆ Insights:章の教訓と次章予感》)
+
+</li>
+</ol>
+
+                  </div>
+                </div>
+                <div class="card-image-container">
+                    <a href="./tarot09tarot_roulette_adventure.htm" target="_blank">
+                        <img src="../img/marseille/rurekabe.png" alt="タロットルーレット">
+                    </a>
+                    <div class="algorithm">セクター表やボーナスイベントによる戦略性と多様性</div>
+                </div>
+            </div>
+        </article>
+
+
+
+
+
+
+
+
+
+
+ </div>
+
+
+
+
+
+<hr>
+<!-- admax -->
+
+<div id="ksn" class="am2"></div>
+
+
+
+<br><br><br><br><br><br>
+
+</body>
+</html>

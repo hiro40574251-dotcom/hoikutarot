@@ -1,0 +1,2595 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>活動言語翻訳スプレッド - 保育タロット × ZPD</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<script src="./zpd.js"></script>
+<link rel="stylesheet" type="text/css" href="zpd.css">
+<style>
+/* ━━━━━ケルト十字━━━━━━━━━━━━━━━ */
+  .spread-container {
+    position: relative;
+    width: 520px;
+    height: 570px;
+    margin: 20px auto;
+    background-image: url(../img/tc.png); /* background: #f0f0f0; */
+  }
+  .cardo {
+    position: absolute;
+    width: 80px;
+    height: 130px;
+  }
+  .hashi {
+    position: absolute;
+  }
+  .moji {
+    position: absolute;
+  }
+  .vigo {
+    position: absolute;
+  }
+  /* 位置指定 */
+  #card1 { left: 20px; top: 115px; }              /* 現状 */
+  #card2 { left: 20px; top: 80px; }  /* 交差 */
+  #card3 { left: 10px; top: 280px; }              /* 今　顕在（下） */
+  #card4 { left: 100px;  top: 235px; }               /* 少し先　潜在（上）120,70↓ */
+  #card5 { left: 395px;  top: 75px; }              /* 目標過去（左）10,210↑ */
+  #card6 { box-shadow:0 0 25px 4px #03fc56 ; left: 250px; top: 175px; }              /* 橋　未来（右） */
+  #card7 { left: 10px; top: 10px; }              /* vigo */
+
+  .label {
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    color: #660263;
+    background:#fcf7d7;
+  }
+  #label1 { left: 10px; top: 420px; }  /* 1. 現在の発達段階 */
+  #label2 { left: 100px; top: 370px; }  /* 2. 発達の芽生え */
+  #label3 { left: 390px; top: 5px; }  /* 3. 発達の壁 */
+  #label4 { left: 250px; top: 120px; }  /* 4. 発達の橋 */
+  #label5 { left: 40px; top: 250px;  }  /* 今 */
+  #label6 { left: 115px; top: 205px; }  /* 少し先 */
+  #label7 { left: 260px; top: 320px; }  /* 足場かけ */
+  #label8 { left: 360px; top: 55px; font-size: 12px;}  /* 目指したい育ちの方向 */
+  #label9 { left: 200px; top: 355px; transform: rotate(328deg); }  /* ZPD */
+  #label10 { left: 115px; top: 15px; font-size: 18px;}  /* developmental_dynamics4 */
+
+  #llabel1 { left: 20px; top: 440px; }  /*  */
+  #llabel2 { left: 110px; top: 390px; }  /*  */
+  #llabel3 { left: 400px; top: 30px; }  /*  */
+  #llabel4 { left: 260px; top: 145px; }  /*  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe2.jpg);">
+
+<div class="container">
+<table border=0 style="float:right;margin:10px;"><tr><td><img width="120" src="../img/vigo.jpg" alt="ヴィゴツキー" align="right"></td><tr><tr><td style="font-size:12px;color:gray;">ヴィゴツキーの<br>発達の最近接領域を<br>応用しています</td></tr><table>
+
+<img src="../img/marseille/hobaybnr.png">
+
+<span style="font:8px;"><br><a href="https://jdp.zouri.jp/tarot/hoikutarotindex.htm">▲保育TAROT TOP</a>|<a href="https://jdp.zouri.jp/tarot/tarotindex.htm">▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+
+
+
+<h1>活動言語翻訳スプレッド</h1>
+<div style="text-align:center; color:#666; font-size:0.9em; margin-bottom:30px;">
+<strong style="color:yellow;">(2～5歳児クラス)</strong>    ZPD → 活動15次元 → 象徴カード ／ 子どものZPDが活動を呼び寄せる
+<!-- ロースト━━━━━━━━━━┓ -->
+
+<!-- div id="localst" class="panel" style="margin-top:0px;" -->
+    <div style="margin-bottom:8px; color:#5CBEAB;">ブラウザに保存された事例と15次元ベクトル：<button id="kesubtn" class="calc-btn" style="margin-top:15px; background:transparent; border:1px solid #333; color:#999;">表示/非表示</button></div>
+</div>
+
+<span id="keshimasu" style="display:none;"><div class="panel">
+<span style="display:flex; color:orange;">★<img src="../img/zpd.png" alt="発達の最近接領域" height="20">(発達の最近接領域)用の15次元の値(-1.0～+1.0)は、ZPDマークのある、違うスプレッドでも使えます。</span><br>
+     <div id="lstrgzen"></div>
+<div id="hozvarea"></div>
+<div id="zlk" class="am2"></div></div></span>
+<!-- ロースト━━━━━━━━━━┛ -->
+
+<!-- ━━━━━━━━━━┓ -->
+<div id="onoftxt">
+<p><img src="../img/zpd4.png" alt="活動言語翻訳スプレッド" width ="200" align="right"><span style="display:flex; color:orange;">★<img src="../img/zpd.png" alt="発達の最近接領域" height="20">(発達の最近接領域)用の15次元の値(-1.0～+1.0)は、ZPDマークのある、違うスプレッドでも使えます。</span><br><span style="color:green;font-weight:bold;">【用途】</span> 子どもの<span style="color:#f7195c;font-weight:bold;">ZPD(発達の最近接領域)</span>を、<span style="color:#f7195c;font-weight:bold;">保育者が見える言葉へ翻訳</span>する。／「<span style="color:#f7195c;font-weight:bold;">なぜその活動が今その子に合うのか</span>」を理解する
+<br>
+<ul><span style="color:green;font-weight:bold;">【特徴】</span><li>活動を提案する前に、子どもの今を言葉にする役割。「子どもの行動やZPDを活動の言語→保育者が見える言葉に翻訳する」という、<span style="color:#f7195c;font-weight:bold;">保育記録・省察</span>との直結した問いになる。</li>
+</ul>
+<span style="color:green;font-weight:bold;">【このスプレッドではAIに2回依頼します】</span><ul><li><u style="color:yellow;">お子さんの様子の自由テキスト入力</u>→AI解析</li><li>AI提示の<u style="color:yellow;">発達プロファイルの値を確認し調整する</u></li><li><u style="color:yellow;">4枚のカードをひく</u>→AIによる<u style="color:yellow;">ZPD リーディング</u>で完結。</li>
+
+<span id="eth"></span>
+
+&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">さらに説明を開く</a>
+</div>
+<!-- ━━━━━━━━━━┛ -->
+
+<span style="display: none;">
+<!-- ◆◆◆消します◆◆◆ style="display: none;" -->
+選択プリセットNo<input id="prino" type="text" value="" size="1">, Vec<input id="pricontxt" type="text" value="" size="20">, loadkaisuu<input id="loadkaisuu" type="text" value="0" size="1">, 回転<input id="rot" type="text" value="" size="20">, アンチ<input id="anti" type="text" value="" size="20">, 橋<input id="bridge" type="text" value="" size="20">, 最終Q<input id="saishuq" type="text" value="" size="20">, 最終Qv<input id="saishuqv" type="text" value="" size="20">, top1<textarea id="top1" rows="1" cols="30"></textarea>, top2<textarea id="top2" rows="1" cols="30"></textarea>, top3<textarea id="top3" rows="1" cols="30"></textarea>, top4<textarea id="top4" rows="1" cols="30"></textarea>
+
+<!-- ◆◆◆消します◆◆◆ -->
+</span>
+<hr>
+
+<!-- Step 0━━━━━━━━━━┓ generateProfilePromptで消える -->
+<div id="step0">
+    <div class="step-title">Step 1｜お子さんの様子を教えてください(<strong>※個人を特定できる情報は含めない</strong>でください)<br>まず、年齢を選んでください</div>
+  <label><span style="background:yellow;color:blue;">年齢</span>: <select id="age" name="age" style="font-size:20px;">
+    <option value="-1">↓選択↓</option>
+    <option value="2">2歳</option>
+    <option value="3">3歳</option>
+    <option value="4">4歳</option>
+    <option value="5">5歳</option>
+  </select>児クラス</label>&nbsp;<span class="step-title">&nbsp;※年齢を変更すると、文章がクリアされます</span><br> 
+<div class="step-title">似た事例を探します</div>
+
+<!-- 既存のカテゴリ選択UIの下に追加 -->
+<div id="search-container" style="margin-top: 15px;">
+  <label for="keyword-search" style="display: block; font-weight: bold; margin-bottom: 5px;">絞り込み：
+  <input type="text" id="keyword-search" placeholder="例：3、泣、言葉、リズム など" style="width: 200px; padding: 6px; box-sizing: border-box;"></label>
+</div>
+
+
+<!-- 大カテゴリ（ラジオボタン） -->
+<div id="main-category-container">
+  <label style="color:#f0a286;"><input type="radio" name="main-cat" value="運動・身体"> 運動・身体</label>｜
+  <label style="color:#abf086;"><input type="radio" name="main-cat" value="情緒・行動"> 情緒・行動</label>｜
+  <label style="color:#92a6fc;"><input type="radio" name="main-cat" value="生活スキル"> 生活スキル</label>｜
+  <label style="color:#67e6df;"><input type="radio" name="main-cat" value="環境デザイン"> 環境デザイン</label>｜
+  <label style="color:#c283fc;"><input type="radio" name="main-cat" value="保育者協働"> 保育者協働</label>｜
+  <label style="color:#faf16e;"><input type="radio" name="main-cat" value="育ちの時系列"> 育ちの時系列</label>｜
+  <label style="color:#fa6ec9;"><input type="radio" name="main-cat" value="感覚・身体"> 感覚・身体</label>｜
+  <label style="color:#6edcfa;"><input type="radio" name="main-cat" value="言語・コミュ"> 言語・コミュ</label>｜
+  <label style="color:#fa8e75;"><input type="radio" name="main-cat" value="遊びの拡張"> 遊びの拡張</label>
+</div>
+
+<!-- サブカテゴリ（JavaScriptで動的に生成） -->
+<div id="sub-category-container" style="display: none; margin-top: 10px;"></div>
+
+
+<!-- 事例セレクトボックス（最初は非表示） -->
+<div id="preset-container" style="display: none; margin-top: 10px; font-size:14px;">
+  <label><span style="background:yellow;color:blue;">事例</span>: なるべく「状況が近い」と思う事例を選択。↓年齢は違っても大丈夫です。: <br>  <select id="preset-select" name="preset-select" style="font-size:14px;">
+    <option value="">↓　↓　事例を選んでください　↓　↓</option>
+  </select></label>
+</div>
+
+
+
+<script>
+// サブカテゴリの定義データ（既存）
+const SUB_CATEGORIES = {
+'運動・身体': ['スキップ', 'バランス', '運動への意欲', '協調運動', '姿勢・体幹', '指先', '歩く・走る'], 
+'情緒・行動': ['こだわり', 'パニック・癇癪', 'フリーズ・萎縮', '愛着形成', '意欲・集中力', '感覚過敏', '孤立・人見知り', '攻撃・衝動', '自己肯定感', '人間関係', '多動・不注意', '分離不安'], 
+'生活スキル': ['ハサミ', '休息', '靴', '言葉', '歯磨き', '手洗い', '順番待ち', '食事', '生活リズム', '着替え', '排泄', '片付け・持ち物管理', '理解力', '話を聞く・お集まり'], 
+'環境デザイン': ['関係(人・社会性)', '時間(活動・見通し)', '場(空間・物)', '複合的要因'], 
+'保育者協働': ['家庭連携が困難', '個別支援', '集団での課題', '大人不信・拒否', '担任交代・クラス替え', '保育者側問題'], 
+'育ちの時系列': ['環境の変化', '社会性', '情緒', '身体・運動', '認知・言葉', '家庭の困難'], 
+'感覚・身体': ['運動意欲がない', 'こだわり・切替', 'バランス・体幹', '感覚過敏', '感覚鈍麻・多動', '協調運動困難', '粗大運動の遅れ', '複合型'], 
+'言語・コミュ': ['一方的に話す', '聞けない・待てない', '言葉の遅れ', '言葉の土台が弱い', '見通し・模倣', '手が出てしまう', '複合型'], 
+'遊びの拡張': ['運動好き', '感覚のこだわり', '感情・衝動', '興味のこだわり', 'コミュニケーション苦手', '自我・主体性', '一人遊び集中']
+};
+
+// 要素の取得
+const mainCatRadios = document.querySelectorAll('input[name="main-cat"]');
+const subCatContainer = document.getElementById('sub-category-container');
+const presetContainer = document.getElementById('preset-container');
+const presetSelect = document.getElementById('preset-select');
+const keywordSearch = document.getElementById('keyword-search'); // 追加
+
+// 状態管理用変数
+let selectedMainCat = '';
+let selectedSubCat = '';
+
+// 1. 大カテゴリ変更時のイベント
+mainCatRadios.forEach(radio => {
+  radio.addEventListener('change', (e) => {
+    selectedMainCat = e.target.value;
+    selectedSubCat = ''; // サブカテゴリをリセット
+    keywordSearch.value = ''; // カテゴリを変えたらキーワードも一回リセット
+    
+    renderSubCategories(selectedMainCat);
+// 大カテゴリが変わった瞬間は、まだサブカテゴリがないので表示を戻す
+document.getElementById('info').innerHTML = selectedMainCat + 'が選ばれました';
+
+    filterAndRenderPresets(); // リスト更新
+  });
+});
+
+// サブカテゴリの生成・表示関数
+function renderSubCategories(mainCat) {
+  subCatContainer.innerHTML = '';
+  const subs = SUB_CATEGORIES[mainCat] || [];
+  
+  // 【追加】選択された大カテゴリに応じて色を決定する
+  let categoryColor = '';
+  if (mainCat === '運動・身体') {
+    categoryColor = '#f0a286';
+  } else if (mainCat === '情緒・行動') {
+    categoryColor = '#abf086';
+  } else if (mainCat === '生活スキル') {
+    categoryColor = '#92a6fc';
+  }
+  
+  subs.forEach(sub => {
+    const label = document.createElement('label');
+    
+    // 【追加】生成したlabelに色を設定（古いブラウザでも動作します）
+    if (categoryColor !== '') {
+      label.style.color = categoryColor;
+    }
+    
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'sub-cat';
+    radio.value = sub;
+    
+    radio.addEventListener('change', (e) => {
+      selectedSubCat = e.target.value;
+      filterAndRenderPresets(); // リスト更新
+    });
+    
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(` ${sub}｜ `));
+    subCatContainer.appendChild(label);
+  });
+  
+  subCatContainer.style.display = 'block';
+}
+
+// 2. キーワード入力時のイベント（文字が入力されるたびにリアルタイム検索）
+keywordSearch.addEventListener('input', () => {
+  filterAndRenderPresets(); // リスト更新
+});
+
+
+// 3. 【核心】カテゴリとキーワードの両方を考慮してセレクトボックスを更新する関数
+function filterAndRenderPresets() {
+  presetSelect.innerHTML = '<option value="">↓　↓　事例を選んでください　↓　↓</option>';
+  
+  // 入力されたキーワードをトリムし、全角英数字を半角に変換（「３」→「3」）
+  let keyword = keywordSearch.value.trim().replace(/　/g, ' ');
+console.log('keyword①',keyword);
+  // 【修正】全角英数字（Ａ-Ｚ、ａ-ｚ、０-９）を半角に変換する
+  keyword = keyword.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+  });
+  
+  // キーワードから「数字（年齢）」を抽出するための正規表現
+  // 例：「3歳」「３」「3さい」から「3」だけを抜き出す
+  const ageMatch = keyword.match(/([2345])\s*(?:歳|さい|才)?/);
+console.log('ageMatch',ageMatch);
+  let searchAge = "";
+  
+  if (ageMatch) {
+    searchAge = ageMatch[1]; // 抜き出した「2」「3」「4」「5」のいずれかの数字
+console.log('searchAge',searchAge);
+    
+    // キーワードから年齢に関する文字（例：「3歳」「3さい」など）を消去して、
+    // 残りの文字（例：「スキップ」など）だけで文字検索できるようにする
+    keyword = keyword.replace(ageMatch[0], "").trim();
+console.log('keyword②',keyword);
+
+  }
+  
+  // 検索用に小文字化
+  const lowerKeyword = keyword.toLowerCase();
+  let matchCount = 0;
+  
+  Object.keys(PRESETS).forEach(function(id) {
+    const preset = PRESETS[id];
+    
+    // 条件①：大カテゴリの一致
+    const matchMainCat = !selectedMainCat || preset.cat === selectedMainCat;
+    
+    // 条件②：サブカテゴリの一致
+    const matchSubCat = !selectedSubCat || preset.sc === selectedSubCat;
+    
+    // 【追加】条件③：年齢の一致（キーワードから年齢が検知された場合のみチェック）
+    const matchAge = !searchAge || preset.age === searchAge;
+    
+    // 条件④：キーワード（文字列）の一致
+    const targetText = (preset.name + ' ' + preset.des).toLowerCase();
+    const matchKeyword = !lowerKeyword || targetText.indexOf(lowerKeyword) !== -1;
+    
+    // すべての条件を満たした場合のみ表示
+    if (matchMainCat && matchSubCat && matchAge && matchKeyword) {
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = '[' + preset.age + '歳] ' + preset.name + '：' + preset.des.slice(0, 28) + '…';
+      presetSelect.appendChild(option);
+      matchCount++;
+    }
+  });
+  
+  if (matchCount > 0) {
+    presetContainer.style.display = 'block';
+  } else {
+    const option = document.createElement('option');
+    option.value = "";
+    option.textContent = "該当する事例が見つかりません";
+    presetSelect.appendChild(option);
+    presetContainer.style.display = 'block';
+  }
+}
+</script>
+
+<!--
+  <label><span style="background:yellow;color:blue;">事例</span>: なるべく「状況が近い」と思う事例を選択。↓: <br><select id="jirei" name="jirei" style="font-size:14px;">
+    <option value="-1">↓　↓　事例を選んでください　↓　↓</option>
+    <option value="0">	年中さん。スキップをやりたがるが、ケンケンが不安定で転ぶのを少し怖…	</option>
+  </select></label><br>
+-->
+
+<br>
+<div id="info" class="panel"></div>
+    <div class="panel">お子さんの様子: 
+        <textarea id="concern" rows="5" style="width:100%; background:#08080f; border:1px solid #1a1a2e; color:#ccc; padding:12px; font-size:20px;border-radius:8px; resize:vertical;" 
+        placeholder="事例選択で入った文章は消してOKです。自由記述できます。"></textarea>
+    </div>
+
+<!-- 仕組み①のセレクトボックスの直下などに追加 -->
+<div id="similar-presets-container" style="display: none; margin-top: 20px;">
+  <h3>似てるかも？(↓リンククリックで/↑入力欄テキスト更新 <span style="font-size:12px;color:#ffa526">※文章書きかけ注意</span>)：</h3>
+  <ul id="similar-list"></ul>
+</div>
+
+    <button onclick="generateProfilePrompt()" style="width:100%; background:linear-gradient(135deg,#0d2a20,#0d1a28); color:#5CBEAB; border:1px solid #5CBEAB33;">
+        ✦ 発達プロファイルを生成する（プロンプト出力）
+    </button>
+</div><!-- Step0の閉じ -->
+<!-- Step 0━━━━━━━━━━┛ -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Step 1━━━━━━━━━━┓ generateProfilePromptで現れる -->
+<div id="step1" style="display:none;">
+    <div class="step-title">Step 2｜発達プロファイルを確認・調整</div>
+<span id="privecdes"></span>
+
+<!-- ━━━━━━━━━━┓ -->
+<!-- Prompt Output① generateProfilePromptで現れる -->
+<div id="promptOutput1" class="panel" style="display:none; margin-top:20px;">
+    <div style="margin-bottom:8px; color:#5CBEAB;">AIに渡すプロンプト(数値解析)：</div>
+    <textarea id="promptText1" rows="12" style="width:100%; background:#08080f; border:1px solid #334; color:#ccc; padding:12px; border-radius:8px;"></textarea>
+    <button onclick="copyPrompt1()" style="margin-top:8px;">📋 コピー</button>
+</div>
+<!-- ━━━━━━━━━━┛ -->
+
+<div style="text-align:center">↓　↓　↓　↓</div>
+
+<div class="panel">
+  <div style="margin-bottom:8px; font-size:0.9em;">AI依頼リンク集</div>
+代表的なものを集めました。どの会話型AIでも、このプロンプトを理解して数値を提案してくれます。<ul style="background:#ade1ff;border-radius:8px;"><li><a href="https://chatgpt.com/" target="_blank">ChatGPT</a></li><li><a href="https://claude.ai/" target="_blank">Claude(クロード)</a></li><li><a href="https://gemini.google.com/app" target="_blank">Google Gemini</a></li><li><a href="https://www.manus.im/" target="_blank">Manus</a></li><li><a href="https://www.perplexity.ai/" target="_blank">perplexity</a></li><li><a href="https://chat.qwen.ai/" target="_blank">Qwen Chat</a></li></ul>他に、リンクは貼れませんが、X(旧ツイッター)のGrok、Microsoft Copilot(コパイロット) 、でも動作します。<br><br>
+</div>
+
+<div style="text-align:center">↓　↓　↓　↓</div>
+
+<!-- 15次元ベクトルを一括貼り付け（例: レーダー上部やStep2の最初） -->
+<div class="panel">
+  <button id="suuchi" onclick="yuukoo()" style="float:right;">ボタン有効化</button><div style="margin-bottom:8px; font-size:0.9em;">AIが解析した15次元ベクトル数値を一括貼り付け</div>
+  <div style="display:flex; gap:8px;">
+    <input type="text" id="vectorInput" placeholder="0,0.2,-0.5,0.8,0.1,..." 
+           style="flex:1; padding:10px; background:#08080f; border:1px solid #334; color:#ccc; border-radius:6px;">
+    <button id ="vectorload" onclick="loadFromInput()" 
+            style="padding:0 20px; background:#5CBEAB; color:#000; font-weight:bold;">
+      反映
+    </button>
+  </div>
+  <div style="font-size:0.75em; color:#555; margin-top:6px;">
+    例: 0.5,0.3,-0.2,0.2,0.9,0.1,0.2,-0.3,0.4,0.2,0.3,0.2,0.3,0.1,0.3
+  </div>
+
+</div>
+
+
+
+
+
+
+<!-- 右：リアルタイム活動軸プレビュー（HTML版） -->
+<div style="width: 190px; display: flex; flex-direction: column; gap: 8px; font-family: sans-serif;float:right;">
+  <div style="font-size: 18px; color: #648c64; letter-spacing: 2px; font-family: monospace;">
+    活動軸リアルタイム翻訳
+  </div>
+  
+  <!-- 活動軸用の新しいCanvas（170x170） -->
+  <canvas id="actRadarCanvas" width="170" height="170" style="background:#000;"></canvas>
+  
+  <!-- ①・②の横棒グラフを表示する枠 -->
+  <div style="background: #111; padding: 10px 12px; border-radius: 4px; border: 1px solid #222;">
+    <!-- ① 語る活動軸 -->
+    <div style="font-size: 15px; color: #7B9FBF; font-weight: bold; margin-bottom: 4px;">① 語る活動軸</div>
+    <div id="barArea1" style="display: flex; flex-direction: column; gap: 4px;"></div>
+    
+    <!-- 区切り線 -->
+    <div style="margin-top: 8px; padding-top: 6px; border-top: 0.5px solid #1a1a2e;">
+      <!-- ② 渇望の活動軸 -->
+      <div style="font-size: 15px; color: #C87B9F; font-weight: bold; margin-bottom: 4px;">② 渇望の活動軸</div>
+      <div id="barArea2" style="display: flex; flex-direction: column; gap: 4px;"></div>
+    </div>
+  </div>
+</div>
+
+
+    <div id="sliders" style="width:420px;"></div>
+
+
+<div class="panel" style="text-align:center; padding:20px 15px; position:relative;">
+  <div style="font-size:0.9em; color:#666; margin-bottom:10px;">発達レーダー（15次元）</div>
+  外周のA1などにマウスを乗せると値の詳細が表示されます。
+  <canvas id="radarCanvas" width="360" height="360" 
+          style="max-width:100%; cursor: crosshair;"></canvas>
+  
+  <!-- ★★★ ここが重要 ★★★ -->
+  <div id="tooltip" style="position:absolute; display:none; background:#0f0f1e; 
+       border:1px solid #5CBEAB; border-radius:6px; padding:8px 12px; 
+       font-size:0.85em; pointer-events:none; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <button id="drawc" onclick="drawCards()" style="width:100%; margin-top:20px; background:linear-gradient(135deg,#0d1828,#1a0d28); color:#5C8CBE; border:1px solid #5C8CBE33;">
+        🃏 カードを引く
+    </button>
+<button id="drawcc" onclick="drawCards()" style="width:100%; margin-top:20px; background:linear-gradient(135deg,#0d1828,#1a0d28); color:#5C8CBE; border:1px solid #5C8CBE33;">
+        非常ボタン（ボタンが無効で進めない時にクリック）
+    </button>
+</div><!-- ■Step1閉じ■ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Step 2━━━━━━━━━━┓ -->
+<div id="step2" style="display:none;">
+    <div class="step-title" style="text-align:center; color:#5C8CBE;">Step 3｜活動言語翻訳スプレッド</div>
+    
+    <div id="spreadCards" style="display:flex; justify-content:center; flex-wrap:wrap; gap:15px; margin:30px 0;"></div>
+
+<!-- プロンプトと罫線━━━━━━━━━━┓ -->
+    <button onclick="generateReadingPrompt()" style="width:100%; background:linear-gradient(135deg,#1a0d1a,#0d0d28); color:#BE5C8C; border:1px solid #BE5C8C33;">
+        ✦ ZPDリーディングを依頼するプロンプトを出力
+    </button>
+<!-- Prompt Output③━━━━━━━━━━┓ -->
+<div id="promptOutput2" class="panel" style="display:none; margin-top:20px;">
+    <div style="margin-bottom:8px; color:#5CBEAB;">AIに渡すプロンプト：</div>
+    <textarea id="promptText2" rows="12" style="width:100%; background:#08080f; border:1px solid #334; color:#ccc; padding:12px; border-radius:8px;"></textarea>
+    <button onclick="copyPrompt2()" style="margin-top:8px;">📋 コピー</button>
+</div>
+<!-- Prompt Output③━━━━━━━━━━┛ -->
+<div style="margin:20px;font-size:20px;">ここまでで完結です。</div>以下は計算などの詳細です。見なくても支障ありません。<br><br><br>
+<span id="grkeisen"></span>
+<script>
+document.getElementById("grkeisen").innerHTML = grkei;
+</script>
+<!-- プロンプトと罫線━━━━━━━━━━┛ -->
+
+<div id="spreadCards2" style="display:flex; justify-content:left; flex-wrap:wrap; gap:15px; margin:30px 0;"></div>
+
+<!-- ━━━━━ケルト十字━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ -->
+<div id="celt" class="spread-container">
+  <img id="card1"  class="hashi" src="../img/hashi.png" width="400">
+  <img id="card2"  class="moji" src="../img/zpdmoji.png" width="480" height="480">
+  <img id="card3"  class="cardo" src="../img/a_infantia/03u.png" width="80" height="130">
+  <img id="card4"  class="cardo" src="../img/a_infantia/04u.png" width="80" height="130">
+  <img id="card5"  class="cardo" src="../img/a_infantia/05u.png" width="80" height="130">
+  <img id="card6"  class="cardo" src="../img/a_infantia/06u.png" width="80" height="130">
+  <img id="card7"  class="vigo" src="../img/vigo.jpg" width="100" height="138">
+
+  <div id="label1" class="label">1. 現在の発達段階</div>
+  <div id="label2" class="label">2. 発達の芽生え</div>
+  <div id="label3" class="label">3. 発達の壁</div>
+  <div id="label4" class="label">4. 発達の橋</div>
+  <div id="label5" class="label">今</div>
+  <div id="label6" class="label">少し先</div>
+  <div id="label7" class="label">足場かけ</div>
+  <div id="label8" class="label">目指したい育ちの方向</div>
+  <div id="label9" class="label">- - - - - - 最近接発達領域 - - - - - -<br>(Zone of Proximal Development)</div>
+  <div id="label10" class="label">Developmental Dynamics 4</div>
+</div>
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ -->
+
+
+<!-- 構造マップ部分（step2内に追加） -->
+<div class="panel" style="margin-top:20px;">
+  <div style="font-size:0.9em; color:#666; letter-spacing:2px; margin-bottom:12px;">ZPD 構造マップ</div>
+  <div id="structureMap" style="display:flex; flex-wrap:wrap; gap:12px;"></div>
+</div>
+    
+    <button onclick="generateReadingPrompt()" style="width:100%; background:linear-gradient(135deg,#1a0d1a,#0d0d28); color:#BE5C8C; border:1px solid #BE5C8C33;">
+        ✦ ZPDリーディングを依頼するプロンプトを出力
+    </button>
+</div>
+<!-- Step 2━━━━━━━━━━┛ -->
+
+
+
+
+<!-- Prompt Output②━━━━━━━━━━┓ -->
+<div id="promptOutput" class="panel" style="display:none; margin-top:20px;">
+    <div style="margin-bottom:8px; color:#5CBEAB;">AIに渡すプロンプト：</div>
+    <textarea id="promptText" rows="12" style="width:100%; background:#08080f; border:1px solid #334; color:#ccc; padding:12px; border-radius:8px;"></textarea>
+    <button onclick="copyPrompt()" style="margin-top:8px;">📋 コピー</button>
+</div>
+<!-- Prompt Output②━━━━━━━━━━┛ -->
+
+
+<button onclick="resetAll()" style="margin-top:15px; background:transparent; border:1px solid #333; color:#666;">最初からやり直す</button>
+
+</div>
+
+
+<!-- ロースト━━━━━━━━━━┓ -->
+<script>
+function yuukoo() {
+    document.getElementById('vectorInput').disabled = false; // txtbox有効
+    document.getElementById('vectorInput').style.opacity = "1.0";
+    document.getElementById('vectorload').disabled = false; // ボタン有効
+    document.getElementById('vectorload').style.opacity = "1.0";
+}
+const kbutton = document.getElementById('kesubtn');
+const kbox = document.getElementById('keshimasu');
+
+// --- ローカルストレージ ---
+// 1. データの準備
+let mcss = localStorage.getItem('checkboxstatus'); // チェックボックス
+let jrnum = localStorage.getItem('jn'); // 事例番号
+console.log('チェックボックス・事例番号',mcss,jrnum); 
+let nashi = "-----";
+let p10 = localStorage.getItem('z_tm10'); // 保存時間
+let p9 = localStorage.getItem('z_tm09');
+let p8 = localStorage.getItem('z_tm08');
+let p7 = localStorage.getItem('z_tm07');
+let p6 = localStorage.getItem('z_tm06');
+let p5 = localStorage.getItem('z_tm05');
+let p4 = localStorage.getItem('z_tm04');
+let p3 = localStorage.getItem('z_tm03');
+let p2 = localStorage.getItem('z_tm02');
+let p1 = localStorage.getItem('z_tm01');
+
+let a10 = localStorage.getItem('z_age10'); // 年齢
+let a9 = localStorage.getItem('z_age09');
+let a8 = localStorage.getItem('z_age08');
+let a7 = localStorage.getItem('z_age07');
+let a6 = localStorage.getItem('z_age06');
+let a5 = localStorage.getItem('z_age05');
+let a4 = localStorage.getItem('z_age04');
+let a3 = localStorage.getItem('z_age03');
+let a2 = localStorage.getItem('z_age02');
+let a1 = localStorage.getItem('z_age01');
+
+let pst10 = localStorage.getItem('z_pst10'); // プリセットテキスト
+let pst9 = localStorage.getItem('z_pst09');
+let pst8 = localStorage.getItem('z_pst08');
+let pst7 = localStorage.getItem('z_pst07');
+let pst6 = localStorage.getItem('z_pst06');
+let pst5 = localStorage.getItem('z_pst05');
+let pst4 = localStorage.getItem('z_pst04');
+let pst3 = localStorage.getItem('z_pst03');
+let pst2 = localStorage.getItem('z_pst02');
+let pst1 = localStorage.getItem('z_pst01');
+
+let psd10 = localStorage.getItem('z_psd10'); // 15次元ベクトル
+let psd9 = localStorage.getItem('z_psd09');
+let psd8 = localStorage.getItem('z_psd08');
+let psd7 = localStorage.getItem('z_psd07');
+let psd6 = localStorage.getItem('z_psd06');
+let psd5 = localStorage.getItem('z_psd05');
+let psd4 = localStorage.getItem('z_psd04');
+let psd3 = localStorage.getItem('z_psd03');
+let psd2 = localStorage.getItem('z_psd02');
+let psd1 = localStorage.getItem('z_psd01');
+
+let sb10 = localStorage.getItem('z_sb10'); // selectedSubCat
+let sb9 = localStorage.getItem('z_sb09');
+let sb8 = localStorage.getItem('z_sb08');
+let sb7 = localStorage.getItem('z_sb07');
+let sb6 = localStorage.getItem('z_sb06');
+let sb5 = localStorage.getItem('z_sb05');
+let sb4 = localStorage.getItem('z_sb04');
+let sb3 = localStorage.getItem('z_sb03');
+let sb2 = localStorage.getItem('z_sb02');
+let sb1 = localStorage.getItem('z_sb01');
+
+// ローカルストレージ管理START
+let llslog = '';
+const okb = '<td style="color:#0f9c08">○</td> ';
+const ngq = '<td style="color:#eb3452">／</td> ';
+llslog += '<table style="background:black; border-collapse: collapse;border: solid 2px orange;">';
+llslog += '<tr style="background:#b88bc9"><td>NEW←→OLD</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>';
+llslog += '<tr><td>データ</td>';
+if (localStorage.getItem("z_tm01") !== null ) {if (localStorage.getItem("z_tm01") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm02") !== null ) {if (localStorage.getItem("z_tm02") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm03") !== null ) {if (localStorage.getItem("z_tm03") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm04") !== null ) {if (localStorage.getItem("z_tm04") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm05") !== null ) {if (localStorage.getItem("z_tm05") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm06") !== null ) {if (localStorage.getItem("z_tm06") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm07") !== null ) {if (localStorage.getItem("z_tm07") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm08") !== null ) {if (localStorage.getItem("z_tm08") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm09") !== null ) {if (localStorage.getItem("z_tm09") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+if (localStorage.getItem("z_tm10") !== null ) {if (localStorage.getItem("z_tm10") === nashi){llslog += ngq; }else{llslog += okb; }}else{llslog += ngq; }
+llslog += '</tr>';
+
+if(llslog==='これはぶく'){
+llslog += '<tr><td>年齢</td>';
+if (localStorage.getItem("z_age01") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age02") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age03") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age04") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age05") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age06") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age07") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age08") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age09") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_age10") !== null) {llslog += okb; }else{llslog += ngq; }
+
+llslog += '</tr>';
+llslog += '<tr><td>事例テキスト</td>';
+if (localStorage.getItem("z_pst01") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst02") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst03") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst04") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst05") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst06") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst07") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst08") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst09") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_pst10") !== null) {llslog += okb; }else{llslog += ngq; }
+
+llslog += '</tr>';
+llslog += '<tr><td>15次元ベクトル</td>';
+if (localStorage.getItem("z_psd01") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd02") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd03") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd04") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd05") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd06") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd07") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd08") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd09") !== null) {llslog += okb; }else{llslog += ngq; }
+if (localStorage.getItem("z_psd10") !== null) {llslog += okb; }else{llslog += ngq; }
+
+llslog += '</tr>';
+llslog += '</tr>';
+
+}
+
+llslog += '</table>';
+document.getElementById('lstrgzen').innerHTML=llslog;
+// ローカルストレージ管理END
+
+// 2. null または undefined の場合の処理を確実に行う
+if (p10 === null || p10 === undefined) {
+    localStorage.setItem('z_tm10', nashi);
+    p10 = nashi; 
+}
+if (p9 === null ||p9 === undefined) { localStorage.setItem('z_tm09', nashi);p9 = nashi; }
+if (p8 === null ||p8 === undefined) { localStorage.setItem('z_tm08', nashi);p8 = nashi; }
+if (p7 === null ||p7 === undefined) { localStorage.setItem('z_tm07', nashi);p7 = nashi; }
+if (p6 === null ||p6 === undefined) { localStorage.setItem('z_tm06', nashi);p6 = nashi; }
+if (p5 === null ||p5 === undefined) { localStorage.setItem('z_tm05', nashi);p5 = nashi; }
+if (p4 === null ||p4 === undefined) { localStorage.setItem('z_tm04', nashi);p4 = nashi; }
+if (p3 === null ||p3 === undefined) { localStorage.setItem('z_tm03', nashi);p3 = nashi; }
+if (p2 === null ||p2 === undefined) { localStorage.setItem('z_tm02', nashi);p2 = nashi; }
+if (p1 === null ||p1 === undefined) { localStorage.setItem('z_tm01', nashi);p1 = nashi; }
+
+// 3. HTML要素への反映（必ずp10が確定した後に実行）
+const prarea = document.getElementById("hozvarea");
+if (prarea) {
+prarea.innerHTML = `
+<fieldset><legend>  <label>事例＆15次元ベクトル履歴(ブラウザに直近10個まで保存され、古い物から消去されます。) <span id="siyouryou">&gt;&gt; <a href="#" onclick="onofdata(); return false;">データ使用量</a></span></legend>
+
+<select id="hozv" name="hozv" style="flex:1; padding:10px; background:#08080f; border:1px solid #334; color:#ccc; border-radius:6px; font-size:19px;">
+    <option value="0">事例ベクトル履歴</option>
+    <option value="1">${p1}</option>
+    <option value="2">${p2}</option>
+    <option value="3">${p3}</option>
+    <option value="4">${p4}</option>
+    <option value="5">${p5}</option>
+    <option value="6">${p6}</option>
+    <option value="7">${p7}</option>
+    <option value="8">${p8}</option>
+    <option value="9">${p9}</option>
+    <option value="10">${p10}</option>
+  </select></label>   領域: <input type="text" name="sb" id="sb" style="width:150px;flex:1; padding:10px; background:#08080f; border:1px solid #334; color:#ccc; border-radius:6px;"><br>
+<textarea id="hozp" rows="4" cols="70" placeholder="保存された事例＆15D値がここに表示されます" style="flex:1; padding:10px; background:#08080f; border:1px solid #334; color:#ccc; border-radius:6px;"></textarea><br>
+  <div style="display:flex; gap:8px;">
+     <input type="text" name="hozvec" id="hozvec" placeholder="0,0.2,-0.5,0.8,0.1,..." 
+           style="flex:1; padding:10px; background:#08080f; border:1px solid #334; color:#ccc; border-radius:6px;">
+  </div><table border="0"><tr><td rowspan="2"><span id="vvv"></span></td><td style="text-align:center;"><span id="ttt"></span>↓</td></tr><tr><td style="text-align:center;"><span id="lll"></span></td></tr></table>
+📋 コピー: <button id="cp" class="calc-btn" onclick="cpyt();">事例</button> <button id="cp" class="calc-btn" onclick="cpyv();">ベクトル</button>
+ / <button id="strclr" class="calc-btn" onclick="localStorage.clear();alert('ブラウザに保存されたプロンプトを消去しました。再度画面操作する場合はページを更新してください。');">保存されたデータを消去</button><small>※ケルト十字法のプロンプトが保存されていた場合も消去されます。</small></fieldset>
+    `;
+}
+
+  const selectElement = document.getElementById('hozv');
+  const txaraEle = document.getElementById('hozp');
+  const hvc = document.getElementById('hozvec');
+  const sb = document.getElementById('sb');
+  const vvv = document.getElementById('vvv');
+//  const resultElement = document.getElementById('result');
+
+  // select要素にchangeイベントリスナーを設定
+  selectElement.addEventListener('change', function(event) {
+    // event.target は選択された <select> 要素
+    const selectedValue = event.target.value; // 選択された値 (例: 'banana')
+    const selectedText = event.target.options[event.target.selectedIndex].text; // 選択されたテキスト (例: 'バナナ')
+    const selectedIndex = event.target.selectedIndex; // 選択されたインデックス (例: 1)
+
+if (selectedIndex===1){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst01');sb.value=localStorage.getItem('z_sb01');hvc.value=localStorage.getItem('z_psd01');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===2){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst02');sb.value=localStorage.getItem('z_sb02');hvc.value=localStorage.getItem('z_psd02');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===3){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst03');sb.value=localStorage.getItem('z_sb03');hvc.value=localStorage.getItem('z_psd03');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===4){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst04');sb.value=localStorage.getItem('z_sb04');hvc.value=localStorage.getItem('z_psd04');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===5){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst05');sb.value=localStorage.getItem('z_sb05');hvc.value=localStorage.getItem('z_psd05');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===6){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst06');sb.value=localStorage.getItem('z_sb06');hvc.value=localStorage.getItem('z_psd06');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===7){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst07');sb.value=localStorage.getItem('z_sb07');hvc.value=localStorage.getItem('z_psd07');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===8){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst08');sb.value=localStorage.getItem('z_sb08');hvc.value=localStorage.getItem('z_psd08');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===9){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst09');sb.value=localStorage.getItem('z_sb09');hvc.value=localStorage.getItem('z_psd09');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+if (selectedIndex===10){if(selectedText===nashi){return;}txaraEle.innerHTML=localStorage.getItem('z_pst10');sb.value=localStorage.getItem('z_sb10');hvc.value=localStorage.getItem('z_psd10');const ssqv = parseCSV(hvc.value);vvv.innerHTML=vectable(ssqv);ttt.innerHTML=txtxt;lll.innerHTML=lklkl;ckls(selectedIndex);}
+
+
+//     console.log(`値: ${selectedValue}, テキスト: ${selectedText}, インデックス: ${selectedIndex}`);
+ //   resultElement.textContent = `選択中: ${selectedText} (値: ${selectedValue})`;
+
+    // 選択された値に応じて何か処理をする例
+//     if (selectedValue === 'banana') {
+//       alert('バナナが選ばれました！');
+//     }
+  });
+// ━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━　━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function onofdata(){
+let total = 0;
+for (let i = 0; i < localStorage.length; i++) {
+  let key = localStorage.key(i);
+  let value = localStorage.getItem(key);
+  // 文字列の長さに2バイトを掛けて計算
+  total += (key.length + value.length) * 2;
+}
+// console.log(`使用量: ${(total / 1024 / 1024).toFixed(2)} MB`);
+const targetElement = document.getElementById("siyouryou"); targetElement.innerHTML = `Local Storage 使用量: <span style="color:red;font-weight:bold;">${(total / 1000).toFixed(2)}KB</span> (目安: 100KB未満＝「ロゴなどの小さな画像素材」「文字中心のシンプルなニュース記事1本分」程度のデータ量です。)&lt;&lt; <a href="#" onclick="onofdclear(); return false;">閉じる</a>
+`;
+}
+// ────────────────────────────────────────
+function onofdclear(){
+const targetElement = document.getElementById("siyouryou"); targetElement.innerHTML = `&gt;&gt; <a href="#" onclick="onofdata(); return false;">データ使用量</a>`;
+}
+<!-- ロースト━━━━━━━━━━┛ -->
+</script>
+
+
+
+
+<!-- admax -->
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function onof(){
+const targetElement = document.getElementById("onoftxt"); targetElement.innerHTML = `
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+<img src="../img/zpd4.png" align="right" width="200">
+保育専用タロットの大・小アルカナ、22＋22枚・計44枚で、気になる子のアドバイス生成プロンプトを出力します。<br>
+タロット占い形式を応用していますが、占い・直感とは違います。数学的に根拠を持った15次元ベクトルの値で、子どもの状況文脈との類似度を計算します。<br>
+
+<h3>使い方</h3><ul>
+<li>ステップ1<ol><li><span style="background:#c634eb;font-weight:bold;">①年齢</span>…2～5歳の、気になるお子さんの年齢を選択。厳密な年齢でなく「○歳児クラス」の年齢です。</li>
+<li><span style="background:#c634eb;font-weight:bold;">②似た事例を探す</span>…事例の年齢は一致させる必要ありません。カテゴリー(運動・身体、情緒・行動、生活スキル)を選択→下にサブカテゴリ―が表示されるので、当てはまるものを選択→セレクトボックスが出ます。一番当てはまる事例を選択。検索窓で絞り込むこともできます。また、似た事例も下に表示されますので、それを選択することもできます。</li>
+<li><span style="background:#c634eb;font-weight:bold;">③テキスト欄を、お子さんの様子に書きなおす</span>…自由テキスト欄に事例選択で入ったテキストを、お子さんの状況に書きなおします。年齢は既に選択しているのでここで書く必要はありません。</li>
+<li><span style="background:#c634eb;font-weight:bold;">④発達プロファイルを生成する(プロンプト出力)ボタン</span>をクリック。</li>
+</ol></li>
+<li>ステップ2<ol><li><span style="background:#c634eb;font-weight:bold;">①AIに数値解析を依頼</span>…AIに渡すプロンプト(数値解析)をコピーし、別ウィンドウで対話型AIの画面に貼り付け→15個のカンマ区切り数値を1行で返してくれます。コピーボタンクリックで、下のボタンが有効になります。</li>
+<li><span style="background:#c634eb;font-weight:bold;">②AIが返した数値を読み込ませる</span>…AI提示の数値をコピーし、こちらに戻り、下の「AIが解析した15次元ベクトル数値を一括貼り付け」欄に貼り付けて反映ボタンをクリック。反映ボタンクリックで、下のボタンが有効になります。</li>
+<li><span style="background:#c634eb;font-weight:bold;">③値の確認</span>…値が反映されます。必要ならばスライダーを動かして調整してください。</li>
+<li><span style="background:#c634eb;font-weight:bold;">④カードをひく</span>ボタンをクリック。</li></ol></li>
+
+<li>ステップ3<ol><li><span style="background:#c634eb;font-weight:bold;">①「ZPDリーディングを依頼するプロンプトを出力」</span>ボタンをクリック。</li>
+<li><span style="background:#c634eb;font-weight:bold;">②「コピー」</span>ボタンをクリック。</li>
+<li><span style="background:#c634eb;font-weight:bold;">③AIにリーディング依頼</span>…別ウィンドウで対話型AIの画面にプロンプトを貼り付けて、リーディングしてもらってください。</li>
+
+</ol></li>
+</ul>
+
+生成されたプロンプトは、<a href="https://chatgpt.com/">ChatGPT</a>や<a href="https://claude.ai/">Claude(クロード)</a>、Copilot(コパイロット)、<a href="https://gemini.google.com/app">Google Gemini</a>、X(旧ツイッター)のGrok、<a href="https://www.perplexity.ai/">perplexity</a>などの対話型AIの会話ウィンドウにコピペするだけでリーディングをしてくれます。<br>
+
+<h3>活動言語翻訳スプレッド計算</h3>
+<ul><li>設計思想：「子どものZPDを活動の言語に翻訳する」<br>
+ 保育者が活動を選ぶのではなく、<br>"子どものZPDが活動を呼び寄せる"構造
+<ol><li> 今のZPDが語りかける活動性<br>
+    zpdToAct(Q) → 活動15次元ベクトル<br>
+    → その活動軸ベクトルをBRIDGE順変換でZPD空間に持ち込み最近傍カード<br>
+    → 「今この子は〇〇という活動性を生きている」
+
+</li><li> ZPDが渇望している活動性<br>
+    zpdDeficitToAct(Q) = zpdToAct(deficit(Q))<br>
+    → マイナス次元だけを変換 → 「届いていないが引き寄せようとしている」<br>
+    → ①とは異なる活動軸が現れる（ZPDの非対称性を活動言語で表現）
+
+</li><li> 両者をつなぐ保育者の言語<br>
+    actVecBridge = (actQ + actDef) / 2 を正規化<br>
+    → ①を入口にして②へ向かう保育的語り・関わりを示すカード</li></ol>
+</li></ul>
+
+<h3>ZPD用ベクトル値</h3>
+今までの「活動案生成用」の15次元ベクトルと違う「ZPD用」の15次元ベクトル値を定義しました。<br>
+ZPD特化なので、「今できる←→まだできない」の境界を精密に捉える次元、子どもの発達状態・発達プロセスを表す次元です。<br><br>
+
+ユーザー入力の性質は、活動案生成が活動カテゴリ(客観的)で済んだのに対し、発達ダイナミクス4は子どもの発達状態(主観的・観察的)です。観察者の解釈が入るためベクトル化が難しい問題がありました。<br>
+なので、2段階入力としました。<ul><li>保育者が自然言語で子どもの状況を入力</li><li>AIが解析し、次元ベクトルに変換</li><li>保育者が確認・修正する形で、次元をスコアリング</li></ul>
+
+ZPD用次元は、「対極軸」と同じ構造(-1～+1)としました。<br><br>
+
+<h3>保育象徴へのZPD用ベクトル値割り当て設計方針</h3>
+各象徴を「ZPDの文脈でどの発達次元に強く作用するか」で割り当てています。
+<ul>
+<li>強く関与 = ±0.7〜±1.0</li>
+<li>中程度 = ±0.3〜±0.6</li>
+<li>弱い/中立 = -0.2〜+0.2</li>
+</ul>
+
+
+<h3>カード設計の特徴まとめ</h3>
+<ul>
+<li>0〜9: 基盤・プロセス群</li>
+<li>10〜21: 発達プロセス群</li>
+<li>22〜31: 活動・関わり群</li>
+<li>32〜43: 情緒・成長・自然群</li>
+<br><br>
+<li>壁カード群（低スコア次元を持つ）
+→ 16葛藤、40風、38種、29小さな勇気</li>
+<li>橋カード群（複数次元に中程度の値）
+→ 8バランス、37育ち、42雨、14調和</li>
+<li>土台カード群（安全基地・感情調整系が高い）
+→ 3養護、41根、17慰め、32温かさ</li>
+<li>到達カード群（高次元達成）
+→ 43実り、21祝祭、13変容、23学び</li>
+</ul>
+
+
+
+<hr>
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+
+`;
+}
+// ────────────────────────────────────────
+function onofclear(){
+const targetElement = document.getElementById("onoftxt"); targetElement.innerHTML = `&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">説明を開く</a>`;
+}
+// ────────────────────────────────────────
+
+let qVec = new Array(15).fill(0); // 下からもってきた。古いブラウザで、変数宣言の順番でエラーになるから。←解決せず
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // 初期表示
+//   updateDisplays();
+  
+
+  // 年齢変更イベント
+  document.querySelector('[name="age"]').onchange = event => {
+  applyPreset('reset')
+document.getElementById('preset-container').style.display = 'none'; // 事例セレクトボックスを隠す
+document.getElementById('sub-category-container').innerHTML = ''; // 一度クリア
+document.getElementById('preset-select').innerHTML = '<option value="">↓　↓　事例を選択してください　↓　↓</option>';
+
+  }
+  // プリセット変更イベント
+//   document.querySelector('[name="jirei"]').onchange = event => {
+// const jireinum = document.querySelector('[name="jirei"]').value;
+// console.log('jireinum',jireinum);
+//   applyPreset(jireinum);
+//   }
+
+// ━━━━━━━━━━━━━━━━
+  const maincate = document.getElementById('main-category-container');
+  if (maincate) {
+    maincate.onchange = function(event) {
+      // event.target で実際にクリックされたラジオボタン（input要素）を取得します
+      // 古いブラウザ（IEなど）を考慮して event がない場合は window.event を参照します
+      const e = event || window.event;
+      const target = e.target || e.srcElement;
+      
+      // ラジオボタンのvalueを取得
+      const selectedValue = target.value;
+      
+      // メッセージの表示（#infoが存在することを確認）
+      const infoElement = document.getElementById('info');
+      if (infoElement) {
+        infoElement.innerHTML = selectedValue + 'が選ばれました';
+      }
+    };
+  }
+// ━━━━━━━━━━━━━━━━
+  const subcateContainer = document.getElementById('sub-category-container');
+  if (subcateContainer) {
+    subcateContainer.onchange = function(event) {
+      // イベントの発生源（クリックされたサブカテゴリのラジオボタン）を取得
+      const e = event || window.event;
+      const target = e.target || e.srcElement;
+      
+      // 選択されたサブカテゴリのvalue（例：「スキップ」など）
+      const selectedSubValue = target.value;
+      
+      // メッセージの表示（大カテゴリ ＞ サブカテゴリ の形に結合）
+      const infoElement = document.getElementById('info');
+      if (infoElement) {
+        infoElement.innerHTML = selectedMainCat + ' ＞ ' + selectedSubValue + 'が選ばれました';
+      }
+    };
+  }
+// ━━━━━━━━━━━━━━━━
+
+  // 新プリセット変更イベント（ここを書き換えます）
+  const presetSelect = document.getElementById('preset-select');
+  const similarContainer = document.getElementById('similar-presets-container'); // 事前にHTML側で作った表示エリア
+  const similarList = document.getElementById('similar-list');                 // 事前にHTML側で作ったリスト要素
+  
+  if (presetSelect) {
+    presetSelect.onchange = event => {
+      const jireinum = presetSelect.value;
+      console.log('jireinum', jireinum);
+      console.log('えいじ', document.getElementById('age').value);
+      
+       if (document.getElementById('age').value==="-1"){alert('年齢を選んでください');return;}
+
+      // 1. メインの処理を実行（既存の挙動）
+      applyPreset(jireinum);
+      
+      // 2. レコメンド表示の連動処理
+      // 未選択状態（「-- 事例を選択してください --」など）に戻された場合のケア
+      if (!jireinum || jireinum === "") {
+        if (similarContainer) similarContainer.style.display = 'none';
+        return;
+      }
+      
+      // コサイン類似度の上位を取得する関数を実行
+      // 引数に選択されたID（jireinum）を渡します
+      const top3 = getTop3SimilarPresets(jireinum, 3);
+      console.log('top3', top3);
+      
+      // リストの描画
+      if (similarList && similarContainer) {
+        similarList.innerHTML = ''; // 初期化
+        
+        top3.forEach(preset => {
+          const li = document.createElement('li');
+          li.style.marginBottom = '10px';
+          
+          // リンクをクリックしたときもapplyPresetが走るようにonclickを内包
+          li.innerHTML = `<strong>類似度: ${preset.similarity.toFixed(3)} [${preset.cat}/${preset.sc}] <a href="#" onclick="applyPreset('${preset.id}'); return false;" style="background:white; margin:10px;">${preset.name}${preset.age}歳</a></strong><small><br>${preset.des}</small>`;
+          similarList.appendChild(li);
+        });
+        
+        similarContainer.style.display = 'block'; // エリアを表示
+      }
+    };
+  }
+});
+
+
+function applyPreset(presetId) {
+let output = null;
+    const resultElement = document.getElementById('info');
+  // 1. 指定したIDのプリセットオブジェクトを取得
+const pid=presetId;
+  if (pid==='reset') {
+    output = "事例を選んでください";
+     resultElement.innerHTML = output;
+    document.getElementById('concern').innerHTML = "";
+  document.querySelector('[name="preset-select"]').selectedIndex = 0;
+document.getElementById('prino').value = "";
+document.getElementById('pricontxt').value = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+    return;
+  }
+
+  const preset = PRESETS[pid];
+  // 2. 存在チェック（未定義エラーの防止）
+  if (preset) {
+    const name = preset.name;
+    const des = preset.des;
+    const vector = preset.vec;
+    const kate = preset.sc;
+selectedSubCat = kate;
+
+document.getElementById('prino').value = pid;
+document.getElementById('pricontxt').value = vector;
+document.getElementById('vectorInput').value = vector;
+
+    console.log(name); // 「スキップ」 または 「部屋に入れず切替困難」
+// console.log('vector',vector);
+// console.log('des',des);
+document.getElementById('concern').innerHTML = des; // preset.age+'歳児。'+des;の年齢をあえて消す。
+  } else {
+    console.log('プリセットが見つかりません');
+    document.getElementById('concern').innerHTML = "";
+document.getElementById('prino').value = "";
+document.getElementById('pricontxt').value = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+     resultElement.innerHTML = ""; return;
+  }
+
+
+//  updateDisplays();
+            output = "事例「"+preset.name+"」を適用しました。↓文章を、お子さんの場合で書きなおしてください。<br>『<u>年齢</u>』＆『<u>似た事例選択</u>』＆『<u>テキスト欄の内容</u>』がこれでよければ、下の「発達プロファイルを生成」ボタンクリック。";
+     resultElement.innerHTML = output;  // ← 定義済みで使用
+}
+
+
+// 元・データがあった部分
+// に、また入れないと。
+
+// ============================================================
+// 活動15次元（活動言語）
+// ============================================================
+const ACT_DEFS = [
+  {i:0,  label:"主体性",   desc:"自分で決めて動く力",     color:"#C8A050", icon:"✊"},
+  {i:1,  label:"探索性",   desc:"知りたい・試したい衝動", color:"#8EC4A0", icon:"🔭"},
+  {i:2,  label:"協同性",   desc:"一緒にやる・分かち合う", color:"#C87B9F", icon:"🤝"},
+  {i:3,  label:"表現性",   desc:"形・声・動きで伝える",   color:"#7B9FBF", icon:"🎨"},
+  {i:4,  label:"身体性",   desc:"からだで感じる・動く",   color:"#C85050", icon:"🏃"},
+  {i:5,  label:"計画性",   desc:"順番・見通しを立てる",   color:"#7BBFA8", icon:"📋"},
+  {i:6,  label:"柔軟性",   desc:"変化を受け入れる",       color:"#A07BC8", icon:"🌊"},
+  {i:7,  label:"安全性",   desc:"守られる・安心できる",   color:"#C8C050", icon:"🛡️"},
+  {i:8,  label:"素材依存", desc:"もの・素材と関わる",     color:"#A0C8A0", icon:"🧱"},
+  {i:9,  label:"時間",     desc:"じっくり・繰り返す",     color:"#909090", icon:"⏳"},
+  {i:10, label:"安定性",   desc:"いつもと同じが心地よい", color:"#C8B07B", icon:"⚓"},
+  {i:11, label:"刺激性",   desc:"新しい・強い感覚を求める",color:"#E09050", icon:"⚡"},
+  {i:12, label:"葛藤性",   desc:"ぶつかり・乗り越える",   color:"#C87070", icon:"🌋"},
+  {i:13, label:"達成感",   desc:"できた・やり遂げた喜び", color:"#90C890", icon:"🏆"},
+  {i:14, label:"繋がり性", desc:"人・場・社会とつながる", color:"#7BB8C8", icon:"🔗"},
+];
+
+// ============================================================
+// ブリッジ行列 v2（逆引きスプレッドと共通）
+// 活動15次元 → ZPD15次元 への影響係数 zpd.jsへ
+// ============================================================
+
+
+// ============================================================
+// 44象徴カードDB（正位置）
+// ============================================================
+const CARDS_BASE = [
+  { id:0,  name:"探索",      emoji:"🌀", vec:[ .5, .3,-.2, .2, .9, .1, .2,-.3, .4, .2, .3, .2, .3, .1, .3] },
+  { id:1,  name:"はじまり",  emoji:"🌱", vec:[ .3, .2,-.3, .1, .6, .3, .2,-.4, .3,-.1, .2, .4,-.2, .3, .1] },
+  { id:2,  name:"見守り",    emoji:"👁️", vec:[ .1, .2, .5, .2, .2, .4, .3, .5, .2, .7, .3, .8, .5, .5, .4] },
+  { id:3,  name:"養護",      emoji:"🤱", vec:[ .1, .1, .9, .1, .1, .3, .2, .2, .1, .9, .2, .9, .3, .6, .3] },
+  { id:4,  name:"構造",      emoji:"🏛️", vec:[ .3, .3, .5, .3, .2, .7, .3, .9, .3, .5, .3, .5, .8, .5, .5] },
+  { id:5,  name:"対話",      emoji:"💬", vec:[ .1, .1, .3, .2, .2, .8, .8, .5, .5, .4, .6, .7, .4, .5, .6] },
+  { id:6,  name:"選択",      emoji:"⚖️", vec:[ .1, .1, .2, .1, .5, .5, .6, .6, .2, .4, .3, .3, .5, .2, .3] },
+  { id:7,  name:"運動",      emoji:"🏃", vec:[ .9, .6, .3, .7, .9, .1, .1, .1, .7, .3, .4, .2, .2, .2, .4] },
+  { id:8,  name:"バランス",  emoji:"🎚️", vec:[ .6, .9, .7, .6, .4, .5, .4, .5, .4, .7, .5, .6, .7, .4, .5] },
+  { id:9,  name:"省察",      emoji:"🔍", vec:[-.1, .1, .4, .1, .1, .5, .5, .5, .1, .6, .2, .4, .5, .4, .3] },
+  { id:10, name:"循環",      emoji:"🔄", vec:[ .4, .4, .5, .5, .4, .5, .3, .7, .8, .5, .3, .4, .6, .4, .4] },
+  { id:11, name:"たくましさ",emoji:"💪", vec:[ .7, .5,-.2, .5, .8, .3, .3, .3, .4, .3, .4, .3, .3, .3, .4] },
+  { id:12, name:"待つこと",  emoji:"⏳", vec:[ .1, .2, .3, .2, .1, .6, .3, .7, .3, .7, .5, .5, .9, .4, .5] },
+  { id:13, name:"変容",      emoji:"🦋", vec:[ .5, .4, .4, .5, .6, .5, .5, .5, .6, .5, .5, .5, .7, .4, .5] },
+  { id:14, name:"調和",      emoji:"🎵", vec:[ .3, .4, .7, .3, .3, .5, .5, .5, .4, .8, .8, .6, .6, .5, .8] },
+  { id:15, name:"素材",      emoji:"🧱", vec:[ .2, .3, .7, .6, .5, .2, .2, .2, .5, .3, .2, .2, .3, .2, .3] },
+  { id:16, name:"葛藤",      emoji:"⚡", vec:[ .2, .1,-.7, .1, .4,-.3,-.2,-.4, .2,-.8,-.3,-.2,-.8,-.2,-.3] },
+  { id:17, name:"慰め",      emoji:"🫂", vec:[ .1, .1, .7, .1, .1, .3, .3, .2, .1, .9, .3, .9, .3, .6, .3] },
+  { id:18, name:"物語",      emoji:"📖", vec:[ .1, .1, .3, .2, .2, .8, .8, .6, .7, .4, .5, .5, .4, .4, .5] },
+  { id:19, name:"創造的自由",emoji:"🎨", vec:[ .3, .3, .3, .5, .8, .3, .7, .1, .2, .5, .4, .3, .5, .2, .4] },
+  { id:20, name:"収集",      emoji:"🪣", vec:[ .1, .2, .5, .6, .4, .3, .2, .4, .3, .4, .2, .3, .4, .2, .3] },
+  { id:21, name:"祝祭",      emoji:"🎉", vec:[ .5, .4, .5, .4, .7, .5, .6, .4, .4, .7, .9, .6, .5, .5, .9] },
+  { id:22, name:"遊び",      emoji:"🎮", vec:[ .7, .5, .4, .6, .9, .3, .4, .2, .5, .5, .8, .4, .3, .3, .7] },
+  { id:23, name:"学び",      emoji:"📚", vec:[ .2, .3, .3, .3, .6, .7, .5, .7, .8, .4, .4, .5, .5, .4, .5] },
+  { id:24, name:"身体",      emoji:"🤸", vec:[ .9, .8, .9, .8, .7, .2, .1, .2, .5, .4, .3, .2, .3, .2, .3] },
+  { id:25, name:"響き",      emoji:"🔔", vec:[ .3, .3, .8, .3, .4, .5, .5, .4, .7, .5, .4, .5, .4, .4, .5] },
+  { id:26, name:"手",        emoji:"🖐️", vec:[ .2, .3, .6, .8, .4, .3, .4, .3, .6, .4, .4, .5, .3, .4, .4] },
+  { id:27, name:"声",        emoji:"🗣️", vec:[ .1, .1, .2, .2, .2, .7, .9, .4, .4, .4, .5, .7, .3, .4, .5] },
+  { id:28, name:"繋がり",    emoji:"🔗", vec:[ .2, .2, .4, .3, .3, .5, .5, .5, .4, .5, .8, .8, .5, .7, .8] },
+  { id:29, name:"小さな勇気",emoji:"🌟", vec:[ .4, .3,-.3, .3, .8,-.1, .2,-.2, .3,-.2, .3, .5, .2, .4, .3] },
+  { id:30, name:"安らぎ",    emoji:"😴", vec:[ .1, .2, .9, .1, .1, .3, .2, .3, .1, .9, .2, .8, .4, .5, .3] },
+  { id:31, name:"真似っこ",  emoji:"🙈", vec:[ .6, .5, .4, .7, .7, .4, .3, .4, .9, .3, .7, .5, .4, .4, .6] },
+  { id:32, name:"温かさ",    emoji:"🔥", vec:[ .1, .1, .6, .1, .1, .2, .3, .2, .1, .9, .5, .9, .4, .7, .5] },
+  { id:33, name:"笑顔",      emoji:"😊", vec:[ .3, .2, .5, .2, .5, .4, .5, .3, .4, .8, .7, .7, .5, .5, .7] },
+  { id:34, name:"共鳴",      emoji:"🎶", vec:[ .2, .2, .6, .3, .3, .5, .5, .4, .6, .8, .7, .8, .5, .5, .7] },
+  { id:35, name:"思いやり",  emoji:"💝", vec:[ .1, .1, .3, .2, .2, .5, .6, .4, .4, .5, .9, .6, .5, .4, .7] },
+  { id:36, name:"思い",      emoji:"💭", vec:[ .1, .1,-.2, .1, .5, .2, .6, .2, .1, .2, .2, .3,-.3, .2, .2] },
+  { id:37, name:"育ち",      emoji:"🌿", vec:[ .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5, .5] },
+  { id:38, name:"種",        emoji:"🌰", vec:[-.1,-.1, .2,-.1, .4,-.2, .1,-.3, .2, .1, .1, .2,-.1, .2, .2] },
+  { id:39, name:"意欲",      emoji:"✨", vec:[ .5, .3, .2, .4, .9, .4, .6, .4, .5, .3, .4, .4, .4, .3, .4] },
+  { id:40, name:"風",        emoji:"💨", vec:[ .4, .3,-.4, .3, .6,-.3, .3,-.4, .4,-.3, .3, .2,-.5, .2, .3] },
+  { id:41, name:"根",        emoji:"🌳", vec:[ .5, .6, .9, .5, .3, .6, .4, .7, .4, .9, .5, .9, .7, .7, .6] },
+  { id:42, name:"雨",        emoji:"🌧️", vec:[ .2, .2, .5, .2, .2, .3, .3, .3, .2, .5, .3, .5, .3, .4, .3] },
+  { id:43, name:"実り",      emoji:"🍎", vec:[ .7, .7, .7, .7, .7, .7, .7, .7, .7, .7, .7, .7, .7, .7, .7] },
+];
+
+
+// ============================================================
+// 88枚デッキ構築
+// 正位置44枚 + 逆位置44枚（符号反転）
+// reversed: true のカードは逆位置
+// ============================================================
+// let DECK_88 = [
+//   ...CARDS_BASE.map(c => ({ ...c, reversed: false, deckId: `${c.id}_u` })),
+//   ...CARDS_BASE.map(c => ({
+//     ...c,
+//     reversed: true,
+//     deckId: `${c.id}_r`,
+//     vec: c.vec.map(v => -v),
+    // 逆位置の名称・解釈
+//     reversedMeaning: makeReversedMeaning(c.name),
+//   })),
+// ];
+// 古いブラウザでエラー↑↓書き換え
+let DECK_88 = [];
+for(let i=0;i<CARDS_BASE.length;i++){
+   let c = CARDS_BASE[i];
+   let baseCard={};
+   for (let key in c){
+      if(c.hasOwnProperty(key)){
+          baseCard[key] = c[key];
+       }
+    }
+   baseCard.reversed = false;
+   baseCard.deckId = c.id + '_u';
+   DECK_88.push(baseCard);
+}
+for(let j=0;j<CARDS_BASE.length;j++){
+   let c = CARDS_BASE[j];
+   let revCard={};
+   for (let key in c){
+      if(c.hasOwnProperty(key)){
+          revCard[key] = c[key];
+       }
+    }
+   let invertedVec=[];
+   if(c.vec){
+      for(let k=0;k<c.vec.length;k++){
+   invertedVec.push(-c.vec[k]);
+      }
+   }
+   revCard.reversed=true;
+   revCard.deckId = c.id+'_r';
+   revCard.vec=invertedVec;
+   revCard.reversedmeaning = makeReversedMeaning(c.name);
+   DECK_88.push(revCard);
+}
+
+console.log('DECK_88',DECK_88);
+
+let DECK_UPRIGHT = [];
+
+
+// 以下は省略せずに実際のファイルには全部入れてください（スペースの都合上ここでは省略）
+/* CARDS配列は元のコードからそのままコピーしてください */
+
+// -------------------------------
+// ボタン用のラッパー関数
+function loadFromInput() {
+  const input = document.getElementById('vectorInput').value;
+  loadVectorFromString(input);
+let loadkaisuu = Number(document.getElementById('loadkaisuu').value);
+document.getElementById('loadkaisuu').value = Number(loadkaisuu+1);
+console.log('loadkaisuu',loadkaisuu);
+if (loadkaisuu>=1) {
+    document.getElementById('drawc').disabled = false; // カードをひくボタン有効
+document.getElementById('drawc').style.opacity = "1.0";
+}
+
+}
+
+
+// カンマ区切り値反映
+function loadVectorFromString(str) {
+  // カンマ区切りで分割し、数値に変換
+  let values = str.split(',')
+    .map(v => v.trim())           // 空白除去
+    .map(v => parseFloat(v))      // 数値変換
+    .filter(v => !isNaN(v));      // NaNを除外
+
+  if (values.length !== 15) {
+    alert(`エラー: 15個の数値が必要です。\n現在 ${values.length}個検出されました。`);
+    return false;
+  }
+
+ // 視覚効果
+let rdmnum =  Math.floor(Math.random() * 2) + 1; // 1～3の乱数
+        if (rdmnum===1){ghosto();}
+        else if (rdmnum===2){creativespark();}
+
+  // -1.0〜1.0の範囲にクランプ
+  qVec = values.map(v => Math.max(-1.0, Math.min(1.0, v)));
+
+  // スライダーを更新
+  for (let i = 0; i < 15; i++) {
+    const slider = document.querySelector(`input[oninput*="updateVec(${i}"]`);
+    if (slider) {
+      slider.value = Math.round(qVec[i] * 10);   // range入力は-10〜10
+    }
+    
+    // 数値表示も更新
+    const valSpan = document.getElementById(`val${i}`);
+    if (valSpan) {
+      valSpan.textContent = qVec[i].toFixed(1);
+    }
+  }
+
+  // レーダーチャート更新
+  drawRadar();
+
+document.getElementById('saishuqv').value = values;
+
+  console.log("ベクトルを読み込みました:", qVec);
+  return true;
+}
+
+// ====================== 計算関数（活動言語翻訳） ======================
+const dot   = (a,b) => a.reduce((s,v,i)=>s+v*b[i],0);
+const norm  = a => Math.sqrt(dot(a,a));
+const cos   = (a,b) => { const n=norm(a)*norm(b); return n<1e-9?0:dot(a,b)/n; };
+const vmid  = (a,b) => a.map((v,i)=>(v+b[i])/2);
+
+// actVecをZPD空間で近いカードに変換する
+// actVec(活動15次元)をBRIDGE順変換でZPD空間に持ち込む
+function actVecToZPD(actVec) {
+  const zpd = new Array(15).fill(0);
+  for (let a=0; a<15; a++)
+    for (let z=0; z<15; z++)
+      zpd[z] += actVec[a] * BRIDGE[a][z];
+
+//  const max = Math.max(...zpd);（古いブラウザではエラー）
+// 変更後（これで完璧に動きます）
+const max = Math.max.apply(null, zpd);
+  return max > 0 ? zpd.map(v=>v/max) : zpd;
+}
+
+const nearest = (target, excludeIds=[]) => {
+  let best=null, bestSim=-Infinity;
+  for(const c of CARDS){
+    if(excludeIds.includes(c.id)) continue;
+    const sim=cos(target,c.vec);
+    if(sim>bestSim){ bestSim=sim; best=c; }
+  }
+  return {card:best, sim:bestSim};
+};
+
+// 活動軸のトップN
+// function topActAxes(actVec, n=3) {
+//  return [...ACT_DEFS]
+//    .map(d=>({...d, v:actVec[d.i]}))
+//    .sort((a,b)=>b.v-a.v).slice(0,n);
+// }
+// ↓古いブラウザ用書き換え
+function topActAxes(actVec, n) {
+  // 引数 n のデフォルト値（n=3）が古いブラウザではエラーになるため、関数内で処理
+  if (n === undefined) { n = 3; }
+
+  // 1. 配列のコピー（[...ACT_DEFS] の書き換え）
+  // Object.assign([], ...) ではなく slice() を使うのが安全です
+  var copiedArr = ACT_DEFS.slice();
+
+  // 2. map の書き換え
+  // アロー関数（d => ...）とスプレッド構文、ショートハンドを古い書き方に直します
+  var mappedArr = copiedArr.map(function(d) {
+    var newObj = Object.assign({}, d);
+    newObj.v = actVec[d.i];
+    return newObj;
+  });
+
+  // 3. sort と slice
+  // アロー関数を通常の function に直し、結果を返します
+  return mappedArr.sort(function(a, b) {
+    return b.v - a.v;
+  }).slice(0, n);
+}
+
+
+// ============================================================
+// 活動言語翻訳スプレッド計算
+//
+// 設計思想：「子どものZPDを活動の言語に翻訳する」
+//           保育者が活動を選ぶのではなく、
+//           "子どものZPDが活動を呼び寄せる"構造
+//
+// ① 今のZPDが語りかける活動性
+//    zpdToAct(Q) → 活動15次元ベクトル
+//    → その活動軸ベクトルをBRIDGE順変換でZPD空間に持ち込み最近傍カード
+//    → 「今この子は〇〇という活動性を生きている」
+//
+// ② ZPDが渇望している活動性
+//    zpdDeficitToAct(Q) = zpdToAct(deficit(Q))
+//    → マイナス次元だけを変換 → 「届いていないが引き寄せようとしている」
+//    → ①とは異なる活動軸が現れる（ZPDの非対称性を活動言語で表現）
+//
+// ③ 両者をつなぐ保育者の言語
+//    actVecBridge = (actQ + actDef) / 2 を正規化
+//    → ①を入口にして②へ向かう保育的語り・関わりを示すカード
+// ============================================================
+
+
+function computeTranslationSpread(qVec) {
+    const saveState = localStorage.getItem('checkboxstatus');
+console.log('falseならロースト保存する',saveState);
+       if(saveState === 'false'){ // チェックオフの通常時だけ保存
+// ━━━ローカルストレージに保存━━━━━━━━━━━┓
+// 年と月 - 配列を保存
+localStorage['z_age10'] = localStorage['z_age09'];
+localStorage['z_age09'] = localStorage['z_age08'];
+localStorage['z_age08'] = localStorage['z_age07'];
+localStorage['z_age07'] = localStorage['z_age06'];
+localStorage['z_age06'] = localStorage['z_age05'];
+localStorage['z_age05'] = localStorage['z_age04'];
+localStorage['z_age04'] = localStorage['z_age03'];
+localStorage['z_age03'] = localStorage['z_age02'];
+localStorage['z_age02'] = localStorage['z_age01'];
+localStorage['z_age01'] = document.getElementById('age').value;
+
+const now = new Date();
+// console.log(now);
+// Wed Dec 08 2021 17:49:02 GMT+0900 (日本標準時)
+
+localStorage["z_tm10"] = localStorage["z_tm09"];
+localStorage["z_tm09"] = localStorage["z_tm08"];
+localStorage["z_tm08"] = localStorage["z_tm07"];
+localStorage["z_tm07"] = localStorage["z_tm06"];
+localStorage["z_tm06"] = localStorage["z_tm05"];
+localStorage["z_tm05"] = localStorage["z_tm04"];
+localStorage["z_tm04"] = localStorage["z_tm03"];
+localStorage["z_tm03"] = localStorage["z_tm02"];
+localStorage["z_tm02"] = localStorage["z_tm01"];
+localStorage["z_tm01"] = now.toLocaleString()+" - "+document.getElementById('age').value + "歳";
+
+localStorage['z_psd10'] = localStorage['z_psd09']; // 15次元ベクトル
+localStorage['z_psd09'] = localStorage['z_psd08'];
+localStorage['z_psd08'] = localStorage['z_psd07'];
+localStorage['z_psd07'] = localStorage['z_psd06'];
+localStorage['z_psd06'] = localStorage['z_psd05'];
+localStorage['z_psd05'] = localStorage['z_psd04'];
+localStorage['z_psd04'] = localStorage['z_psd03'];
+localStorage['z_psd03'] = localStorage['z_psd02'];
+localStorage['z_psd02'] = localStorage['z_psd01'];
+localStorage['z_psd01'] = document.getElementById('saishuqv').value;
+  const concern = document.getElementById('concern').value.trim();
+localStorage['z_pst10'] = localStorage['z_pst09']; // プリセットテキスト
+localStorage['z_pst09'] = localStorage['z_pst08'];
+localStorage['z_pst08'] = localStorage['z_pst07'];
+localStorage['z_pst07'] = localStorage['z_pst06'];
+localStorage['z_pst06'] = localStorage['z_pst05'];
+localStorage['z_pst05'] = localStorage['z_pst04'];
+localStorage['z_pst04'] = localStorage['z_pst03'];
+localStorage['z_pst03'] = localStorage['z_pst02'];
+localStorage['z_pst02'] = localStorage['z_pst01'];
+localStorage['z_pst01'] = concern;
+
+localStorage['z_sb10'] = localStorage['z_sb09']; // 領域
+localStorage['z_sb09'] = localStorage['z_sb08'];
+localStorage['z_sb08'] = localStorage['z_sb07'];
+localStorage['z_sb07'] = localStorage['z_sb06'];
+localStorage['z_sb06'] = localStorage['z_sb05'];
+localStorage['z_sb05'] = localStorage['z_sb04'];
+localStorage['z_sb04'] = localStorage['z_sb03'];
+localStorage['z_sb03'] = localStorage['z_sb02'];
+localStorage['z_sb02'] = localStorage['z_sb01'];
+localStorage['z_sb01'] = selectedSubCat;
+}
+
+localStorage.setItem('checkboxstatus', false); // どっちモードにしろ、チェックなしにして保存
+// ━━━ローカルストレージに保存━━━━━━━━━━━┛
+
+  // ① 今のZPDが語る活動性
+  const actQ    = zpdToAct(qVec);
+  const zpdQ    = actVecToZPD(actQ);
+  const pos1    = nearest(zpdQ);
+  const top1    = topActAxes(actQ, 3);
+
+  // ② ZPDが渇望している活動性
+  const actDef  = zpdDeficitToAct(qVec);
+  const zpdDef  = actVecToZPD(actDef);
+  const pos2    = nearest(zpdDef, [pos1.card.id]);
+  const top2    = topActAxes(actDef, 3);
+
+  // ③ 橋渡しの活動軸
+  const actBr   = vmid(actQ, actDef);
+  const maxBr = Math.max.apply(null, actBr);
+
+  // 【修正ポイント】途中で return せず、変数に代入する形にします
+  let actBrNorm;
+  if (maxBr > 0) {
+    actBrNorm = actBr.map(function(v) {
+      return v / maxBr;
+    });
+  } else {
+    actBrNorm = actBr;
+  }
+  const zpdBr   = actVecToZPD(actBrNorm);
+  const pos3    = nearest(zpdBr, [pos1.card.id, pos2.card.id]);
+  const top3    = topActAxes(actBrNorm, 3);
+
+  // 活動軸の「距離」（①②の差異の大きさ）
+  const axisDiff = Math.sqrt(
+    actQ.reduce(function(s, v, i) {
+      let d = v - actDef[i];
+      return s + d * d;
+    }, 0)
+  );
+
+// 書き変え
+  return {
+    slots: [
+      Object.assign({}, {
+        pos: 1, role: "今のZPDが語る活動性",
+        sub: "今この子が無意識に求めている活動の質",
+        color: "#7B9FBF", bgDark: "#08080e",
+        algo: "zpdToAct(Q) → BRIDGE順変換 → ZPD空間で最近傍",
+        topAxes: top1, actVec: actQ,
+      }, pos1),
+      Object.assign({}, {
+        pos: 2, role: "ZPDが渇望している活動性",
+        sub: "届いていないが引き寄せようとしている活動の質",
+        color: "#C87B9F", bgDark: "#0e080a",
+        algo: "zpdToAct(deficit(Q)) → BRIDGE順変換 → ZPD空間で最近傍",
+        topAxes: top2, actVec: actDef,
+      }, pos2),
+      Object.assign({}, {
+        pos: 3, role: "保育者の語り・つなぐ言語",
+        sub: "①を入口にして②へ向かう保育的関わり",
+        color: "#C8A050", bgDark: "#0e0c08",
+        algo: "(actQ + actDef)/2 正規化 → BRIDGE順変換 → 最近傍",
+        topAxes: top3, actVec: actBrNorm,
+      }, pos3)
+    ],
+    actQ: actQ,
+    actDef: actDef,
+    actBrNorm: actBrNorm,
+    axisDiff: axisDiff
+  };
+}
+
+
+// ====================== UI ======================
+// let qVec = new Array(15).fill(0); 上にやる
+let currentSpread = null;
+
+function createSliders() {
+  const container = document.getElementById('sliders');
+  container.innerHTML = '';
+  
+  const areas = ["身体・運動","認知・言語","社会・情緒","環境・文脈"];
+  const colors = {"身体・運動":"#5CBEAB","認知・言語":"#5C8CBE","社会・情緒":"#BE5C8C","環境・文脈":"#BE9E5C"};
+
+  areas.forEach(area => {
+    const div = document.createElement('div');
+    div.className = 'panel';
+    div.innerHTML = `<div style="color:${colors[area]}; font-size:0.9em; margin-bottom:8px;">${area}</div>`;
+    
+    const dims = DIM_DEFS.filter(d => d.area === area);
+    dims.forEach((dim, i) => {
+      const idx = DIM_DEFS.findIndex(d => d.id === dim.id);
+      const row = document.createElement('div');
+      row.className = 'slider-container';
+      row.innerHTML = `
+        <span style="width:70px; font-size:0.85em; color:${colors[area]};">${dim.label}</span>
+        <input type="range" min="-10" max="10" value="0" style="flex:1; accent-color:${colors[area]}" 
+          oninput="updateVec(${idx}, this.value/10)">
+        <span id="val${idx}" style="width:40px; text-align:right; font-family:monospace;">0.0</span>
+      `;
+      div.appendChild(row);
+    });
+    container.appendChild(div);
+  });
+
+}
+
+// ==================== 強化版レーダーチャート ====================
+const canvas = document.getElementById('radarCanvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+
+const DIM_LABELS_SHORT = DIM_DEFS.map(d => d.id);           // A1, A2...
+const DIM_LABELS_FULL = DIM_DEFS.map(d => d.label);         // 粗大運動, バランス...
+
+let hoveredIndex = -1;
+
+function drawRadar() {
+  const size = 360;
+  const cx = size / 2;
+  const cy = size / 2;
+  const maxR = 148;
+  const n = 15;
+
+  ctx.clearRect(0, 0, size, size);
+
+  // 同心円
+  ctx.strokeStyle = '#222';
+  for (let r = 0.25; r <= 1; r += 0.25) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, maxR * r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  const colors = ['#5CBEAB','#5CBEAB','#5CBEAB','#5CBEAB','#5CBEAB',
+                  '#5C8CBE','#5C8CBE','#5C8CBE','#5C8CBE',
+                  '#BE5C8C','#BE5C8C','#BE5C8C','#BE5C8C',
+                  '#BE9E5C','#BE9E5C'];
+
+  const points = [];
+  const labelPositions = [];
+
+  for (let i = 0; i < n; i++) {
+    const angle = (i * 2 * Math.PI / n) - Math.PI / 2;
+    const axisX = cx + maxR * Math.cos(angle);
+    const axisY = cy + maxR * Math.sin(angle);
+
+    // 軸線
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(axisX, axisY);
+    ctx.stroke();
+
+    // データ値の位置
+    const value = Math.max(-1, Math.min(1, qVec[i]));
+    const r = (value + 1) / 2 * maxR;
+    const px = cx + r * Math.cos(angle);
+    const py = cy + r * Math.sin(angle);
+
+    points.push({x: px, y: py, color: colors[i], angle: angle});
+
+    // ラベル位置（少し外側）
+    const labelR = maxR + 28;
+    const lx = cx + labelR * Math.cos(angle);
+    const ly = cy + labelR * Math.sin(angle);
+    labelPositions.push({x: lx, y: ly, short: DIM_LABELS_SHORT[i]});
+  }
+
+  // ポリゴン
+  ctx.beginPath();
+  points.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(126, 200, 164, 0.18)';
+  ctx.fill();
+  ctx.strokeStyle = '#7EC8A4';
+  ctx.lineWidth = 2.8;
+  ctx.stroke();
+
+  // データ点
+  points.forEach(p => {
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  });
+
+  // 短縮ラベル（A1, A2...）
+  ctx.fillStyle = '#aaa';
+  ctx.font = '11px monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  labelPositions.forEach((pos, i) => {
+    const isHovered = i === hoveredIndex;
+    ctx.fillStyle = isHovered ? '#5CBEAB' : '#aaa';
+    ctx.font = isHovered ? 'bold 13px monospace' : '11px monospace';
+    ctx.fillText(pos.short, pos.x, pos.y);
+  });
+  // 👇【ここに追記】メインのレーダーが描画されたら、絶対にセットで活動軸も描画する
+  if (typeof drawLiveActivity === 'function') {
+    drawLiveActivity();
+  }
+} // ← drawRadar関数の閉じカッコ
+
+// マウスホバー検出
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const cx = 180, cy = 180;
+
+  hoveredIndex = -1;
+  let minDist = Infinity;
+
+  for (let i = 0; i < 15; i++) {
+    const angle = (i * 2 * Math.PI / 15) - Math.PI / 2;
+    const labelR = 176;
+    const lx = cx + labelR * Math.cos(angle);
+    const ly = cy + labelR * Math.sin(angle);
+
+    const dist = Math.hypot(mx - lx, my - ly);
+    if (dist < 18 && dist < minDist) {
+      minDist = dist;
+      hoveredIndex = i;
+    }
+  }
+
+  drawRadar();
+
+  // ツールチップ
+  if (hoveredIndex >= 0) {
+    const dim = DIM_DEFS[hoveredIndex];
+    const value = qVec[hoveredIndex].toFixed(1);
+    
+    tooltip.style.display = 'block';
+    tooltip.innerHTML = `
+      <strong>${dim.id} ${dim.label}</strong><br>
+      <span style="color:#7EC8A4">${value}</span>　
+      ${dim.lo}　〜　${dim.hi}
+    `;
+
+    // 位置調整
+    let tx = mx + 15;
+    let ty = my - 10;
+    if (tx > 280) tx = mx - 140;
+    tooltip.style.left = tx + 'px';
+    tooltip.style.top = ty + 'px';
+  } else {
+    tooltip.style.display = 'none';
+  }
+});
+
+canvas.addEventListener('mouseleave', () => {
+  hoveredIndex = -1;
+  tooltip.style.display = 'none';
+  drawRadar();
+});
+
+// スライダー更新時に再描画
+window.updateVec = function(idx, val) {
+  qVec[idx] = parseFloat(val);
+  document.getElementById(`val${idx}`).textContent = qVec[idx].toFixed(1);
+  drawRadar();
+};
+
+// 初期描画
+// setTimeout(drawRadar, 1000);
+
+
+// -----------------
+// ---------------------------みに翻訳
+
+// ==================== 活動軸 ＆ 横棒グラフの描画システム ====================
+var actCanvas = document.getElementById('actRadarCanvas');
+var actCtx = actCanvas.getContext('2d');
+
+// ※ACT_DEFS が定義されている前提（もし名前が違っていたら、活動軸定義の配列名に変えてください）
+var ACT_LABELS_SHORT = ACT_DEFS.map(function(d) { return d.icon; }); // 例: AC1, AC2...
+
+function drawLiveActivity() {
+  // 1. 連動させるための最新データを取得
+  // ※liveActQ と liveActDef を作成する処理をここで呼び出します
+  var liveActQ = zpdToAct(qVec);
+  var liveActDef = zpdDeficitToAct(qVec);
+
+  // -------------------- 放射状チャートの描画 --------------------
+  var size = 170;
+  var cx = size / 2;
+  var cy = size / 2;
+  var maxR = 65; // ラベルがはみ出さないサイズ
+  var n = 15;
+
+  actCtx.clearRect(0, 0, size, size);
+
+  // 同心円（背景）
+  actCtx.strokeStyle = '#151522';
+  for (var r = 0.33; r <= 1; r += 0.33) {
+    actCtx.beginPath();
+    actCtx.arc(cx, cy, maxR * r, 0, Math.PI * 2);
+    actCtx.stroke();
+  }
+
+  var actPoints = [];
+  var actLabelPositions = [];
+
+  for (var i = 0; i < n; i++) {
+    var angle = (i * 2 * Math.PI / n) - Math.PI / 2;
+    var axisX = cx + maxR * Math.cos(angle);
+    var axisY = cy + maxR * Math.sin(angle);
+
+    // 軸線
+    actCtx.strokeStyle = '#222';
+    actCtx.lineWidth = 1;
+    actCtx.beginPath();
+    actCtx.moveTo(cx, cy);
+    actCtx.lineTo(axisX, axisY);
+    actCtx.stroke();
+
+    // 活動軸のデータ値（0〜1を想定、無ければ0）
+    var val = liveActQ[i] !== undefined ? liveActQ[i] : 0;
+    var clampedVal = Math.max(0, Math.min(1, val));
+    var pr = clampedVal * maxR;
+    var px = cx + pr * Math.cos(angle);
+    var py = cy + pr * Math.sin(angle);
+
+    actPoints.push({ x: px, y: py });
+
+    // ラベル位置（少し外側）
+    var labelR = maxR + 12;
+    var lx = cx + labelR * Math.cos(angle);
+    var ly = cy + labelR * Math.sin(angle);
+    actLabelPositions.push({ x: lx, y: ly, text: ACT_LABELS_SHORT[i] });
+  }
+
+  // ポリゴン
+  if (actPoints.length > 0) {
+    actCtx.beginPath();
+    actCtx.moveTo(actPoints[0].x, actPoints[0].y);
+    for (var pIdx = 1; pIdx < actPoints.length; pIdx++) {
+      actCtx.lineTo(actPoints[pIdx].x, actPoints[pIdx].y);
+    }
+    actCtx.closePath();
+    actCtx.fillStyle = 'rgba(123, 159, 191, 0.2)';
+    actCtx.fill();
+    actCtx.strokeStyle = '#7B9FBF';
+    actCtx.lineWidth = 2;
+    actCtx.stroke();
+  }
+
+  // 軸ラベル (AC1, AC2...)
+  actCtx.fillStyle = '#666';
+  actCtx.font = '8px monospace';
+  actCtx.textAlign = 'center';
+  actCtx.textBaseline = 'middle';
+  actLabelPositions.forEach(function(pos) {
+    actCtx.fillText(pos.text, pos.x, pos.y);
+  });
+
+
+  // -------------------- 横棒グラフの更新（DOM操作） --------------------
+  // 上位3つの活動軸を抽出
+  var top1 = topActAxes(liveActQ, 3);
+  var top2 = topActAxes(liveActDef, 3);
+
+  // ① 語る活動軸のHTML組み立て
+  var html1 = '';
+  top1.forEach(function(item) {
+    var percent = Math.min(100, Math.max(0, item.v * 100)); // 0~100%
+    html1 += '<div style="margin-bottom: 2px;">' +
+               '<div style="display:flex; justify-content:space-between; font-size:13px; color:#aaa; margin-bottom:1px;">' +
+                 '<span>' + item.label + '</span>' +
+                 '<span>' + (item.v).toFixed(2) + '</span>' +
+               '</div>' +
+               '<div style="width:100%; height:4px; background:#222; border-radius:2px; overflow:hidden;">' +
+                 '<div style="width:' + percent + '%; height:100%; background:#7B9FBF; border-radius:2px;"></div>' +
+               '</div>' +
+             '</div>';
+  });
+  document.getElementById('barArea1').innerHTML = html1;
+
+  // ② 渇望の活動軸のHTML組み立て
+  var html2 = '';
+  top2.forEach(function(item) {
+    var percent = Math.min(100, Math.max(0, item.v * 100));
+    html2 += '<div style="margin-bottom: 2px;">' +
+               '<div style="display:flex; justify-content:space-between; font-size:13px; color:#aaa; margin-bottom:1px;">' +
+                 '<span>' + item.label + '</span>' +
+                 '<span>' + (item.v).toFixed(2) + '</span>' +
+               '</div>' +
+               '<div style="width:100%; height:4px; background:#222; border-radius:2px; overflow:hidden;">' +
+                 '<div style="width:' + percent + '%; height:100%; background:#C87B9F; border-radius:2px;"></div>' +
+               '</div>' +
+             '</div>';
+  });
+  document.getElementById('barArea2').innerHTML = html2;
+}
+
+// 既存のスライダー更新関数（window.updateVec）をハックして、同時に再描画をかける
+// var originalUpdateVec = window.updateVec;
+// window.updateVec = function(idx, val) {
+//  if (typeof originalUpdateVec === 'function') {
+//    originalUpdateVec(idx, val); // 元のレーダーチャートを動かす
+//  }
+//  drawLiveActivity(); // 追加したミニレーダーと棒グラフをリアルタイム更新
+// };
+
+// 初期表示↓ぜんぶ0.07になるバグ
+// setTimeout(drawLiveActivity, 1500);
+
+
+// ---------------------------みに翻訳
+// window.updateVec = function(idx, val) {
+//   qVec[idx] = parseFloat(val);
+//   document.getElementById(`val${idx}`).textContent = qVec[idx].toFixed(1);
+// };
+
+function generateProfilePrompt() {
+  const concern = document.getElementById('concern').value.trim();
+  if (!concern) {
+    alert("お子さんの状況を入力してください");
+    return;
+  }
+
+ // 視覚効果
+let rdmnum =  Math.floor(Math.random() * 2) + 1; // 1～3の乱数
+        if (rdmnum===1){ghosto();}
+        else if (rdmnum===2){creativespark();}
+
+
+
+const nenrei = document.getElementById('age').value;
+
+// cossimトップ3プリ取得
+
+// const userselectedcontxt = document.getElementById('pricontxt').value;
+const userselectedpriid = document.getElementById('prino').value;
+
+// PRESETS[selectedId]
+
+// 例: presetId が '0' のプリセットを選択した場合
+// const top3 = getTop3SimilarPresets('0');
+const top3 = getTop3SimilarPresets(userselectedpriid, 3);
+console.log(top3);
+
+  let prompt = `# 子どもの様子の文から数値評価依頼\n\n保育・幼児教育・児童心理・発達心理の専門的な視点で、以下の「※子どもの様子」から、15次元発達プロファイルを -1.0〜+1.0 で評価してください。言及がない次元は 0.0 とします。\n\n`;
+  prompt += `※子どもの様子：\n【${nenrei}歳児】 ${concern}\n\n`;
+  prompt += `出力は、コピペしやすい1行の「スペースなし半角カンマ区切りの15個の数値」です。簡単に数値設定の根拠もお願いします。\n\n次元定義(領域A:身体×5, B:認知×4, C:情緒×4, D:環境×2)：\n`;
+
+//  DIM_DEFS.forEach((d,i) => {
+//    prompt += `[${i}] ${d.id} ${d.label}: ${d.lo} (-1.0) 〜 ${d.hi} (+1.0)\n`;
+//  });
+    prompt += `
+【次元定義と判定基準】
+[0] A1 粗大運動の質（安定性・正確さのみ）
+    -1: 転倒多い・着地不安定・動作がぎこちない
+    +1: 動作が安定・正確・力のコントロールができる
+    ※ 「よく動く」「活発」「好んで動く」はA1に含めない→A5で評価
+    例: 転倒が多い→A1=-0.6 / 高所から飛び降りる（着地不安定）→A1=-0.4 / スムーズに走れる→A1=+0.7
+
+[1] A2 バランス感覚（体幹・平衡感覚）
+    -1: バランス崩れやすい・片足立ち困難
+    +1: 体幹安定・平衡感覚が良い
+
+[2] A3 感覚統合（感覚処理の安定性）
+    -1: 感覚過敏/鈍麻あり・触覚/音/光への強い反応
+    +1: 感覚処理安定
+
+[3] A4 協調運動（両手足の連携）
+    -1: 手足がバラバラ・左右の協調困難
+    +1: スムーズな協調動作
+
+[4] A5 運動量・意欲（活動量・積極性）
+    -1: 身体活動を避ける・消極的
+    +1: 積極的によく動く・運動量が多い
+    ※ A1と独立。「転倒が多いがよく動く」→A1=-0.5、A5=+0.7のように分離
+
+[5] B1 理解言語（指示・説明の理解）
+    -1: 指示が入りにくい  +1: 理解が早い
+
+[6] B2 表出言語（言葉での表現）
+    -1: 言葉で伝えにくい  +1: 豊かに表現できる
+
+[7] B3 見通し力（予測・先読み）
+    -1: 次が読めない・見通しが持てない
+    +1: 先を見越せる・危険予測ができる
+
+[8] B4 模倣学習（見て学ぶ力）
+    -1: 真似が難しい  +1: 見て素早く取り込む
+
+[9] C1 感情調整（気持ちのコントロール）
+    -1: 感情爆発/フリーズ  +1: 気持ちを落ち着けられる
+
+[10] C2 他児関係（仲間との関係）
+    -1: 孤立/トラブル多い  +1: 協働・仲良く遊べる
+
+[11] C3 大人信頼（保育者・大人への信頼）
+    -1: 援助を拒否/依存過多  +1: 適度に頼り受け入れる
+
+[12] C4 切り替え（気持ちの切り替え）
+    -1: 固執・こだわり強い  +1: 柔軟に切り替えられる
+
+[13] D1 家庭連携（家庭との連携しやすさ）
+    -1: 連携困難  +1: 連携しやすい
+
+[14] D2 クラス位置（クラスへの溶け込み）
+    -1: 孤立・浮いている  +1: クラスに溶け込んでいる
+`;
+    prompt += `\n参考値: \n- ユーザーが選択した近い事例: `;
+    prompt += PRESETS[userselectedpriid].age;
+    prompt += "歳。";
+    prompt += PRESETS[userselectedpriid].des;
+    prompt += '\n'+PRESETS[userselectedpriid].vec;
+    prompt += `\n\n- cosSim(${top3[0].similarity.toFixed(2)})事例: ${top3[0].age}歳。${top3[0].des}\n${top3[0].vec}\n`;
+
+  document.getElementById('promptText1').value = prompt;
+  document.getElementById('promptOutput1').style.display = 'block';
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step0').style.display = 'none'; 
+  
+onofclear();
+  createSliders();
+loadFromInput()
+  document.getElementById('privecdes').innerHTML = '下のほうにあるスライダーやレーダーチャートには、お子さんの状況に最も近いと思われる『<span style="color:pink;font-size:12px;">'+PRESETS[userselectedpriid].des+'</span>』の事例の数値がセットされています。お子さんの状況に合わせて正しく書き直したテキストは、プロンプトに入っています。<br>ここで、<ul class="step-title"><li>AIにプロンプトを渡し、お子さんの場合での値を解析し、</li><li>AIが示した値をコピペし、正しい値を読み込ませて設定</li></ul>して下さい。';
+
+}
+
+function drawCards() {
+ // 視覚効果
+let rdmnum =  Math.floor(Math.random() * 2) + 1; // 1～3の乱数
+        if (rdmnum===1){ghosto();}
+        else if (rdmnum===2){creativespark();}
+console.log('かれんとqVec',qVec);
+  currentSpread = computeTranslationSpread(qVec);
+  const container = document.getElementById('spreadCards');
+  const container2 = document.getElementById('spreadCards2');
+  container.innerHTML = '';
+const saishuqvv = document.getElementById('saishuqv').value;
+const ssqv = parseCSV(saishuqvv);
+const nenrei = document.getElementById('age').value;
+
+ let con2htm = '<h3>Selected 4 cards from 44 (ARCANA INFANTIA):</h3><div class="panel"><ul><li>最終確定文脈 ＝ 『';
+        con2htm += "【"+nenrei+"歳児】 ";
+        con2htm += document.getElementById('concern').value;
+        con2htm += '』</li><li>最終確定ベクトルQ ＝ ';
+        con2htm += vec5x5(ssqv);
+        con2htm += '</li></div>';
+
+console.log('currentSpread',currentSpread);
+  currentSpread.slots.forEach((slots, i) => {
+    const cardEl = document.createElement('div');
+    cardEl.className = `card`;
+    cardEl.style.animationDelay = (i * 0.4) + 's';
+ let cihm = `
+      <div class="card-inner flipped">
+        <div class="card-back"><span style="font-size:48px; opacity:0.3;">🌿</span></div>
+        <div class="card-front" style="border-color: ${['#5CBEAB','#5C8CBE','#BE5C8C','#BE9E5C'][i]};">
+          <div style="font-size:11px; opacity:0.8;">${slots.role}</div>`;
+    cihm += `<div style="font-size:42px; margin:8px 0; `;
+if (slots.card.reversed === true) { cihm += 'transform: scaleY(-1); ';} // 
+    cihm += `">${slots.card.emoji}</div>
+          <div style="font-size:15px; font-weight:bold;">${slots.card.name}`;
+// if (slots.card.reversed === true) { cihm += '(逆)';} // 
+
+    cihm += `</div>
+          <div style="font-size:10px; text-align:center; margin-top:8px; opacity:0.7;">${slots.sub}</div>
+        </div>
+      </div>
+    `;
+    cardEl.innerHTML = cihm;
+    container.appendChild(cardEl);
+  });
+
+const rotvv = document.getElementById('rot').value;
+const antivv = document.getElementById('anti').value;
+const bridgevv = document.getElementById('bridge').value;
+const rotv = parseCSV(rotvv);
+const antiv = parseCSV(antivv);
+const bridgev = parseCSV(bridgevv);
+
+    currentSpread.slots.forEach((slot, i) => { 
+let Crvs = '';
+// if (slot.card.reversed === true) { Crvs = '(逆)';} // 
+const Cidx = CARDS.findIndex(item => item.id === slot.card.id);
+        con2htm += '<div class="bgb">';
+if(i===0){con2htm+="①";}
+if(i===1){con2htm+="②";}
+if(i===2){con2htm+="③";}
+
+        con2htm+=slot.role+" - №" + slot.card.id + ": 「" + slot.card.name + Crvs + "」 - "+slot.sub;
+        con2htm += '</div>';
+        con2htm += `<ul><li><img align="right" src="../img/a_infantia/`;
+if (slot.card.id<10) {con2htm += '0';}
+        con2htm += `${slot.card.id}`;
+// if (slot.card.reversed === true) {
+//     con2htm += 'r';
+//     } else if (slot.card.reversed === false) { 
+//     con2htm += 'u';
+//     } 
+        con2htm += `u.png" alt="${slot.card.name}">`;
+
+// if (slot.card.reversed === true) {
+//      con2htm += '逆位置は否定ではなく「今そこにある困難・課題」の象徴です。</li><li><span style="font-size:20px;">';
+//      con2htm += makeReversedMeaning(slot.card.name);
+//      } else if (slot.card.reversed === false) { 
+//      con2htm += `<span style="font-size:20px;">${CARDS[Cidx].desc}`;
+//      } 
+     con2htm += `<span style="font-size:20px;">${CARDS[Cidx].desc}`;
+        con2htm += `</span></li><li>ポジション${i + 1}: <strong>${slot.card.name}</strong> - ベクトル特徴: `;
+        con2htm += CARDS[slot.card.id].vtokucho;
+if (slot.card.reversed === true) {con2htm += '…の全符号が逆';}
+
+        con2htm += '<br>';
+
+        con2htm += vec5x5(slot.card.vec);
+        con2htm += '</li><li>カード選出ロジック - ';
+con2htm+=slot.algo+'</li><li>スコア: <span style="font-size:18px;font-weight:bold;color:orange;">' + slot.sim.toFixed(2) + '</span><ul>';
+        con2htm += '<li>'+slot.topAxes[0].icon+' '+slot.topAxes[0].label+' - '+slot.topAxes[0].desc+' ( '+slot.topAxes[0].v.toFixed(2)+' )</li>';
+        con2htm += '<li>'+slot.topAxes[1].icon+' '+slot.topAxes[1].label+' - '+slot.topAxes[1].desc+' ( '+slot.topAxes[1].v.toFixed(2)+' )</li>';
+        con2htm += '<li>'+slot.topAxes[2].icon+' '+slot.topAxes[2].label+' - '+slot.topAxes[2].desc+' ( '+slot.topAxes[2].v.toFixed(2)+' )</li>';
+        con2htm += '</ul>';
+
+        con2htm += '</li></ul>';
+
+    });
+
+  container2.innerHTML = con2htm;
+
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+onofclear()
+
+
+const celtarea = document.getElementById("celt");
+let celthj = "";
+if (celtarea) {
+celthj += `
+  <img id="card7"  class="vigo" src="../img/vigo.jpg" width="100" height="138">
+  <img id="card1"  class="hashi" src="../img/hashi.png" width="440" height="300">
+  <img id="card2"  class="moji" src="../img/zpdmoji.png" width="500" height="440">
+  <img id="card3"  class="cardo" src="../img/a_infantia/`;
+
+if (currentSpread.slots[0].card.id<10) {celthj += '0';}
+        celthj += `${currentSpread.slots[0].card.id}`;
+// if (currentSpread[0].slots.card.reversed === true) {
+//     celthj += 'r';
+//     } else if (currentSpread[0].slots.card.reversed === false) { 
+//     celthj += 'u';
+//     } 
+
+celthj += `u.png" width="80" height="130">
+  <img id="card4"  class="cardo" src="../img/a_infantia/`;
+
+if (currentSpread.slots[1].card.id<10) {celthj += '0';}
+        celthj += `${currentSpread.slots[1].card.id}`;
+celthj += `u.png" width="80" height="130">
+  <img id="card5"  class="cardo" src="../img/a_infantia/`;
+
+if (currentSpread.slots[2].card.id<10) {celthj += '0';}
+        celthj += `${currentSpread.slots[2].card.id}`;
+celthj += `u.png" width="80" height="130">
+
+  <div id="label1" class="label">1. 現在の発達段階</div>
+  <div id="label2" class="label">2. 発達の芽生え</div>
+  <div id="label3" class="label">3. 発達の壁</div>
+  <div id="label4" class="label">4. 発達の橋</div>
+  <div id="label5" class="label">今</div>
+  <div id="label6" class="label">少し先</div>
+  <div id="label7" class="label">足場かけ</div>
+  <div id="label8" class="label">目指したい育ちの方向</div>
+  <div id="label9" class="label">- - - - - - 最近接発達領域 - - - - - -<br>(Zone of Proximal Development)</div>
+  <div id="label10" class="label">Developmental Dynamics 4</div>
+  <div id="llabel1" class="label">${currentSpread.slots[0].card.name}`;
+
+
+celthj += `</div>
+  <div id="llabel2" class="label">${currentSpread.slots[1].card.name}</div>
+  <div id="llabel3" class="label">${currentSpread.slots[2].card.name}</div>
+`;
+
+celtarea.innerHTML = celthj;
+}
+
+
+
+
+  // 構造マップ追加
+  const mapContainer = document.getElementById('structureMap');
+  mapContainer.innerHTML = '';
+  
+  currentSpread.slots.forEach((slot, i) => {
+    const top3 = DIM_DEFS
+      .map((dim, idx) => ({
+        label: dim.label,
+        val: slot.card.vec[idx]
+      }))
+      .sort((a, b) => Math.abs(b.val) - Math.abs(a.val))
+      .slice(0, 3);
+
+console.log('top3',i,top3);
+if (i===0){document.getElementById('top1').value = top3[0].label + ": " + top3[0].val + "\n" + top3[1].label + ": " + top3[1].val + "\n" + top3[2].label + ": " + top3[2].val;}
+if (i===1){document.getElementById('top2').value = top3[0].label + ": " + top3[0].val + "\n" + top3[1].label + ": " + top3[1].val + "\n" + top3[2].label + ": " + top3[2].val;}
+if (i===2){document.getElementById('top3').value = top3[0].label + ": " + top3[0].val + "\n" + top3[1].label + ": " + top3[1].val + "\n" + top3[2].label + ": " + top3[2].val;}
+
+    const div = document.createElement('div');
+let divin = '';
+// if (slot.card.reversed === true) {divin = '(逆)';}
+
+    div.style = `flex:1; min-width:160px; background:#0a0a14; border:1px solid ${['#5CBEAB','#5C8CBE','#BE5C8C','#BE9E5C'][i]}33; border-radius:8px; padding:12px;`;
+    div.innerHTML = `
+      <div style="color:${['#5CBEAB','#5C8CBE','#BE5C8C','#BE9E5C'][i]}; font-size:0.85em; margin-bottom:8px;">
+        ${["①","②","③","④"][i]} ${slot.card.emoji}${slot.card.name}${divin}
+      </div>
+      ${top3.map(item => `
+        <div style="display:flex; justify-content:space-between; font-size:0.9em; margin:4px 0;">
+          <span>${item.label}</span>
+          <span style="font-family:monospace; color:${item.val > 0 ? '#5CBEAB' : '#BE5C8C'}">
+            ${item.val.toFixed(1)}
+          </span>
+        </div>
+      `).join('')}
+    `;
+    mapContainer.appendChild(div);
+  });
+
+
+}
+
+function generateReadingPrompt() {
+  if (!currentSpread) return;
+  let prompt = `# 保育象徴による活動言語翻訳リーディング依頼\n\n`;
+  prompt += `## 保育者の悩み・気になる子の状況: 『【${document.getElementById('age').value}】 ${document.getElementById('concern').value}』\n\n`;
+  prompt += `## 発達プロファイル\n[ ${qVec.map((v,i) => DIM_DEFS[i].id + ": " + v.toFixed(1)).join(" / ")} ]\n\n`;
+  prompt += `## 引いたカード:\n`;
+  
+  currentSpread.slots.forEach(s => {
+    prompt += `【${s.role}】${s.card.emoji}${s.card.name} - ${s.card.desc}\n`;
+  });
+
+  prompt += `\n上記を元に、ZPDの視点から丁寧なリーディングを作成してください。`;
+
+const spread = currentSpread;
+const saishuqvv = document.getElementById('saishuqv').value;
+const qqVec = parseCSV(saishuqvv);
+const concern = "【"+document.getElementById('age').value+"歳児】 "+document.getElementById('concern').value;
+prompt = generateReadings(spread, qqVec, concern);
+
+  document.getElementById('promptText').value = prompt;
+  document.getElementById('promptOutput').style.display = 'block';
+  document.getElementById('promptText2').value = prompt;
+  document.getElementById('promptOutput2').style.display = 'block';
+onofclear()
+}
+
+function generateReadings(spread, qVec, concern) {
+console.log('使えそうなのある？spread',spread);
+
+  const desc=spread.slots.map(s=>`【${s.role}｜${s.card.emoji}${s.card.name}】`).join("\n");
+  const axisDiffStr=spread.axisDiff>0.8?"大きい（0.8超・活動軸の距離が遠い）":spread.axisDiff>0.4?"0.4超・中程度":"小さい（①②が近い）";
+  const top1=spread.slots[0].topAxes.map(d=>`${d.icon}${d.label}(${d.v.toFixed(2)})`).join(" / ");
+  const top2=spread.slots[1].topAxes.map(d=>`${d.icon}${d.label}(${d.v.toFixed(2)})`).join(" / ");
+  const top3=spread.slots[2].topAxes.map(d=>`${d.icon}${d.label}(${d.v.toFixed(2)})`).join(" / ");
+
+
+let seigyaku = "";
+// if (spread[0].card.reversed === true){seigyaku = "(逆)";}
+
+// --------
+//  const spreadDesc = spread
+//    .map((s) => `【位置${s.pos}：${s.role}】カード「${s.card.emoji}${s.card.name}」（${s.card.desc}）`) // デスクを変える
+//    .join("\n");
+
+// const spreadDesc = spread // 栞 書き変えーーー(逆)をいれる！！！
+//  .map((s) => {
+    // 1. 基本となる説明文をCARDSから取得
+//    let description = CARDS[s.card.id] ? CARDS[s.card.id].desc : "";
+
+    // 2. ポジション1（位置1）かつ逆位置（reversedがtrue）の場合の例外処理
+//    if (s.pos === 1 && s.card.reversed === true) {
+      // 逆位置用の説明文を生成する関数を実行（s.card.name または s.card.id を渡す）
+//      description = makeReversedMeaning(s.card.name);
+//    }
+
+    // 3. 組み立てて文字列を返す
+//    return `【位置${s.pos}：${s.role}】カード「${s.card.emoji}${s.card.name}」（${description}）`;
+//  })
+//  .join("\n");
+// --------
+// ↑古いブラウザでエラー　書き直し↓
+
+const spreadDesc = spread.slots
+  .map(function(s) { // 古いブラウザのためにアロー関数 (=>) も普通の function に戻すとより安全です
+    let description = "";
+
+    // 1. 基本となる説明文をCARDSから安全に取得
+    if (CARDS[s.card.id]) {
+      description = CARDS[s.card.id].desc;
+    } else {
+      description = "";
+    }
+      let seigyakuuu = "";
+
+    // 2. ポジション1 かつ 逆位置 の場合の例外処理
+    if (s.pos === 1 && s.card.reversed === true) {
+      description = makeReversedMeaning(s.card.name);
+      seigyakuuu = seigyaku;
+    }
+
+    return "【位置" + s.pos + "：" + s.role + "】カード「" + s.card.emoji + s.card.name + seigyakuuu + "」（" + description + "）";
+  })
+  .join("\n");
+// --------
+// ZPDを活動言語に翻訳した3枚：
+// ${desc}
+
+  const qDesc = DIM_DEFS.map((d, i) => `${d.id}${d.label}:${qVec[i].toFixed(1)}`).join(" / ");
+
+  const prompt = `# 保育象徴による活動言語翻訳リーディング依頼
+
+## 保育者の悩み・気になる子の状況: 『${concern}』
+
+## 子どもの発達プロファイル(低=-1～高=+1):
+${qDesc}
+
+## ZPDを活動言語に翻訳した3枚:
+${spreadDesc}
+
+①今の活動軸：${top1}
+②渇望の活動軸：${top2}
+③橋渡し活動軸：${top3}
+①②の差異：${axisDiffStr}
+
+## 「活動言語翻訳(子どものZPDを、保育者が見える言葉へ翻訳)」の視点から日本語で出力してください。
+※活動軸は説明するものではなく、子どもの姿に翻訳してください。抽象概念だけで説明せず、必ず「子どもの姿→その意味→保育的な読み」の順で説明してください。
+※活動名は出力しないでください。ただし文章は抽象的にしすぎず、専門用語ではなく、保育者が子どもの姿を思い浮かべられる自然で分かりやすい文章で書いてください。
+
+【①今この子は何を大切にして過ごしている？｜${spread.slots[0].card.emoji}${spread.slots[0].card.name}】
+このカードが映す「この子が今、安心して過ごすために自然と選んでいる行動や関わり方」を3〜4文で。
+・活動軸「${spread.slots[0].topAxes.map(d=>d.label).join("・")}」が子どもの姿としてどう表れるか
+・保育者が見逃しやすい意味を説明する
+・最後は「この子は今、〇〇を大切にして過ごしている」という形でまとめる
+
+【②次に育とうとしているもの｜${spread.slots[1].card.emoji}${spread.slots[1].card.name}】
+「この子が今はまだ難しいものの、安心が育つことで自然と伸びていきそうな力」を3〜4文で。
+・活動軸「${spread.slots[1].topAxes.map(d=>d.label).join("・")}」を子どもの姿で説明する
+・「こうなれたら安心が広がる」という視点で書く
+・最後は「この子は今、〇〇へ少しずつ向かおうとしている」でまとめる
+
+【③保育者はどう関わる？｜${spread.slots[2].card.emoji}${spread.slots[2].card.name}】
+①を否定せず、②につながるような関わり方を4〜5文で。
+必ず
+・子どもへの言葉掛け
+・環境の整え方
+・保育記録に書ける一文
+・保護者への伝え方
+を書くこと。
+
+【翻訳のまとめ】
+①→②への変化を「この子の育ちのストーリー」として1〜2文でまとめてください。`;
+
+return prompt;
+}
+
+
+function copyPrompt1() {
+  const ta = document.getElementById('promptText1');
+  ta.select();
+  document.execCommand('copy');
+  alert('プロンプトをコピーしました');
+    document.getElementById('vectorInput').disabled = false; // ベクトル貼り付けテキスト欄有効
+    document.getElementById('vectorload').disabled = false; // 反映ボタン有効
+document.getElementById('vectorInput').style.opacity = "1.0";
+document.getElementById('vectorload').style.opacity = "1.0";
+}
+
+function copyPrompt() {
+  const ta = document.getElementById('promptText');
+  ta.select();
+  document.execCommand('copy');
+  alert('プロンプトをコピーしました');
+}
+function copyPrompt2() {
+  const ta = document.getElementById('promptText2');
+  ta.select();
+  document.execCommand('copy');
+  alert('プロンプトをコピーしました');
+}
+
+function cpyt() {
+  const ta = document.getElementById('hozp');
+  if(ta.value===""){alert("空欄です");return;}
+  ta.select();
+  document.execCommand('copy');
+  alert('クリップボードに「'+ta.value.slice(0, 10)+'…」をコピーしました');
+}
+function cpyv() {
+  const ta = document.getElementById('hozvec');
+  if(ta.value===""){alert("空欄です");return;}
+  ta.select();
+  document.execCommand('copy');
+  alert('クリップボードに「'+ta.value.slice(0, 10)+'…」をコピーしました');
+}
+
+function resetAll() {
+  location.reload();
+}
+
+function initDeck() {
+
+DECK_88 = [];
+for(let i=0;i<CARDS_BASE.length;i++){
+   let c = CARDS_BASE[i];
+   let baseCard={};
+   for (let key in c){
+      if(c.hasOwnProperty(key)){
+          baseCard[key] = c[key];
+       }
+    }
+   baseCard.reversed = false;
+   baseCard.deckId = c.id + '_u';
+   DECK_88.push(baseCard);
+}
+for(let j=0;j<CARDS_BASE.length;j++){
+   let c = CARDS_BASE[j];
+   let revCard={};
+   for (let key in c){
+      if(c.hasOwnProperty(key)){
+          revCard[key] = c[key];
+       }
+    }
+   let invertedVec=[];
+   if(c.vec){
+      for(let k=0;k<c.vec.length;k++){
+   invertedVec.push(-c.vec[k]);
+      }
+   }
+   revCard.reversed=true;
+   revCard.deckId = c.id+'_r';
+   revCard.vec=invertedVec;
+   revCard.reversedmeaning = makeReversedMeaning(c.name);
+   DECK_88.push(revCard);
+}
+
+  DECK_UPRIGHT = DECK_88.filter(c => !c.reversed);
+}
+
+window.addEventListener('load', () => {
+  initDeck();
+  console.log('初期DECK_UPRIGHT', DECK_UPRIGHT);
+  document.getElementById('vectorInput').disabled = true;
+  document.getElementById('vectorload').disabled = true;
+  document.getElementById('drawc').disabled = true;
+  document.getElementById('vectorInput').style.opacity = "0.3";
+  document.getElementById('vectorload').style.opacity = "0.3";
+  document.getElementById('drawc').style.opacity = "0.3";
+  console.log("活動言語翻訳スプレッド 準備完了");
+const target = document.getElementById("ksn"); target.innerHTML = kkk;
+const target3 = document.getElementById("eth"); target3.innerHTML = ethics;
+const target2 = document.getElementById("zlk"); target2.innerHTML = zlink;
+
+
+const saveState = localStorage.getItem('checkboxstatus');
+const svnm = localStorage.getItem('jn');
+       if(saveState === 'true'){
+            console.log('saveStateオン＝カード展開まで',saveState);
+let jrnum = localStorage.getItem('jn'); // 事例番号
+let tage = null;let ttxt = null;let psvc = null;
+if(svnm==='1'){psvc = localStorage.getItem("z_psd01");ttxt=localStorage.getItem('z_pst01');tage=localStorage.getItem('z_age01');selectedSubCat=localStorage.getItem('z_sb01');}
+ else if(svnm==='2'){psvc = localStorage.getItem("z_psd02");ttxt=localStorage.getItem('z_pst02');tage=localStorage.getItem('z_age02');selectedSubCat=localStorage.getItem('z_sb02');}
+ else if(svnm==='3'){psvc = localStorage.getItem("z_psd03");ttxt=localStorage.getItem('z_pst03');tage=localStorage.getItem('z_age03');selectedSubCat=localStorage.getItem('z_sb03');}
+ else if(svnm==='4'){psvc = localStorage.getItem("z_psd04");ttxt=localStorage.getItem('z_pst04');tage=localStorage.getItem('z_age04');selectedSubCat=localStorage.getItem('z_sb04');}
+ else if(svnm==='5'){psvc = localStorage.getItem("z_psd05");ttxt=localStorage.getItem('z_pst05');tage=localStorage.getItem('z_age05');selectedSubCat=localStorage.getItem('z_sb05');}
+ else if(svnm==='6'){psvc = localStorage.getItem("z_psd06");ttxt=localStorage.getItem('z_pst06');tage=localStorage.getItem('z_age06');selectedSubCat=localStorage.getItem('z_sb06');}
+ else if(svnm==='7'){psvc = localStorage.getItem("z_psd07");ttxt=localStorage.getItem('z_pst07');tage=localStorage.getItem('z_age07');selectedSubCat=localStorage.getItem('z_sb07');}
+ else if(svnm==='8'){psvc = localStorage.getItem("z_psd08");ttxt=localStorage.getItem('z_pst08');tage=localStorage.getItem('z_age08');selectedSubCat=localStorage.getItem('z_sb08');}
+ else if(svnm==='9'){psvc = localStorage.getItem("z_psd09");ttxt=localStorage.getItem('z_pst09');tage=localStorage.getItem('z_age09');selectedSubCat=localStorage.getItem('z_sb09');}
+ else if(svnm==='10'){psvc = localStorage.getItem("z_psd10");ttxt=localStorage.getItem('z_pst010');tage=localStorage.getItem('z_age010');selectedSubCat=localStorage.getItem('z_sb10');}
+
+const qvqv = parseCSV(psvc);
+qVec = qvqv; document.getElementById('saishuqv').value = psvc;
+document.getElementById('age').value=tage;
+document.getElementById('concern').value=ttxt;
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step0').style.display = 'none';
+
+drawCards();
+       } else {
+            console.log('saveStateオフ＝通常',saveState);
+       }
+});
+
+// window.onload = function onLoad() {
+//            target = document.getElementById("ksn"); target.innerHTML = kkk;
+// };
+
+// コサイン類似度計算
+function cosSim(a, b) {
+    let dot = 0, na = 0, nb = 0;
+    for (let i = 0; i < a.length; i++) {
+        dot += a[i] * b[i];
+        na += a[i] * a[i];
+        nb += b[i] * b[i];
+    }
+    if (na === 0 || nb === 0) return 0; // 0除算防止
+    return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+// 類似するプリセット上位3位を取得する関数
+function getTop3SimilarPresets(selectedId, num) {
+  const selectedPreset = PRESETS[selectedId];
+  if (!selectedPreset) {
+    console.error('指定されたプリセットが見つかりません');
+    return [];
+  }
+
+  const results = [];
+
+  // 全てのプリセットとループで比較
+  for (const id in PRESETS) {
+    // 自分自身は比較から除外する
+    if (id === String(selectedId)) continue;
+
+    const currentPreset = PRESETS[id];
+    // コサイン類似度を計算
+    const similarity = cosSim(selectedPreset.vec, currentPreset.vec);
+
+    // ID、データ、スコアをセットにして配列に保存
+    results.push({
+      id: id,
+      cat: currentPreset.cat,
+      sc: currentPreset.sc,
+      age: currentPreset.age,
+      name: currentPreset.name,
+      des: currentPreset.des,
+      vec: currentPreset.vec,
+      similarity: similarity // スコア
+    });
+  }
+
+  // 類似度（similarity）が高い順（降順）に並び替え
+  results.sort((a, b) => b.similarity - a.similarity);
+
+  // 上位3位を切り出して返す
+  return results.slice(0, num);
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+function parseCSV(str){
+  return str.split(",").map(v => parseFloat(v.trim()));
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ★15次元ベクトル色分け関数　v＝コンマ区切り数値配列(15)
+function vec5x5(v){
+const vecugjugo = '<ul><li>領域A 身体・運動<br>('+jgnc(v[0],1)+', '+jgnc(v[1],2)+', '+jgnc(v[2],3)+', '+jgnc(v[3],4)+', '+jgnc(v[4],5)+')<br> [ <span style="font-size:25px;">' + vctg(v[0]) + ' ,'+ vctg(v[1]) + ' ,'+ vctg(v[2]) + ' ,'+ vctg(v[3]) + ' ,' + vctg(v[4]) + ' </span>]</li><li>領域B 認知・言語<br>('+jgnc(v[5],6)+', '+jgnc(v[6],7)+', '+jgnc(v[7],8)+', '+jgnc(v[8],9)+')<br> [ <span style="font-size:25px;">' + vctg(v[5]) + ' ,'+ vctg(v[6]) + ' ,'+ vctg(v[7]) + ' ,'+ vctg(v[8]) + '</span> ]</li><li>領域C 社会・情緒<br>('+jgnc(v[9],10)+', '+jgnc(v[10],11)+', '+jgnc(v[11],12)+', '+jgnc(v[12],13)+')<br> [ <span style="font-size:25px;">' + vctg(v[9]) + ' ,'+ vctg(v[10]) + ' ,'+ vctg(v[11]) + ' ,'+ vctg(v[12]) + '</span> ]</li><li>領域D 環境・文脈<br>('+jgnc(v[13],14)+', '+jgnc(v[14],15)+')<br> [ <span style="font-size:25px;">' + vctg(v[13]) + ' ,' + vctg(v[14]) + '</span> ]</li></ul>';
+return vecugjugo;
+}
+
+function vec5x5sm(v){
+const vecugjugo = '<ul style="font-size:11px;"><li>領域A 身体・運動<br>('+jgnc(v[0],1)+', '+jgnc(v[1],2)+', '+jgnc(v[2],3)+', '+jgnc(v[3],4)+', '+jgnc(v[4],5)+')<br> [ <span style="font-size:18px;">' + vctg(v[0]) + ' ,'+ vctg(v[1]) + ' ,'+ vctg(v[2]) + ' ,'+ vctg(v[3]) + ' ,' + vctg(v[4]) + ' </span>]</li><li>領域B 認知・言語<br>('+jgnc(v[5],6)+', '+jgnc(v[6],7)+', '+jgnc(v[7],8)+', '+jgnc(v[8],9)+')<br> [ <span style="font-size:18px;">' + vctg(v[5]) + ' ,'+ vctg(v[6]) + ' ,'+ vctg(v[7]) + ' ,'+ vctg(v[8]) + '</span> ]</li><li>領域C 社会・情緒<br>('+jgnc(v[9],10)+', '+jgnc(v[10],11)+', '+jgnc(v[11],12)+', '+jgnc(v[12],13)+')<br> [ <span style="font-size:18px;">' + vctg(v[9]) + ' ,'+ vctg(v[10]) + ' ,'+ vctg(v[11]) + ' ,'+ vctg(v[12]) + '</span> ]</li><li>領域D 環境・文脈<br>('+jgnc(v[13],14)+', '+jgnc(v[14],15)+')<br> [ <span style="font-size:18px;">' + vctg(v[13]) + ' ,' + vctg(v[14]) + '</span> ]</li></ul>';
+return vecugjugo;
+}
+
+function jgnc(v,d){  // 数値で色分け次元名関数
+const cor2="#fa1ba8"; // -1
+const cor3="#fa1bd5"; // -0.9
+const cor4="#fa1beb"; // -0.8
+const cor5="#eb1bfa"; // -0.7
+const cor6="#d11bfa"; // -0.6
+const cor7="#b31bfa"; // -0.5
+const cor8="#a51bfa"; // -0.4
+const cor9="#961bfa"; // -0.3
+const cor10="#7c1bfa"; // -0.2
+const cor11="#661bfa"; // -0.1
+const cor12="#271bfa"; // 0
+const cor13="#1b5efa"; // 0.1
+const cor14="#1b78fa"; // 0.2
+const cor15="#1b9afa"; // 0.3
+const cor16="#1bb0fa"; // 0.4
+const cor17="#1bbffa"; // 0.5
+const cor18="#1bcdfa"; // 0.6
+const cor19="#1bdcfa"; // 0.7
+const cor20="#1be7fa"; // 0.8
+const cor21="#1beffa"; // 0.9
+const cor22="#1bfafa"; // 1
+const sps1='<span style="font-weight:bold;color:'; const sps2='">'; const sps3='</span>';
+v=Number(v);
+let tg="";let dd="";
+if(v<=-1){tg=sps1+cor2+sps2}
+else if(v<=-0.9){tg=sps1+cor3+sps2}
+else if(v<=-0.8){tg=sps1+cor4+sps2}
+else if(v<=-0.7){tg=sps1+cor5+sps2}
+else if(v<=-0.6){tg=sps1+cor6+sps2}
+else if(v<=-0.5){tg=sps1+cor7+sps2}
+else if(v<=-0.4){tg=sps1+cor8+sps2}
+else if(v<=-0.3){tg=sps1+cor9+sps2}
+else if(v<=-0.2){tg=sps1+cor10+sps2}
+else if(v<=-0.1){tg=sps1+cor11+sps2}
+else if(v<=0){tg=sps1+cor12+sps2}
+else if(v<=0.1){tg=sps1+cor13+sps2}
+else if(v<=0.2){tg=sps1+cor14+sps2}
+else if(v<=0.3){tg=sps1+cor15+sps2}
+else if(v<=0.4){tg=sps1+cor16+sps2}
+else if(v<=0.5){tg=sps1+cor17+sps2}
+else if(v<=0.6){tg=sps1+cor18+sps2}
+else if(v<=0.7){tg=sps1+cor19+sps2}
+else if(v<=0.8){tg=sps1+cor20+sps2}
+else if(v<=0.9){tg=sps1+cor21+sps2}
+else if(v<=1){tg=sps1+cor22+sps2}
+if(d===1){dd="粗大運動"}
+else if(d===2){dd="バランス"}
+else if(d===3){dd="感覚統合"}
+else if(d===4){dd="協調運動"}
+else if(d===5){dd="運動意欲"}
+else if(d===6){dd="理解言語"}
+else if(d===7){dd="表出言語"}
+else if(d===8){dd="見通し力"}
+else if(d===9){dd="模倣学習"}
+else if(d===10){dd="感情調整"}
+else if(d===11){dd="他児関係"}
+else if(d===12){dd="大人信頼"}
+else if(d===13){dd="切り替え"}
+else if(d===14){dd="家庭連携"}
+else if(d===15){dd="クラス位置"}
+return tg+dd+sps3;
+}
+
+function vctg(v){  // 数値で色分け関数
+const cr2="#fa1ba8"; // -1
+const cr3="#fa1bd5"; // -0.9
+const cr4="#fa1beb"; // -0.8
+const cr5="#eb1bfa"; // -0.7
+const cr6="#d11bfa"; // -0.6
+const cr7="#b31bfa"; // -0.5
+const cr8="#a51bfa"; // -0.4
+const cr9="#961bfa"; // -0.3
+const cr10="#7c1bfa"; // -0.2
+const cr11="#661bfa"; // -0.1
+const cr12="#271bfa"; // 0
+const cr13="#1b5efa"; // 0.1
+const cr14="#1b78fa"; // 0.2
+const cr15="#1b9afa"; // 0.3
+const cr16="#1bb0fa"; // 0.4
+const cr17="#1bbffa"; // 0.5
+const cr18="#1bcdfa"; // 0.6
+const cr19="#1bdcfa"; // 0.7
+const cr20="#1be7fa"; // 0.8
+const cr21="#1beffa"; // 0.9
+const cr22="#1bfafa"; // 1
+
+const sps1='<span style="font-weight:bold;color:'; const sps2='">'; const sps3='</span>';
+v=Number(v);
+let tg="";
+if(v<=-1){tg=sps1+cr2+sps2}
+else if(v<=-0.9){tg=sps1+cr3+sps2}
+else if(v<=-0.8){tg=sps1+cr4+sps2}
+else if(v<=-0.7){tg=sps1+cr5+sps2}
+else if(v<=-0.6){tg=sps1+cr6+sps2}
+else if(v<=-0.5){tg=sps1+cr7+sps2}
+else if(v<=-0.4){tg=sps1+cr8+sps2}
+else if(v<=-0.3){tg=sps1+cr9+sps2}
+else if(v<=-0.2){tg=sps1+cr10+sps2}
+else if(v<=-0.1){tg=sps1+cr11+sps2}
+else if(v<=0){tg=sps1+cr12+sps2}
+else if(v<=0.1){tg=sps1+cr13+sps2}
+else if(v<=0.2){tg=sps1+cr14+sps2}
+else if(v<=0.3){tg=sps1+cr15+sps2}
+else if(v<=0.4){tg=sps1+cr16+sps2}
+else if(v<=0.5){tg=sps1+cr17+sps2}
+else if(v<=0.6){tg=sps1+cr18+sps2}
+else if(v<=0.7){tg=sps1+cr19+sps2}
+else if(v<=0.8){tg=sps1+cr20+sps2}
+else if(v<=0.9){tg=sps1+cr21+sps2}
+else if(v<=1){tg=sps1+cr22+sps2}
+return tg+v+sps3;
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+kbutton.addEventListener('click', () => {
+  if (kbox.style.display === 'none') {
+    kbox.style.display = 'inline'; // spanなのでblockよりinlineが自然です
+  } else {
+    kbox.style.display = 'none';
+  }
+});
+
+</script>
+<hr>
+<div id="ksn" class="am2"></div>
+
+</body>
+</html>

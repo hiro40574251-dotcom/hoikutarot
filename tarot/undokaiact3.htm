@@ -1,0 +1,1797 @@
+﻿<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
+<title>保育タロット - 運動会種目生成おはなし“3アクト法” - AI連携ツール</title>
+<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
+<!-- script src="./a_infantialink.js?p=(new Date()).getTime()"></script -->
+<script src="./hoikuisodic.js"></script><!-- 保育位相スペクトラム専用44枚×6ポジション＝264項目の辞典 -->
+<style>
+table { table-layout: fixed; border-collapse: collapse; font-size:12px; line-height:140%;}
+body {line-height:160%;}
+select { font-size:18px;}
+fieldset { font-size:12px; margin:0px; }
+td{border:none; padding:0px;}
+.dp{ font-size:20px; font-weight:bold; text-align:center; font-family:Tahoma; color: #D36205;}
+.t1{background: #C0FF82;}
+.t2{background: #D0FF82;}
+.t3{background: #E0FF82;}
+.t4{background: #EFFF82;}
+.t5{background: #FFFF82;}
+.t6{background: #FFEF82;}
+.t7{background: #FFE082;}
+.t8{background: #FFD082;}
+.t9{background: #FFC082;}
+.t10{background: #FFB082;}
+.t11{background: #FFA282;}
+.t12{background: #FF9282;}
+.t13{background: #FF8282;}
+.am2 {background: #eaf4ff; padding: 10px 10px; opacity: 0.9;}
+.tarolin {background: #ebf4f8; border-left: 12px solid #99BDDE; margin-bottom: 3px; padding: .5em;}
+.lupd {background:green;font-family:serif;color:white;}
+.diet_form {background: #eaf4ff; padding: 10px 10px;}
+form dl dt {width: 120px; height: 30px; padding: 10px 0; line-height: 10px; float: left;}
+form dl dd {padding: 5px 0; margin: 0;}
+.box {box-sizing: border-box; width: 70px !important; height: 30px !important; margin: 0 !important; padding: 0 10px !important;}
+.agsg-btn {width: 24px; height: 20px; border: 1px solid #333;}
+.agsg-btn:hover { cursor: pointer; width: 24px; height: 20px;}
+.calc-btn {width: 120px; height: 40px; border: 1px solid #333;}
+.calc-btn:hover { cursor: pointer; width: 120px; height: 40px;color:red;}
+.bgb{background:purple;color:yellow;height:40px;font-weight:bold;margin:10px;display:flex;align-items:center;}
+.usu{color:#527185;margin:10px;line-height:190%;}
+.keb {font-size:18px;background:pink;font-weight:bold;}
+.keno {font-size:14px;color:green;}
+.kes {font-size:13px;color:brown;}
+@keyframes flash { 0%,100% {opacity:1;} 50% {opacity:0;} }
+
+.card {
+  position: absolute;
+  width: 50px;
+  height: 85px;
+  cursor: move;
+  user-select: none;
+  transition: transform 0.3s ease, left 0.3s ease, top 0.3s ease; 
+/*   transition: all 0.3s ease-out; ← これが「ふわっ」と動く秘密 */
+  touch-action: none;
+  box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
+    .card:hover { transform: scale(1.05); }
+    .card.dragging { opacity: 0.5; transform: rotate(5deg); z-index: 100; }
+    .card img { width: 100%; height: 100%; object-fit: cover; }
+    #shuffled-area { display: none; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    #results { margin-top: 20px; }
+  #factCanvas {
+    position: fixed;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; の省略 */
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none; /* 下の要素をクリックできるように */
+    opacity: 0.85;
+  }
+.help-text {background:white;color:#D200FF;line-height:140%;}
+  .charts { display:flex; gap:40px; flex-wrap:wrap; justify-content:center; margin-top:4px; }
+  .chart-container { text-align:center; background:white; padding:2px; border-radius:22px; box-shadow:0 6px 20px rgba(0,0,0,0.1); min-width:100px; margin:3px; }
+.eikyoudo { width:200px; height:10px; border:solid 1px blue; position: relative; float:none; background-image: url(../img/marseille/kabe.jpg); }
+
+/* ━━━━━ケルト十字━━━━━━━━━━━━━━━ */
+  .spread-container {
+    position: relative;
+    width: 430px;
+    height: 230px;
+    margin: 20px auto;
+    background-image: url(../img/tc.png); /* background: #f0f0f0; */
+  }
+  .card {
+    position: absolute;
+    width: 80px;
+    height: 130px;
+  }
+  /* 位置指定 */
+  #card1 { left: 30px; top: 40px; }              /* 現状 */
+  #card2 { left: 170px; top: 40px; }  /* 交差transform: rotate(270deg);  */
+  #card3 { left: 320px; top: 40px; }              /* 顕在（下） */
+
+  .label {
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    color: #660263;
+    background:#fcf7d7;
+  }
+  #label1 { left: 50px; top: 10px; }
+  #label2 { left: 190px; top: 10px; }
+  #label3 { left: 340px; top: 10px; }
+
+  #llabel1 { left: 30px; top: 175px; }
+  #llabel2 { left: 170px; top: 175px; }
+  #llabel3 { left: 320px; top: 175px; }
+/* ━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+</style>
+</head>
+<body style="background-image: url(../img/marseille/kabe.jpg);">
+
+<canvas id="factCanvas"></canvas>
+
+<!-- admax -->
+<img src="../img/marseille/hobaybnr.png">
+<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm">
+<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span>
+
+<img src="../img/und3.png" align="right">
+<h3>保育タロット 運動会種目生成おはなし“3アクト法”</h3>
+<small>運動会に限らず汎用性の高い<a href="./story3actspread.htm" target="_blank">おはなし生成“3アクト法”フラクタルスプレッド</a>もあります。</small><br clear="right">
+<hr>
+
+<span class="onoftxt" id="onoftxt99" style="font-size:14px;">&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">説明を開く</a>
+<p><span style="color:green;font-weight:bold;">【用途】</span>保育園・幼稚園の<span style="color:#f7195c;font-weight:bold;">運動会の競技アイデア</span>用。<br>
+<span style="color:green;font-weight:bold;">【特徴】</span>運動会の競技を、単なる障害物ではなく、簡易<span style="color:#f7195c;font-weight:bold;">おはなし意味づけ</span>を加える。
+&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">さらに説明を開く</a></p></span><br>
+
+
+<span style="color:green;font-weight:bold;">【最小動作】</span>…<span style="background:yellow;">黄色の印</span>の<u style="color:#002499;">年齢</u>・<u style="color:#002499;">月</u>・<u style="color:#002499;">生成ボタン</u>の3つでプロンプト生成。）<br>
+
+<fieldset><legend>  <label>かんたん操作パネル: </legend>
+  <label><span style="background:yellow;">年齢</span>: <select id="aage" name="aagem">
+    <option value="0">0歳</option>
+    <option value="1">1歳</option>
+    <option value="2">2歳</option>
+    <option value="3" selected>3歳</option>
+    <option value="4">4歳</option>
+    <option value="5">5歳</option>
+  </select>児クラス</label> ／ 
+  
+  <label><span style="background:yellow;">月</span>: <select id="mmonth" name="mmonthm">
+    <option value="4">4月</option>
+    <option value="5">5月</option>
+    <option value="6">6月</option>
+    <option value="7">7月</option>
+    <option value="8">8月</option>
+    <option value="9">9月</option>
+    <option value="10" selected>10月</option>
+    <option value="11">11月</option>
+    <option value="12">12月</option>
+    <option value="1">1月</option>
+    <option value="2">2月</option>
+    <option value="3">3月</option>
+  </select></label> 
+
+
+<br>自由テキスト入力欄: <br><textarea id="qques" rows="4" cols="40" placeholder="無記入の場合、自動的に「年齢に合った、簡単な意味付けのおはなしで統合された運動会競技のアイデアをお願いします」になります。"></textarea>
+<!-- ■■■chatgpt■■■■■■■■■■■■ -->
+<h3>当てはまるものにチェック。直感でOK。<span style="background:pink;">(省略化・オプション…チェックを省略する場合、ランダム解釈と変わらない結果になります)</span></h3>
+
+<div id="storyVec" class="vec-box" style="display: none;"></div>
+<div id="Vecshika" class="vec-box"></div>
+
+<table border=0>
+<tr><td style="height:1px;background:gray;"></td></tr>
+
+<tr>
+<td style="background:#b4debc;">  <h3>1. 子どもの今の姿</h3></td></tr>
+
+<tr><td>
+  <h3>（A）動きの質</h3>
+  <label><input type="radio" name="sv_bodyugokishitsu" class="sv_input" value="慎重さ"> 動きがゆったり・慎重</label>
+  <label><input type="radio" name="sv_bodyugokishitsu" class="sv_input" value="スピード"> 全力で走る・ダッシュ</label>
+  <label><input type="radio" name="sv_bodyugokishitsu" class="sv_input" value="身体性"> 身体能力が高い</label>
+  <label><input type="radio" name="sv_bodyugokishitsu" class="sv_input" value="表現性"> 動きが大きい・表現的</label>
+
+  <h3>（B）対人・協同</h3>
+  <label><input type="checkbox" class="sv_coop sv_input" value="模倣性"> 友達の真似をしたがる</label>
+  <label><input type="checkbox" class="sv_coop sv_input" value="協同性"> 協力プレイが好き</label>
+  <label><input type="checkbox" class="sv_coop sv_input" value="対立性"> 競争すると燃える</label>
+  <label><input type="checkbox" class="sv_coop sv_input" value="慎重さ"> じっくり慎重にする</label>
+
+  <h3>（C）道具・素材の扱い</h3>
+  <label><input type="radio" name="sv_materialdouguatsukai" class="sv_input" value="探索性"> 何でも試す</label>
+  <label><input type="radio" name="sv_materialdouguatsukai" class="sv_input" value="安全性"> 丁寧に扱う</label>
+  <label><input type="radio" name="sv_materialdouguatsukai" class="sv_input" value="スピード"> すぐ動かす・勢いがある</label>
+</td></tr>
+
+<tr><td style="height:1px;background:gray;"></td></tr>
+
+<tr>
+<td style="background:#b4debc;">  <h3>2. クラスの傾向</h3></td></tr>
+<tr><td>
+
+  <h3>（D）雰囲気</h3>
+  <label><input type="radio" name="sv_moodkurasufuniki" class="sv_input" value="没入感"> 意欲的</label>
+  <label><input type="radio" name="sv_moodkurasufuniki" class="sv_input" value="刺激性"> にぎやか・活発</label>
+  <label><input type="radio" name="sv_moodkurasufuniki" class="sv_input" value="協同性"> 協力的</label>
+  <label><input type="radio" name="sv_moodkurasufuniki" class="sv_input" value="対立性"> 競争好き</label>
+  <label><input type="radio" name="sv_moodkurasufuniki" class="sv_input" value="ドラマ性"> おはなし好き</label>
+
+  <h3>（E）活動のまとまり</h3>
+  <label><input type="radio" name="sv_groupmatomari" class="sv_input" value="模倣性"> 動きが揃いやすい</label>
+  <label><input type="radio" name="sv_groupmatomari" class="sv_input" value="慎重さ"> 落ち着いて取り組める</label>
+  <label><input type="radio" name="sv_groupmatomari" class="sv_input" value="刺激性"> テンションが上がりやすい</label>
+</td></tr>
+
+<tr><td style="height:1px;background:gray;"></td></tr>
+
+<tr>
+<td style="background:#b4debc;">  <h3>3. 活動で伸ばしたい力（意図）</h3></td></tr>
+<tr><td>
+
+  <label><input type="checkbox" class="sv_intent" value="協同性"> 協力する力</label>
+  <!-- label><input type="checkbox" class="sv_intent" value="達成感"> やりきる力</label -->
+  <label><input type="checkbox" class="sv_intent sv_input" value="模倣性"> 真似して動く</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="表現性"> 表現する</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="道具操作"> 道具を扱う・工夫</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="身体性"> 身体運動</label>
+</td></tr>
+
+<tr><td style="height:1px;background:gray;"></td></tr>
+
+<tr>
+<td style="background:#b4debc;">  <h3>4. その他（意図）</h3></td></tr>
+<tr><td>
+
+  <label><input type="checkbox" class="sv_intent sv_input" value="準備コスト"> 準備の負担に工夫を</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="保護者への見せやすさ"> 見栄えを良くする</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="季節行事適性"> 季節感を取り入れたい</label>
+  <label><input type="checkbox" class="sv_intent sv_input" value="素材依存"> 道具を使いたい</label>
+</td></tr>
+
+<tr><td style="height:1px;background:gray;"></td></tr>
+
+</table>
+
+<hr>
+
+
+<script>
+let q2v = [];
+// ---- 次元定義（自由に編集可） ----
+// const DIM = [
+//   "協同性","対立性","素材依存","表現性",
+//   "身体性","スピード","慎重さ","探索性",
+//   "道具操作","模倣性","つながり性","ドラマ性"
+// ];
+
+//    0 協同性,
+//    1 探索性,
+//    2 表現性,
+//    3 身体性,
+//    4 素材依存,
+//    5 安全性,
+//    6 刺激性,
+//     0.7*葛藤性 + 0.3*刺激性,        // 7 対立性
+//     0.7*身体性 + 0.3*刺激性,        // 8 スピード
+//     0.6*安全性 + 0.4*計画性,        // 9 慎重さ
+//     0.6*素材依存 + 0.4*身体性,      // 10 道具操作
+//     0.7*表現性 + 0.3*協同性,        // 11 模倣性
+
+
+// 動き…身体性、スピード、慎重さ、道具操作
+// 子どもの力…表現性、協同性、模倣性
+// 盛り上がり…刺激性、対立性、探索性、没入感
+// 保育者負担…素材依存、準備コスト、安全性
+// イベント性…季節行事適性、保護者への見せやすさ、ドラマ性
+
+
+// 17次元
+const DIM = [
+  "協同性", "探索性", "表現性", "身体性",     // 0,1,2,3
+  "素材依存",  "安全性", "刺激性", "対立性",  // 4,5,6,7
+  "スピード", "慎重さ", "道具操作", "模倣性",  // 8,9,10,11
+  "ドラマ性", "没入感", "季節行事適性",        // 12, 13,14,
+  "保護者への見せやすさ", "準備コスト"         // 15, 16
+];
+
+// story_vec 初期化
+let vec = {};
+DIM.forEach(d => vec[d] = 0.5);
+
+// ---- 投票ルール（各入力はその次元に +1） ----
+function updateVec() {
+  // リセット
+  DIM.forEach(d => vec[d] = 0.5);
+
+  // sv_ 系のみ処理
+  // A 動きの質
+  const body = document.querySelector("input[name='sv_bodyugokishitsu']:checked");
+  if (body) vec[body.value]++;
+
+  // B 協同
+  document.querySelectorAll(".sv_coop.sv_input:checked").forEach(c => {
+    vec[c.value]++;
+  });
+
+  // C 道具扱い
+  const mat = document.querySelector("input[name='sv_materialdouguatsukai']:checked");
+  if (mat) vec[mat.value]++;
+
+  // D 雰囲気
+  const mood = document.querySelector("input[name='sv_moodkurasufuniki']:checked");
+  if (mood) vec[mood.value]++;
+
+  // E 活動のまとまり
+  const group = document.querySelector("input[name='sv_groupmatomari']:checked");
+  if (group) vec[group.value]++;
+
+  // 意図（Prior 強化）（重み1.2）
+  document.querySelectorAll(".sv_intent.sv_input:checked").forEach(c => {
+    vec[c.value] += 1.2; // ← 意図は重みを高く
+
+  });
+
+  // 正規化して表示
+  const maxV = Math.max(...Object.values(vec), 1);
+  let text = ""; q2v = [];
+
+DIM.forEach(d => {
+    // toFixed(2) は文字列になるため、計算（ベイズ更新）に使うなら数値に戻す
+    const norm = parseFloat((vec[d] / maxV).toFixed(2)); 
+    
+    text += `${d}: ${norm}<br>`;
+    q2v.push(norm); // これで数値の配列 [0.50, 0.60, ...] が作られる
+});
+//  DIM.forEach(d => {
+//    const norm = (vec[d] / maxV).toFixed(2);
+//    text += `${d}: ${norm}<br>`;
+//      q2v.push(norm);
+//  });
+  document.getElementById("storyVec").innerHTML = text;
+console.log('q2vv',q2v); 
+console.log('q2v[0]',q2v[0]); 
+
+// 250pxのバーで表現
+let shudan = q2v[0]+q2v[2]+q2v[6]+q2v[7]+q2v[11];  // 集団の力
+let kokodomo = q2v[1]+q2v[3]+q2v[8]+q2v[9]+q2v[10];  // 個々の力
+let hoikusha = q2v[4]+q2v[5]+q2v[12]+q2v[13]+q2v[14]+q2v[15]+q2v[16];  // 保育者の力
+
+let shdn = shudan * (300 / (shudan + kokodomo + hoikusha))
+let kkdm = kokodomo * (300 / (shudan + kokodomo + hoikusha))
+let hiks = hoikusha * (300 / (shudan + kokodomo + hoikusha))
+
+let shdnn = shdn * (100 / 300);
+let kkdmm = kkdm * (100 / 300);
+let hikss = hiks * (100 / 300);
+
+let shikakuka = '<table border=1 style="height:30px;color:white;text-align:center;"><tr><td style="background:blue;width:'+shdn.toFixed(0)+'px;">集団</td><td style="background:green;width:'+kkdm.toFixed(0)+'px;">個々</td><td style="background:orange;width:'+hiks.toFixed(0)+'px;">保育者</td></tr></table><p>集団の力:<span style="color:blue;font-weight:bold;">'+shdnn.toFixed(0)+'</span>, 個々の力:<span style="color:green;font-weight:bold;">'+kkdmm.toFixed(0)+'</span>, 保育者の力:<span style="color:orange;font-weight:bold;">'+hikss.toFixed(0)+'</span></p>';
+
+document.getElementById("Vecshika").innerHTML = shikakuka;
+}
+
+// ★★★ 重要な変更点 ★★★
+// sv_input クラスがついた要素だけにイベントを付与
+document.querySelectorAll('.sv_input').forEach(input => {
+  input.addEventListener('change', updateVec);
+});
+
+updateVec(); // 初期表示
+</script>
+
+<!-- ■■■chatgpt■■■■■■■■■■■■ -->
+
+
+
+
+
+
+
+<button id="qprotseisei" class="calc-btn" onclick="qdrawcards()" style="background:yellow;">競技案プロンプト生成</button><br>生成ボタンを押すと、下のテキスト欄にプロンプトが表示されます。<br>
+　↓　↓　↓　↓<br>
+<textarea id="hozp2" rows="10" cols="50" placeholder="プロンプトがここに表示されます"></textarea><br><button id="hpcp2" class="calc-btn" onclick="hcopyPrompt2();">クリップボードにコピー</button> 
+</fieldset>
+
+
+
+<div id="hozproarea"></div>
+
+
+
+<!-- ━━━━━ケルト十字━━━━━━━━ -->
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓ -->
+<div id="celt" class="spread-container">
+  <img id="card1"  class="card" src="../img/a_infantia/01u.png" width="80" height="130">
+  <img id="card2"  class="card" src="../img/a_infantia/02u.png" width="80" height="130">
+  <img id="card3"  class="card" src="../img/a_infantia/03u.png" width="80" height="130">
+  <div id="label1" class="label">1. 現状</div>
+  <div id="label2" class="label">2. 障害</div>
+  <div id="label3" class="label">3. 顕在意識</div>
+</div>
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛ -->
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┓ -->
+<script type="text/javascript">
+
+const celtarea = document.getElementById("celt");
+if (celtarea) {
+celtarea.innerHTML = `
+  <img id="card1"  class="card" src="../img/urah.png" width="80" height="130">
+  <img id="card2"  class="card" src="../img/urah.png" width="80" height="130">
+  <img id="card3"  class="card" src="../img/urah.png" width="80" height="130">
+
+  <div id="label1" class="label">Act1</div>
+  <div id="label2" class="label">Act2</div>
+  <div id="label3" class="label">Act3</div>
+  <div id="llabel1" class="label"></div>
+  <div id="llabel2" class="label"></div>
+  <div id="llabel3" class="label"></div>
+`;
+}
+
+
+</script>
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┛ -->
+
+<img align="right" width="220" src="../img/undact.png">
+<strong>下にいろいろ情報や数値が出てきますが、見なくても、運動会競技案生成に支障ありません。…が、このスプレッドでの数値の説明は、保育者の直感的にとても理解しやすいです。</strong>
+<h3>大きなメリット</h3>
+<ul><li>数値をベースにしてAIのハルシネーションを防止し、専門的な考察に基づいた回答が可能です。
+
+<ul>
+<li>根拠（エビデンス）が明確。保育の理論や直感を数値で扱うるため、AIの学習や気分ではなく、数値で論理的な裏付けがなされ、生成の一つひとつに「保育のねらい」との整合性が強く生まれます。</li>
+<li>このスプレッドでは、ランダムカード→観測値重み付け→確率更新です。ただのランダムとは違い、生成されるアイデアの質が高くなります。</li>
+</ul>
+
+<li>さらに詳しく、13のメリットをブログにまとめました。<br><a href="https://ameblo.jp/hiro40574251/entry-12948390837.html" target="_blank">保育アイデアAI生成に保育タロットを使う13のメリット - 直接 vs 象徴</a></li></ul>
+
+<H1>ここまでで完結です。</H1>
+このラインの下は、計算過程の詳細や分析が出ますが、見なくても運動会競技案生成に支障ありません。
+<hr style=" background-color:#f56342; border:none; box-shadow:1px 0px 9px 5px #f56342;">
+<hr style=" background-color:#f5ad42; border:none; box-shadow:1px 0px 9px 5px #f5ad42;">
+<hr style=" background-color:#f5ce42; border:none; box-shadow:1px 0px 9px 5px #f5ce42;">
+<hr style=" background-color:#e9f542; border:none; box-shadow:1px 0px 9px 5px #e9f542;">
+<hr style=" background-color:#b3f542; border:none; box-shadow:1px 0px 9px 5px #b3f542;">
+<hr style=" background-color:#78f542; border:none; box-shadow:1px 0px 9px 5px #78f542;">
+<hr style=" background-color:#42f569; border:none; box-shadow:1px 0px 9px 5px #42f569;">
+<!-- ■□■□■ベイズ□■□■□■□■□■□■□■□■□ -->
+<br><br><br>
+<div style="display:none;"><!--  style="display:none;" -->
+消します
+
+消します
+</div>
+
+
+<span id="kekka" style="background-image: url(../img/graa.gif);"></span>
+  <div id="results"></div>
+
+
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┓ -->
+<script type="text/javascript">
+window.onload = function onLoad() {
+showLocalStorage()
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// クイックと通常の、テキストエリア連動
+const tarea = document.querySelector("textarea");
+const log = document.getElementById("question");
+
+tarea.addEventListener("change", updateValue);
+
+function updateValue(e) {
+  log.textContent = e.target.value;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function qdrawcards(){
+if (document.getElementById("qques").value===""){document.getElementById("qques").value="年齢に合った、簡単な意味付けのおはなしで統合された運動会競技のアイデアをお願いします";}
+    shuffle(CARDS); // 内部で機械的ランダム配置完了
+drawCards()
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let contextVector = null;  // ← これを追加！！
+let keisanlog = null;
+let keisansaigo = null;
+let q2 = "reset@"; // 元null プリセット名を格納し、プロンプトに載せる
+let selected2 = null;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ローカルストレージに値を設定する
+function setLocalStorage() {
+    const text2 = document.getElementById("text2");
+    localStorage["sample"] = text2.value;
+    document.getElementById("message").innerHTML += "Set data to local storage.<br>";
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ローカルストレージの値を読み出す
+function showLocalStorage() {
+    const text1 = document.getElementById("text1");
+    text1.value = localStorage['sample'];
+    document.getElementById("message").innerHTML += "Get data from local storage.<br>";
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // プロンプトをクリップボードにコピー
+    function copyPrompt() {
+      const textarea = document.getElementById('textoo');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けてください。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 保存プロンプトをクリップボードにコピー
+    function hcopyPrompt() {
+      const textarea = document.getElementById('hozp');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けて動作します。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // 保存プロンプト②をクリップボードにコピー
+    function hcopyPrompt2() {
+      const textarea = document.getElementById('hozp2');
+      if (textarea.value===""){alert('プロンプト欄が空白か、エラーでクリップボードにコピーできませんでした。');return;}
+      textarea.select();
+      document.execCommand('copy');
+      alert('✓ クリップボードにコピーしました！\nChatGPT、Claude 等のAIに貼り付けて動作します。');
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function onof(){
+const targetElement = document.getElementById("onoftxt99"); targetElement.innerHTML = `
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+<img src="../img/marseille/asfasfef.png" align="right" width="200">
+保育専用タロットの大・小アルカナ、22＋22枚・計44枚で運動会の競技案生成プロンプトを出力します。<br>
+タロット占い形式を応用していますが、占いでなく、直感や未来予知とは違います。数学的に根拠を持った15次元ベクトルの値を、より直感的に理解しやすい17次元に変換し、カード3枚から物語テーマを抽出し、保育の観測値重み付けを尤度にし、確率更新して保育状況に合ったプロンプトを生成します。<br>
+
+<p><span style="color:green;font-weight:bold;">【用途】</span>保育園・幼稚園の<span style="color:#f7195c;font-weight:bold;">運動会の競技種目アイデア</span>用。簡易<span style="color:#f7195c;font-weight:bold;">おはなしを添えた意味付け</span>を考える。<br>
+<span style="color:green;font-weight:bold;">【特徴】</span><ul><li>運動会の競技を単なる障害物ではなく、<span style="color:#f7195c;font-weight:bold;">おはなし化</span>するための “象徴ベクトル計算”</li>
+<li>3枚カードとベイズ更新から「強調<span style="color:#f7195c;font-weight:bold;">テーマ</span>」を最小演算で抽出し、<span style="color:#f7195c;font-weight:bold;">3～4シーンの競技案</span>を作る</li>
+<li>ベクトル計算が少し複雑な、別の物語生成用スプレッド「“3アクト法”フラクタルスプレッド」よりシンプル化</li></ul>
+
+生成されたプロンプトは、<a href="https://chatgpt.com/">ChatGPT</a>や<a href="https://claude.ai/">Claude(クロード)</a>、Copilot(コパイロット)、<a href="https://gemini.google.com/app">Google Gemini</a>、X(旧ツイッター)のGrok、<a href="https://www.perplexity.ai/">perplexity</a>などの対話型AIの会話ウィンドウにコピペするだけで保育活動案を生成します。<br><br>
+<a href="https://ameblo.jp/hiro40574251/entry-12965831005.html" target="_blank">【アメーバブログ】運動会種目生成おはなし“3アクト法”で考えた、次元の手軽な増やし方</a>
+</p>
+<hr>
+&lt;&lt;&lt; <a href="#" onclick="onofclear(); return false;">説明を閉じる</a>
+
+`;
+}
+// ────────────────────────────────────────
+function onofclear(){
+const targetElement = document.getElementById("onoftxt99"); targetElement.innerHTML = `&gt;&gt;&gt; <a href="#" onclick="onof(); return false;">説明を開く</a>
+<p><span style="color:green;font-weight:bold;">【用途】</span>保育園・幼稚園の<span style="color:#f7195c;font-weight:bold;">運動会の競技アイデア</span>用。<br>
+<span style="color:green;font-weight:bold;">【特徴】</span>運動会の競技を、単なる障害物ではなく、簡易<span style="color:#f7195c;font-weight:bold;">おはなし意味づけ</span>を加える。</p>
+`;
+}
+// ────────────────────────────────────────
+
+// ────────────────────────────────────────
+function onofclear2(){
+let targetElement = document.getElementById("onoftxt2"); targetElement.innerHTML = `&gt;&gt;&gt; <a href="#" onclick="onof2(); return false;">説明を開く</a>`;
+targetElement = document.getElementById("ht1"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht2"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht3"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht4"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht5"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht6"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht7"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht8"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht9"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht10"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht11"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht12"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht13"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht14"); targetElement.innerHTML = "";
+targetElement = document.getElementById("ht15"); targetElement.innerHTML = "";
+}
+// ────────────────────────────────────────
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+    // コサイン類似度
+    function cosineSimilarity(vecA, vecB) {
+      const dot = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+      const normA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+      const normB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+      return dot / (normA * normB);
+    }
+
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ★ファクトチェック効果: IIFEを通常関数に変更（即時実行をオフ）
+function startEffect() {
+  const canvas = document.getElementById('factCanvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  resize();
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function resize() {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+  }
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  window.addEventListener('resize', resize);
+
+  const start = performance.now();
+  const duration = 3000; // 3秒
+  const code = ['教育={H,R,ENV,W,X};', 'X={X₁:感覚素材体験⇒接触(水,砂,土,紙,粘土)', 'ENV₁:環境興味⇒探索∧区別(自他物)∧環境認知', '養護={LH,EM}', 'H₃:健康習慣⇒自立(食,排)', 'R₂:友達関心⇒模倣(友,保)∧ごっこ遊び', 'W₃:絵本・話⇒繰返し∧模倣遊び', '五領域=dict(H=健康,R=人間関係,ENV=環境,W=言葉,X=表現)', 'age=TargetAge(0-6)', '0.5*発達適合性+0.3*指針との一貫性+0.2*主体性', '教育LIST₄{H,R,ENV,W,X}', 'X₁:感覚素材体験⇒接触(水,砂,土,紙,粘土)', 'LH₄:健康増進⇒運動+休息∧援助(食事,排泄,着脱,清潔)', 'ENV₂:発見・思考⇒興味(玩具,絵本,遊具)∧性質(形,色,大小,量)', 'W₄:言語交流⇒ごっこ∧仲介(保)', 'EM₄:くつろぎ⇒活動バランス∧調和∧食事+休息', 'LIST₂{H,R,ENV,W,X}', 'LH=生命;EM=情緒;', 'LIST={ねらい,環境構成,予想される子どもの姿,配慮事項}', '[GUIDE]', 'TR≠Var(ENV₂等)⇒TR']; // 文字
+  const lines = [];
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function spawnLine() {
+    lines.push({
+      text: code[Math.floor(Math.random() * code.length)],
+      x: Math.random() * innerWidth,
+      y: Math.random() * innerHeight,
+      life: 0,
+      maxLife: 400 + Math.random() * 600,
+    });
+  }
+
+  for (let i = 0; i < 50; i++) spawnLine();
+
+  let last = performance.now();
+  requestAnimationFrame(draw);
+// ━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿━＿
+  function draw(now) {
+    const dt = now - last;
+    last = now;
+
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.fillStyle = 'rgba(10,20,30,0.5)';
+    ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+    ctx.font = '18px monospace';
+    ctx.textBaseline = 'top';
+
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const l = lines[i];
+      l.life += dt;
+      const alpha = 1 - l.life / l.maxLife;
+      ctx.fillStyle = `rgba(255,150,224,${alpha * 0.8})`; //150,255,180
+      ctx.fillText(l.text, l.x, l.y);
+      if (l.life > l.maxLife) {
+        lines.splice(i, 1);
+        spawnLine();
+      }
+    }
+
+    if (now - start < duration) {
+      requestAnimationFrame(draw);
+    } else {
+      // 3秒後：Canvasをフェードアウト→非表示
+      canvas.style.transition = 'opacity 0.6s ease';
+      canvas.style.opacity = '0';
+      setTimeout(() => (canvas.style.display = 'none'), 600);
+    }
+  }
+}
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+// DOM要素のカード配列（シャッフル後に作成）★
+let cardElements = [];
+let draggedCard = null;
+let draggedIndex = -1;
+let initialX = 0;
+let initialY = 0;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function myFunction() {drawCards() }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+// ■ChatGPT製■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+// ■■■　story_vec の計算方法
+function weightedVec(v1, v2, v3, w=[0.3,0.5,0.2]) {
+  return v1.map((_,i)=> v1[i]*w[0] + v2[i]*w[1] + v3[i]*w[2]);
+}
+
+
+
+// ■■■　story_vec の上位次元抽出（ランキング）
+//  topDimensions(story_vec, DIM, 5);
+
+function topDimensions(story_vec, dimNames, topN=5){
+console.log('dimNames',dimNames);
+// ここでエラー
+  const paired = story_vec.map((v,i)=>({dim:dimNames[i], value:v, i:i}));
+  return paired.sort((a,b)=>b.value-a.value).slice(0,topN);
+}
+
+// ■■■　上位次元 → 運動会向け「象徴テーマ辞書」
+const THEMES = {
+  "協同性":   ["仲間", "連動", "力を合わせる", "掛け声", "役割分担", "チームのつながり"],
+  "探索性":   ["探す", "見つける", "冒険", "ルート探し", "宝探し", "状況判断", "自由選択コーナー"],
+  "表現性":   ["動きを表す", "変身", "見せる", "魅せる", "ポーズ/振り付け", "演出要素"],
+  "身体性":   ["走る", "跳ぶ", "バランス", "全身運動", "敏捷性", "ダイナミック"],
+  "素材依存": ["道具そのものの面白さ", "触覚", "素材の質感", "道具ゲーム", "拾う", "運ぶ"],
+  "安全性":   ["転倒防止", "距離調整", "衝突回避", "リスク低減構造"],
+  "刺激性":   ["スピード感", "難易度", "予測不能", "ワクワク感"],
+  "対立性":   ["チーム対抗", "勝敗", "競争ドラマ"],
+  "スピード":   ["速さを体験", "流れをつくる", "テンポの良さ"],
+  "慎重さ":   ["ゆっくり運ぶ", "崩れないように", "精密さ", "集中"],
+  "道具操作":   ["持つ", "転がす", "投げる", "つまむ", "組み立てる"],
+  "模倣性":   ["動物になりきる", "職業ごっこ", "キャラクター再現"],
+  "ドラマ性":   ["物語展開", "ミッション", "ハプニング演出"],
+  "没入感":   ["世界観に入り込む", "役になりきる", "テーマ演出"],
+  "季節行事適性":   ["秋", "収穫", "十五夜", "運動会ならではの季節モチーフ"],
+  "保護者への見せやすさ":   ["写真映え", "構図の良さ", "わかりやすい展開"],
+  "準備コスト":   ["段ボール/テープでできる", "既存備品で可能", "手軽さ"]
+};
+
+//  "つながり性": ["友だちでつながる", "手をつなぐ", "連結"],
+
+
+// ■■■　3アクト法（運動会版）アルゴリズム
+// ●構造は超シンプル
+// Act1（導入）＝状況と目的
+// Act2（展開）＝冒険・課題・変身・探索
+// Act3（クライマックス）＝ゴールの意味づけ
+function makeStoryActs(topDims) {
+
+console.log('topDims',topDims);
+console.log('topDims[0].dim',topDims[0].dim);
+console.log('THEMES[topDims[0].dim][0]',THEMES[topDims[0].dim][0]);
+
+  return {
+    act1: `【はじまり】 ${topDims[0].dim}（${THEMES[topDims[0].dim][0]}）を中心に物語が始まる。`,
+    act2: `【ぼうけん】 ${topDims[1].dim} と ${topDims[2].dim} が課題シーンとなり、子ども達が挑戦する。`,
+    act3: `【ゴール】 ${topDims[3].dim} をクライマックスにして、達成・ごほうび・フィナーレにつながる。`
+  };
+}
+
+// ■■■　競技の「3～4コーナー」への変換ロジック
+// 次元 → 競技シーン変換辞書
+// （この辞書を JS 上で持っておけば自動生成できる）
+const SCENE = {
+  "協同性":   ["息を合わせる/つながる動作", "みんなでいっしょにスタート", "友だちと同じ動きをする", "2人で棒を持って運ぶ", "バトンパスを強調したリレー", "大きな布をみんなで持つパラバルーン"],
+  "探索性":   ["探す/選ぶ/見つける", "探す・見つける", "落ち葉・果物などの“収穫”仕立てで集める", "隠れたものをとる", "迷路コースを自分で選んで走る", "カードを探してからゴールに持っていく"],
+  "表現性":   ["魅せる動き・見てわかる表現", "動きをまねっこ", "ポーズを決める", "変身してみせる", "スタート時に振り付け", "動物になりきって移動"],
+  "身体性":   ["身体操作の多様さ", "ジャンプしてアイテムを取る", "くぐる", "バランスの道", "ケンケン・くぐる・よじ登る障害物", "ジャンプする"],
+  "素材依存": ["素材の面白さ", "素材を拾う", "道具を使って運ぶ", "ミッション用アイテムを取る"],
+  "安全性":   ["安全確保のための構造", "直線コース & 低難度障害物", "交差動線なしの一方向ルート", "転びやすい動作を排除"],
+  "刺激性":   ["ハプニング・変化・スピード感", "途中で「どっちに行く？」分岐がある", "ランダムに変わるカードをめくり次を決める", "ゴール後にサプライズ演出"],
+  "対立性":   ["対抗戦の構造が見える", "取り合いゲーム", "ボールを自陣に集める陣取り", "早く運んだチームが勝つ明確勝敗競技"],
+  "スピード":   ["テンポよく進む場面", "ショートスプリントリレー", "小さな障害を一気に抜けるコース", "複数の子が同時にスタートできる設計"],
+  "慎重さ":   ["そっと・ゆっくりの競技", "お盆にボールを乗せて歩く", "積み木を崩さずに運ぶ", "こぼさない・落とさない系のタスク"],
+  "道具操作":   ["手先・道具扱いの巧緻性", "玉入れ（投げる）", "紐を引っぱってアイテムを引き寄せる", "ペットボトルを棒でコロコロ転がすレース"],
+  "模倣性":   ["なりきり行動が主役", "先生の動きをまねる", "動物歩きレース（うさぎ・かめ・ペンギン）", "働く車ごっこレース（消防士・運転手）"],
+  "ドラマ性":   ["物語の事件が起きる競技", "途中でミッションが発生", "落ちた宝物を助ける／仲間を助ける設定", "物語ナレーション付きの競走"],
+  "没入感":   ["世界観に入り込むセット・構造", "ジャングル探検コース", "お祭り屋台風コース", "海の冒険（布で波を作る、魚を救うなど）"],
+  "季節行事適性":   ["秋(※注:ユーザー入力月に合わせる)の運動会っぽさを強調", "どんぐり(※注:ユーザー入力月に合わせる)運び", "収穫かご(※注:ユーザー入力月に合わせる)リレー", "月見飾り(※ユーザー入力月に合わせる)を完成させるレース（団子・月・うさぎ）"],
+  "保護者への見せやすさ":   ["写真映え構造", "スタート/ゴールで必ずポーズが入る", "横一列で見えやすい配置", "色がはっきりした道具・衣装"],
+  "準備コスト":   ["簡単に準備できる方向", "コーンとロープのみの障害物", "紙皿・紙コップ活用", "既存の玉入れカゴやマットで完結するレース"]
+};
+
+
+     // 古いブラウザでエラー
+     // Null合体演算子　?? は null または undefinedのときだけ右辺を返す
+// ■■■　3アクト → 3〜4コーナーに割当
+function scenePlan(topDims) {
+  return [
+    SCENE[topDims[0].dim][0], // 1コーナー
+    SCENE[topDims[1].dim][0], // 2コーナー
+//    SCENE[topDims[2].dim][1] ?? SCENE[topDims[2].dim][0], // 3コーナー
+    SCENE[topDims[2].dim][1] || SCENE[topDims[2].dim][0], // 3コーナー
+    SCENE[topDims[3].dim][0], // 4コーナー（ゴール）
+  ];
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// おみくじ関数
+const getRandomValue = (category) => {
+  const list = SCENE[category];
+  if (!list) return "カテゴリが見つかりません";
+  
+  const index = Math.floor(Math.random() * list.length);
+  return list[index];
+};
+
+// 使い方
+// console.log(getRandomValue("探索性"));
+// console.log(getRandomValue("協同性"));
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// めも
+// 追加したい 6 次元と、15次元から “自然に構成” する方法
+
+// 運動会に関しては、以下6つはとても使いやすい軸です：
+
+// 新次元			競技生成での役割	15次元からの生成方法（例）
+// 対立性 (Conflict)		勝負感・レース感	葛藤性 × 0.7 + 刺激性 × 0.3
+// スピード (Speed)		走る・急ぐ要素		身体性 × 0.7 + 刺激性 × 0.3
+// 慎重さ (Carefulness)		バランス・ゆっくり	安全性 × 0.6 + 計画性 × 0.4
+// 道具操作 (Tool Handling)	ボール・道具利用	素材依存 × 0.6 + 身体性 × 0.4
+// 模倣性 (Imitation)		まねっこ要素		表現性 × 0.7 + 協同性 × 0.3
+// ドラマ性 (Drama / Story)	意味づけ・物語性	達成感 × 0.6 + 表現性 × 0.4
+// ────────────────────────────────────────
+// 「あるけど使われていない9次元」の使いどころ
+
+// あなたの15次元の中で運動会に使いやすい順は以下：
+
+// ★★★ 最も使いやすい（競技のシーンに直結）
+// 身体性（移動／ジャンプ／くぐる）
+// 協同性（リレー／グループ）
+// 素材依存（ボール／マット）
+// 表現性（まねっこ／変身）
+// 探索性（探す／見つける）
+// 安全性（保育者として重要）
+// 刺激性（ドキドキ・チャレンジ）
+
+// ★★ 中くらいに使える（意味づけ・難易度調整）
+// 計画性（順番、ルートを守る）
+// 柔軟性（体の動きの伸びやかさ）
+// 達成感（ゴール側の意味）
+// 繋がり性（手をつなぐ・連結）
+
+// ★ あまり使わない（活動全体の背景には良い）
+// 主体性（設定には役立つ）
+// 時間スケール（長い/短い、ほぼ不要）
+// 安定性（難易度調整に使える）
+// 葛藤性（物語の衝突としてはあり）
+// ────────────────────────────────────────
+// 15次元 → 運動会向き12次元（推奨セット）
+// 元の15次元から、
+// 「競技生成に必要な次元だけ」を取り出し、
+// 不足の6つを合成したもの：
+// [協同性, 探索性, 表現性, 身体性,
+//  素材依存, 安全性, 刺激性,
+//  対立性(生成), スピード(生成), 慎重さ(生成),
+//  道具操作(生成), 模倣性(生成)]
+// ＝合計12次元化
+
+// これが運動会アイデア生成に最も扱いやすい。
+// ────────────────────────────────────────
+// 15→17 の変換
+function convert15to12(v15){
+  // v15 = [主体性,探索性,協同性,表現性,身体性,計画性,
+  //        柔軟性,安全性,素材依存,時間スケール,
+  //        安定性,刺激性,葛藤性,達成感,繋がり性]
+
+  const [
+    主体性,探索性,協同性,表現性,身体性,計画性,
+    柔軟性,安全性,素材依存,時間スケール,
+    安定性,刺激性,葛藤性,達成感,繋がり性
+  ] = v15;
+
+  return [
+    協同性,
+    探索性,
+    表現性,
+    身体性,
+    素材依存,
+    安全性,
+    刺激性,
+
+    // --- 生成した6次元 -------
+    0.7*葛藤性 + 0.3*刺激性,        // 対立性
+    0.7*身体性 + 0.3*刺激性,        // スピード
+    0.6*安全性 + 0.4*計画性,        // 慎重さ
+    0.6*素材依存 + 0.4*身体性,      // 道具操作
+    0.7*表現性 + 0.3*協同性,        // 模倣性
+    0.6*達成感 + 0.4*表現性,        // ドラマ性
+    0.6*探索性 + 0.4*刺激性,       // 没入感
+    0.5*表現性 + 0.3*繋がり性 + 0.2*刺激性, // 季節行事適性
+    0.5*表現性 + 0.3*達成感 + 0.2*繋がり性, // 保護者への見せやすさ
+    0.5*計画性 + 0.3*素材依存 + 0.2*時間スケール // 準備コスト
+    ]
+
+}
+// ────────────────────────────────────────
+
+// なぜこの変換がうまくいくのか？
+
+// ● 運動会の「競技性」×「物語性」に特化
+// 　→ 勝負感、スピード、模倣、道具操作はほぼ必須
+
+// ● 元の15次元は「保育の包括的な心理・発達軸」
+// 　→ 運動会においては特化軸に再投影するべき
+
+// ● 追加6軸は「保育実践で競技にする際に一番効く」
+// 　→ JSで競技生成するときにも劇的に制御しやすい
+
+
+
+//------------------------------------------------------------
+// 1. DIM の定義（12〜15次元、必要に応じて変更OK）
+//------------------------------------------------------------
+
+//------------------------------------------------------------
+// 2. story_vec（カード3枚からの prior）
+//    ※ 0〜1 の値が入る想定（例として初期値）
+//------------------------------------------------------------
+// let story_vec = {
+//   協同性:0.8, 対立性:0.2, 素材依存:0.7, 表現性:0.6,
+//   身体性:0.9, スピード:0.3, 慎重さ:0.1, 探索性:0.5,
+//   道具操作:0.4, 模倣性:0.7, つながり性:0.8, ドラマ性:0.5
+// };
+
+//------------------------------------------------------------
+// 3. obs_vec（観測：クラスの姿）
+//    UI 側で作られた story_vec と同様に 0〜1 で渡す
+//------------------------------------------------------------
+// let obs_vec = {
+//   協同性:0.9, 対立性:0.1, 素材依存:0.3, 表現性:0.8,
+//   身体性:0.7, スピード:0.4, 慎重さ:0.6, 探索性:0.5,
+//   道具操作:0.2, 模倣性:0.9, つながり性:0.7, ドラマ性:0.6
+// };
+
+//------------------------------------------------------------
+// 4. ベイズ更新関数
+//------------------------------------------------------------
+function bayesUpdate(prior, obs) {
+  let posterior = {};
+  let sum = 0;
+
+  // DIMの「順番（i）」を使って、配列から値を取り出す
+  DIM.forEach((dim, i) => {
+    // prior[i] と obs[i] で配列の数値を取得する
+    const val = (prior[i] || 0) * (obs[i] || 0); 
+    posterior[dim] = val;
+    sum += val;
+  });
+  // 正規化
+  if (sum === 0) {
+    // すべて0の場合、均等に割り振るなどの処理が必要（とりあえずエラー回避）
+    DIM.forEach(dim => posterior[dim] = 1 / DIM.length);
+  } else {
+    DIM.forEach(dim => {
+      posterior[dim] = posterior[dim] / sum;
+    });
+  }
+
+  return posterior;
+}
+
+function bayesUpdate2(prior, obs) {
+  let posterior = {};
+  let sum = 0;
+
+  // DIMの「順番（i）」を使って、配列から値を取り出す
+  DIM.forEach((dim, i) => {
+    // prior[i] と obs[i] で配列の数値を取得する
+    const val = (prior[i] || 0) * (obs[i] || 0); 
+    posterior[i] = val;
+    sum += val;
+  });
+
+  // 正規化
+  if (sum === 0) {
+    // すべて0の場合、均等に割り振るなどの処理が必要（とりあえずエラー回避）
+    DIM.forEach(dim => posterior[dim] = 1 / DIM.length);
+  } else {
+    DIM.forEach(dim => {
+      posterior[dim] = posterior[dim] / sum;
+    });
+  }
+
+  return posterior;
+}
+
+function Chousei(stv, qv) {
+  const alpha = 0.2; // 混ぜる比率（0.5なら半分ずつ、1に近いほどqvを重視）
+  
+  return stv.map((val, i) => {
+    const qvVal = qv[i] || 0;
+    // (stv * 重み) + (qv * 重み)
+    return (val * (1 - alpha)) + (qvVal * alpha);
+  });
+}
+
+//------------------------------------------------------------
+// 5. 使用例（console に出力）
+//------------------------------------------------------------
+
+
+
+// 17次元のラベル
+const DIM_LABELS = [
+  "協同性","探索性","表現性","身体性","素材依存",
+  "安全性","刺激性","対立性","スピード","慎重さ",
+  "道具操作","模倣性","ドラマ性","没入感","季節行事適性",
+  "保護者への見せやすさ","準備コスト"
+];
+
+// --- 象徴テーマ辞書（短い意味づけ） ---
+const THEME = {
+  "協同性": "みんなで息を合わせる",
+  "探索性": "探す・見つける・確かめる",
+  "表現性": "ポーズ・動きで表す",
+  "身体性": "体の使い方を楽しむ",
+  "素材依存": "道具や素材で世界を作る",
+  "安全性": "落ち着いて進める",
+  "刺激性": "ワクワクする仕掛け",
+  "対立性": "勝負・競争のドキドキ",
+  "スピード": "速さを味わう",
+  "慎重さ": "そっと・ゆっくり進む",
+  "道具操作": "道具を扱う面白さ",
+  "模倣性": "真似っこ・そろえる喜び",
+  "ドラマ性": "物語性のある展開",
+  "没入感": "世界観に入り込む",
+  "季節行事適性": "季節や行事に関連",
+  "保護者への見せやすさ": "魅せる演出",
+  "準備コスト": "準備が楽になる"
+};
+
+// --- 競技シーンテンプレ ---
+const JidoSCENE = {
+  "協同性": ["みんなで手をつないでスタート", "友だちと同じ動きをする"],
+  "探索性": ["宝を探す", "かくれんぼアイテムを見つける"],
+  "表現性": ["ポーズを決める", "動物やキャラになりきる"],
+  "身体性": ["ジャンプで越える", "よじ登る・くぐる"],
+  "素材依存": ["布・フープ・箱をくぐる", "素材のトンネルを通る"],
+  "安全性": ["ゆっくり歩く", "順番を守って進む"],
+  "刺激性": ["カラフルな道を通る", "音が鳴る場所を通過"],
+  "対立性": ["チーム対抗で競う", "色別にわかれて急ぐ"],
+  "スピード": ["ダッシュで走る", "素早く運ぶ"],
+  "慎重さ": ["そっと橋を渡る", "落とさないように運ぶ"],
+  "道具操作": ["ボールを入れる", "輪を置く・はめる"],
+  "模倣性": ["どうぶつの真似をする", "同じポーズで進む"],
+  "ドラマ性": ["ストーリーのキャラと出会う", "ミッションをこなす"],
+  "没入感": ["森の中を進む設定", "冒険の世界に入る"],
+  "季節行事適性": ["季節の実を収穫する(※注:ユーザー入力月に合わせる)", "行事のアイテムを運ぶ"],
+  "保護者への見せやすさ": ["ゴールで決めポーズ", "最後に手をふる"],
+  "準備コスト": ["シンプルな道具で進む", "準備いらずの動き"]
+ };
+
+// --- 道具辞書（自動抽出用） ---
+const TOOL = {
+  "協同性": ["なわ", "パラバルーン"],
+  "探索性": ["宝カード", "箱"],
+  "表現性": ["どうぶつカード"],
+  "身体性": ["マット", "トンネル"],
+  "素材依存": ["布トンネル", "フープ"],
+  "安全性": ["マット"],
+  "刺激性": ["カラーボール"],
+  "対立性": ["色チーム旗"],
+  "スピード": ["コーン"],
+  "慎重さ": ["平均台"],
+  "道具操作": ["ボール", "リング"],
+  "模倣性": ["カード"],
+  "ドラマ性": ["キャラ掲示"],
+  "没入感": ["背景パネル"],
+  "季節行事適性": ["季節飾り"],
+  "保護者への見せやすさ": ["ゴールゲート"],
+  "準備コスト": ["簡易アイテム"]
+};
+
+// --- ねらい辞書 ---
+const GOAL = {
+  "協同性": "友だちと動きを合わせる楽しさを味わう。",
+  "探索性": "見つける活動を通し、注意を向ける力を育む。",
+  "表現性": "身体表現を楽しむ。",
+  "身体性": "身体を十分に使う経験をする。",
+  "素材依存": "素材に触れて遊ぶ面白さを味わう。",
+  "安全性": "落ち着いて進む経験を大切にする。",
+  "刺激性": "新しい刺激へのワクワク感を味わう。",
+  "対立性": "競走のドキドキを楽しむ。",
+  "スピード": "スピード感を楽しむ。",
+  "慎重さ": "慎重に進む身体コントロールを養う。",
+  "道具操作": "道具の使い方に親しむ。",
+  "模倣性": "模倣遊びで動きのバリエーションを広げる。",
+  "ドラマ性": "物語の流れを楽しむ。",
+  "没入感": "世界観に入り込む面白さを味わう。",
+  "季節行事適性": "季節の行事に親しむ。",
+  "保護者への見せやすさ": "達成した姿を保護者に見てもらう。",
+  "準備コスト": "簡易な準備で活動が成立する。"
+};
+
+// --- 安全配慮テンプレ ---
+const SAFETY = {
+  "協同性": "混雑しすぎないよう人数調整する。",
+  "探索性": "隠れる場所や死角になる場所を事前に確認し、保育士の視界に入るようにする。",
+  "表現性": "大きな装飾や衣装が足に引っかからないよう、丈の長さや固定方法を工夫する。",
+  "身体性": "転倒しやすい場所にはマットを敷く。",
+  "素材依存": "トンネル・布は固定して安定させる。",
+  "安全性": "競技エリア内に石や枝などの異物がないか、開始直前に再度点検する。",
+  "刺激性": "音響のボリュームを調節し、大きな音に敏感な子がパニックにならないよう配慮する。",
+  "対立性": "勝ち負けに熱中しすぎて接触が激しくならないよう、ルール説明を徹底し審判を増やす。",
+  "スピード": "スピード場面では走路を広めにとる。",
+  "慎重さ": "平均台の高さを低くし見守りを強める。",
+  "道具操作": "ボールが散乱しないよう数を制限する。",
+  "模倣性": "手本となる保育士が子どもの動きを遮らない位置に立ち、衝突を避ける。",
+  "ドラマ性": "物語の世界観に没入して周りが見えなくなることを想定し、境界線を明確にする。",
+  "没入感": "応援の声や拍手で興奮しすぎないよう、競技の合間に落ち着く時間を設ける。",
+  "季節行事適性": "屋外の場合はこまめな水分補給を行い、日よけを設置して熱中症対策を徹底する。",
+  "保護者への見せやすさ": "撮影に夢中になった保護者が競技エリアに侵入しないよう、ロープ等で境界を仕切る。",
+  "準備コスト": "入退場門や大道具が強風で倒れないよう、重りや杭で確実に固定する。"
+};
+
+// posterior → 上位17次元を抽出する関数
+function top17Dimensions(posterior_vec) {
+
+  // 配列でない場合は空配列として扱う、または Array.from で変換を試みる
+  if (!Array.isArray(posterior_vec)) {
+    console.error("posterior_vec is not an array:", posterior_vec);
+    return []; 
+  }
+
+  const pairs = posterior_vec.map((v, i) => ({ dim: DIM_LABELS[i], val: v }));
+  pairs.sort((a, b) => b.val - a.val);
+  return pairs.slice(0, 17);
+}
+
+
+// posterior → 上位3次元を抽出する関数
+function top3Dimensions(posterior_vec) {
+
+  // 配列でない場合は空配列として扱う、または Array.from で変換を試みる
+  if (!Array.isArray(posterior_vec)) {
+    console.error("posterior_vec is not an array:", posterior_vec);
+    return []; 
+  }
+
+  const pairs = posterior_vec.map((v, i) => ({ dim: DIM_LABELS[i], val: v }));
+  pairs.sort((a, b) => b.val - a.val);
+  return pairs.slice(0, 3);
+}
+
+// 上位3軸 → 自動で3アクト競技ストーリー生成
+function generateStory(top3) {
+  const [A, B, C] = top3.map(t => t.dim);
+
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  return {
+    title: `${THEME[A]} × ${THEME[B]} × ${THEME[C]} の冒険`,
+    act1: `まずは【${A}】の場面。「${pick(JidoSCENE[A])}」ところからスタート！`,
+    act2: `つぎは【${B}】のコーナー。「${pick(JidoSCENE[B])}」に挑戦！`,
+    act3: `さいごは【${C}】のゴール。「${pick(JidoSCENE[C])}」をしたらゴールだよ！`,
+    tools: [...new Set([ ...TOOL[A], ...TOOL[B], ...TOOL[C] ])],
+    goals: [GOAL[A], GOAL[B], GOAL[C]],
+    safety: [
+      SAFETY[A] || null,
+      SAFETY[B] || null,
+      SAFETY[C] || null
+    ].filter(Boolean)
+  };
+}
+
+// すべて統合して実行する関数
+function generateEventFromPosterior(posterior_vec) {
+  const top3 = top3Dimensions(posterior_vec);
+  return generateStory(top3);
+}
+
+
+let CalcLOG = '';
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+// ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 占う（これで占うボタン）★★★★
+function drawCards() {
+
+    shuffle(CARDS); // 内部で機械的ランダム配置完了
+
+    // シャッフル完了後、最初の3枚を選択
+    const selectedCards = CARDS.slice(0, 3); // ■■■selectedCards■■■
+console.log('selectedCards',selectedCards);
+
+const selec1v = convert15to12(selectedCards[0].vector);
+const selec2v = convert15to12(selectedCards[1].vector);
+const selec3v = convert15to12(selectedCards[2].vector);
+console.log('selec1v',selec1v);
+console.log('selec2v',selec2v);
+console.log('selec3v',selec3v);
+
+const celtarea = document.getElementById("celt");
+if (celtarea) {
+celtarea.innerHTML = `
+  <img id="card1"  class="card" src="${selectedCards[0].img.slice(0, -5)}u.png" width="80" height="130">
+  <img id="card2"  class="card" src="${selectedCards[1].img.slice(0, -5)}u.png" width="80" height="130">
+  <img id="card3"  class="card" src="${selectedCards[2].img.slice(0, -5)}u.png" width="80" height="130">
+
+  <div id="label1" class="label">Act1</div>
+  <div id="label2" class="label">Act2</div>
+  <div id="label3" class="label">Act3</div>
+  <div id="llabel1" class="label">${selectedCards[0].name.slice(2)}</div>
+  <div id="llabel2" class="label">${selectedCards[1].name.slice(2)}</div>
+  <div id="llabel3" class="label">${selectedCards[2].name.slice(2)}</div>
+`;
+}
+
+CalcLOG = '<img align="left" width="220" src="../img/undact.png"><h3>Selected 3 cards from 44 (ARCANA INFANTIA):</h3>';
+
+
+// 全体の流れ
+// 1. カード象徴ベクトル v1, v2, v3 を用意（N次元＝10〜20程度）
+// 2. story_vec = 0.3*v1 + 0.5*v2 + 0.2*v3 で重み付き合成
+// 3. story_vec の上位3〜5次元を抽出
+// 4. 次元ID → 「象徴テーマ辞書」から意味語を取り出す
+// 5. アクト1〜3の “おはなし構造” に割り当てて簡易物語化
+// 6. 物語を 3〜4 シーンの「運動会競技コーナー」案に変換
+
+
+// 視覚効果
+    // ★ここでファクトチェックエフェクト発動
+    startEffect();
+    
+    // エフェクト完了後に結果出力（setTimeoutで同期）
+    setTimeout(() => {
+        // ... (output生成と resultElement.innerHTML = output; など)
+    }, 5000);  // 5秒遅延（エフェクト持続時間分）
+
+
+
+// ■■■　story_vec の計算方法
+// ■■■　story_vec の上位次元抽出（ランキング）
+// ■■■　上位次元 → 運動会向け「象徴テーマ辞書」
+
+
+// ■■■　3アクト法（運動会版）アルゴリズム
+// ●構造は超シンプル
+// Act1（導入）＝状況と目的
+// Act2（展開）＝冒険・課題・変身・探索
+// Act3（クライマックス）＝ゴールの意味づけ
+
+// ■■■　競技の「3～4コーナー」への変換ロジック
+// 次元 → 競技シーン変換辞書
+// （この辞書を JS 上で持っておけば自動生成できる）
+
+// ■■■　3アクト → 3〜4コーナーに割当
+
+
+// ■■■　完全に JS で自動生成できる構造まとめ
+// 1. カード3枚のベクトルを読み込む
+
+let v1 = selec1v;
+let v2 = selec2v;
+let v3 = selec3v;
+
+let story_vec = weightedVec(v1, v2, v3);
+
+
+let v1vmrm = v1.map(v => Math.round(v * 100) / 100);
+const v1c = v1vmrm.map(vctg);
+v1vmrm = v1c;
+
+CalcLOG += '<h3>選出カードの15次元ベクトルを運動会用17次元に変換</h3>';
+
+CalcLOG += '<div class="bgb">Act 1 : id '+selectedCards[0].id+' - '+selectedCards[0].name.slice(2)+'</div><img align="right" src="';
+CalcLOG += selectedCards[0].img+'"><ul><li>';
+CalcLOG += selectedCards[0].name.slice(2)+'<br><small>'+selectedCards[0].tokucho+'<br>';
+CalcLOG += vec5x5(selectedCards[0].vector)
+CalcLOG += '</small>'
+CalcLOG += juunanavtable(v1vmrm);
+CalcLOG += '</li></ul><br clear="right">';
+
+let v2vmrm = v2.map(v => Math.round(v * 100) / 100);
+const v2c = v2vmrm.map(vctg);
+v2vmrm = v2c;
+
+CalcLOG += '<div class="bgb">Act 2 : id '+selectedCards[1].id+' - '+selectedCards[1].name.slice(2)+'</div><img align="right" src="';
+CalcLOG += selectedCards[1].img+'"><ul><li>';
+CalcLOG += selectedCards[1].name.slice(2)+'<br><small>'+selectedCards[1].tokucho+'<br>';
+CalcLOG += vec5x5(selectedCards[1].vector)
+CalcLOG += '</small>'
+CalcLOG += juunanavtable(v2vmrm);
+CalcLOG += '</li></ul><br clear="right">';
+
+let v3vmrm = v3.map(v => Math.round(v * 100) / 100);
+const v3c = v3vmrm.map(vctg);
+v3vmrm = v3c;
+
+CalcLOG += '<div class="bgb">Act 3 : id '+selectedCards[2].id+' - '+selectedCards[2].name.slice(2)+'</div><img align="right" src="';
+CalcLOG += selectedCards[2].img+'"><ul><li>';
+CalcLOG += selectedCards[2].name.slice(2)+'<br><small>'+selectedCards[2].tokucho+'<br>';
+CalcLOG += vec5x5(selectedCards[2].vector)
+CalcLOG += '</small>'
+CalcLOG += juunanavtable(v3vmrm);
+CalcLOG += '</li></ul><br clear="right">';
+
+
+
+CalcLOG += "<h3>物語の方向性</h3>";
+CalcLOG += '<ul>3枚のカードベクトルを0.3, 0.5, 0.2の割合で合成<br>';
+CalcLOG += '<img width="60" src="' + selectedCards[0].img + '"><img width="100" src="' + selectedCards[1].img + '"><img width="40" src="' + selectedCards[2].img + '"><br>';
+CalcLOG += '→カードそのままの物語ベクトル<br>';
+CalcLOG += '→占い感覚でカードが示した「物語テーマ」';
+CalcLOG += '<li><h4>story_vec (prior: 事前の予測)</h4>';
+CalcLOG += '</li>';
+let stvmrm = story_vec.map(v => Math.round(v * 100) / 100);
+const stvc = stvmrm.map(vctg);
+stvmrm = stvc;
+CalcLOG += juunanavtable(stvc);
+CalcLOG += '</ul>';
+
+// CalcLOG += story_vec;
+
+// 2. 上位次元抽出 ここでtopDims.dim: undefinedがでる
+//     0.6*安全性 + 0.4*計画性,        // 9 慎重さ でにくい
+//    1 探索性,　　　　　　　　　　　　　　　　　　でにくい
+//     0.7*身体性 + 0.3*刺激性,        // 8 スピード　でてこん
+//     0.7*表現性 + 0.3*協同性,        // 11 模倣性　　でてこん
+let topDims = topDimensions(story_vec, DIM, 5);
+    // 0: {dim: '身体性', value: 0.855}
+    // 1: {dim: undefined, value: 0.78}
+    // 2: {dim: '慎重さ', value: 0.755}
+    // 3: {dim: 'ドラマ性', value: 0.745}
+    // 4: {dim: '協同性', value: 0.7400000000000001
+
+CalcLOG += "<h3>上位次元抽出(事前分布 prior)</h3>";
+CalcLOG += '<ul>';
+CalcLOG += '<li><img src="../img/1i.png">'+topDims[0].dim+' value: '+topDims[0].value.toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '<li><img src="../img/2i.png">'+topDims[1].dim+' value: '+topDims[1].value.toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '<li><img src="../img/3i.png">'+topDims[2].dim+' value: '+topDims[2].value.toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '</ul>';
+
+
+// 3. 3アクト生成
+let acts = makeStoryActs(topDims);
+    // act1: '【はじまり】 身体性（全身で動く）を中心に物語が始まる。',
+    // act2: '【ぼうけん】 14 と 慎重さ が課題シーンとなり、子ども達が挑戦する。',
+    // act3: '【ゴール】 ドラマ性 をクライマックスにして、達成・ごほうび・フィナーレにつながる。'}
+CalcLOG += "<h3>3アクト生成</h3>";
+CalcLOG += '<ul>';
+CalcLOG += '<li>'+acts.act1;
+CalcLOG += '</li>';
+CalcLOG += '<li>'+acts.act2;
+CalcLOG += '</li>';
+CalcLOG += '<li>'+acts.act3;
+CalcLOG += '</li>';
+CalcLOG += '</ul>';
+
+// 4. 運動会シーン生成
+let scenes = scenePlan(topDims);
+CalcLOG += "<h3>運動会シーン生成</h3>";
+CalcLOG += '<ul>';
+CalcLOG += '<li>'+scenes[0];
+CalcLOG += '</li>';
+CalcLOG += '<li>'+scenes[1];
+CalcLOG += '</li>';
+CalcLOG += '<li>'+scenes[2];
+CalcLOG += '</li>';
+CalcLOG += '<li>'+scenes[3];
+CalcLOG += '</li>';
+CalcLOG += '</ul>';
+
+
+
+console.log('story_vec',story_vec);
+console.log('topDims',topDims);
+console.log('acts',acts);
+console.log('scenes',scenes);
+console.log('q2v',q2v);
+
+CalcLOG += "…これが占いならこの結果ですが、もう少し賢く決めていきます<br>↓　↓　↓　↓<hr>";
+
+
+
+// let obs_vec = {
+//   協同性:0.9, 対立性:0.1, 素材依存:0.3, 表現性:0.8,
+//   身体性:0.7, スピード:0.4, 慎重さ:0.6, 探索性:0.5,
+//   道具操作:0.2, 模倣性:0.9, つながり性:0.7, ドラマ性:0.6
+// };
+
+
+let obs_vec = Chousei(story_vec, q2v); // 混合ベクトル
+let posterior_vec = bayesUpdate(story_vec, obs_vec);
+let posterior_vec3 = bayesUpdate2(story_vec, obs_vec);
+
+CalcLOG += "<h3>観測＝UI入力から得られた現在のクラスの姿</h3>";
+CalcLOG += '<ul>物語ベクトルにユーザー入力を2割反映して重み付け調整<br>';
+CalcLOG += '→現実の子どもの今の姿';
+CalcLOG += '<li><h4>obs_vec (likelihood: 尤度)</h4>';
+CalcLOG += '</li>';
+let obvmrm = obs_vec.map(v => Math.round(v * 100) / 100);
+const obvc = obvmrm.map(vctg);
+obvmrm = obvc;
+CalcLOG += juunanavtable(obvc);
+CalcLOG += '</ul>';
+
+
+console.log("=== story_vec (prior) ===");
+console.table(story_vec);
+
+console.log("=== obs_vec (likelihood) ===");
+console.table(obs_vec);
+
+console.log("=== posterior_vec (normalized) ===");
+console.table(posterior_vec);
+console.log(posterior_vec3);
+
+// 全自動
+  // オブジェクトの「値」だけを配列として取り出す
+  const posterior_vec2 = Object.values(posterior_vec);
+console.log(posterior_vec2);
+
+const jidokekka = generateEventFromPosterior(posterior_vec2);
+ console.log('ベイズ後',jidokekka);
+
+    const userAge = document.getElementById('aage').value; // 年齢取得
+    const userMonth = document.getElementById('mmonth').value; // 月取得
+
+CalcLOG += "<h3>ベイズ更新</h3>";
+CalcLOG += '<ul>最適な競技の意味づけ推定＝「物語の方向性×クラスの現状」<br>';
+CalcLOG += '→直感的な「競技テーマの強調度」<br>';
+CalcLOG += '→物語と保育実践を接続する機械学習的橋渡し';
+CalcLOG += '<li><h4>posterior_vec (normalized)</h4>';
+CalcLOG += '</li>';
+let posvmrm = posterior_vec2.map(v => Math.round(v * 1000) / 100);
+const posvc = posvmrm.map(vctg);
+posvmrm = posvc;
+CalcLOG += juunanavtable(posvc);
+CalcLOG += '</ul>';
+
+// CalcLOG += "<h3>上位3次元</h3>";
+// console.log(top3Dimensions(posterior_vec2));
+// CalcLOG += top3Dimensions(posterior_vec2)[0].dim;
+// CalcLOG += top3Dimensions(posterior_vec2)[0].val.toFixed(2);
+const stv17 = top17Dimensions(story_vec);
+const obs17 = top17Dimensions(obs_vec);
+// const pos17 = top17Dimensions(posterior_vec2);
+let posvxju = posterior_vec2.map(v => Number(v * 10));
+const pos17 = top17Dimensions(posvxju);
+
+
+CalcLOG += "<h3>上位次元抽出(ベイズ更新後)</h3>";
+CalcLOG += '<ul>';
+CalcLOG += '<li><img src="../img/1i.png">'+top3Dimensions(posterior_vec2)[0].dim+' value: '+Number(top3Dimensions(posterior_vec2)[0].val*10).toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '<li><img src="../img/2i.png">'+top3Dimensions(posterior_vec2)[1].dim+' value: '+Number(top3Dimensions(posterior_vec2)[1].val*10).toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '<li><img src="../img/3i.png">'+top3Dimensions(posterior_vec2)[2].dim+' value: '+Number(top3Dimensions(posterior_vec2)[2].val*10).toFixed(2);
+CalcLOG += '</li>';
+CalcLOG += '</ul>';
+
+
+CalcLOG += `<table border=1 style="font-size:16px;text-align:center;">
+<tr><td rowspan="2" width="53" style="background:#FFFF80">ランキング</td><td width="100" colspan="2" style="background:#FFB9FF;">物語の方向性 story_vec (prior)</td><td width="100" colspan="2" style="background:#B9EAFF;">観測重み付け obs_vec (likelihood)</td><td width="100" colspan="2" style="background:#DCB9FF;">ベイズ更新後 posterior (normalized)</td></tr>
+<tr></td><td width="110">次元</td><td width="50">値</td><td width="110">次元</td><td width="50">値</td><td width="110">次元</td><td width="50">値</td></tr>
+<tr><td colspan="7" style="background:orange;height:1px;"></td></tr>
+<tr><td><img src="../img/1i.png"></td><td>${stv17[0].dim}</td><td>${stv17[0].val.toFixed(2)}</td><td>${obs17[0].dim}</td><td>${obs17[0].val.toFixed(2)}</td><td style="font-weight:bold;">${pos17[0].dim}</td><td>${pos17[0].val.toFixed(2)}</td></tr>
+<tr><td colspan="7" style="background:orange;height:1px;"></td></tr>
+<tr><td><img src="../img/2i.png"></td><td>${stv17[1].dim}</td><td>${stv17[1].val.toFixed(2)}</td><td>${obs17[1].dim}</td><td>${obs17[1].val.toFixed(2)}</td><td style="font-weight:bold;">${pos17[1].dim}</td><td>${pos17[1].val.toFixed(2)}</td></tr>
+<tr><td colspan="7" style="background:orange;height:1px;"></td></tr>
+<tr><td><img src="../img/3i.png"></td><td>${stv17[2].dim}</td><td>${stv17[2].val.toFixed(2)}</td><td>${obs17[2].dim}</td><td>${obs17[2].val.toFixed(2)}</td><td style="font-weight:bold;">${pos17[2].dim}</td><td>${pos17[2].val.toFixed(2)}</td></tr>
+<tr><td colspan="7" style="background:orange;height:1px;"></td></tr>
+<tr><td>4位</td><td>${stv17[3].dim}</td><td>${stv17[3].val.toFixed(2)}</td><td>${obs17[3].dim}</td><td>${obs17[3].val.toFixed(2)}</td><td>${pos17[3].dim}</td><td>${pos17[3].val.toFixed(2)}</td></tr>
+<tr><td>5位</td><td>${stv17[4].dim}</td><td>${stv17[4].val.toFixed(2)}</td><td>${obs17[4].dim}</td><td>${obs17[4].val.toFixed(2)}</td><td>${pos17[4].dim}</td><td>${pos17[4].val.toFixed(2)}</td></tr>
+<tr><td>6位</td><td>${stv17[5].dim}</td><td>${stv17[5].val.toFixed(2)}</td><td>${obs17[5].dim}</td><td>${obs17[5].val.toFixed(2)}</td><td>${pos17[5].dim}</td><td>${pos17[5].val.toFixed(2)}</td></tr>
+<tr><td>7位</td><td>${stv17[6].dim}</td><td>${stv17[6].val.toFixed(2)}</td><td>${obs17[6].dim}</td><td>${obs17[6].val.toFixed(2)}</td><td>${pos17[6].dim}</td><td>${pos17[6].val.toFixed(2)}</td></tr>
+<tr><td>8位</td><td>${stv17[7].dim}</td><td>${stv17[7].val.toFixed(2)}</td><td>${obs17[7].dim}</td><td>${obs17[7].val.toFixed(2)}</td><td>${pos17[7].dim}</td><td>${pos17[7].val.toFixed(2)}</td></tr>
+<tr><td>9位</td><td>${stv17[8].dim}</td><td>${stv17[8].val.toFixed(2)}</td><td>${obs17[8].dim}</td><td>${obs17[8].val.toFixed(2)}</td><td>${pos17[8].dim}</td><td>${pos17[8].val.toFixed(2)}</td></tr>
+<tr><td>10位</td><td>${stv17[9].dim}</td><td>${stv17[9].val.toFixed(2)}</td><td>${obs17[9].dim}</td><td>${obs17[9].val.toFixed(2)}</td><td>${pos17[9].dim}</td><td>${pos17[9].val.toFixed(2)}</td></tr>
+<tr><td>11位</td><td>${stv17[10].dim}</td><td>${stv17[10].val.toFixed(2)}</td><td>${obs17[10].dim}</td><td>${obs17[10].val.toFixed(2)}</td><td>${pos17[10].dim}</td><td>${pos17[10].val.toFixed(2)}</td></tr>
+<tr><td>12位</td><td>${stv17[11].dim}</td><td>${stv17[11].val.toFixed(2)}</td><td>${obs17[11].dim}</td><td>${obs17[11].val.toFixed(2)}</td><td>${pos17[11].dim}</td><td>${pos17[11].val.toFixed(2)}</td></tr>
+<tr><td>13位</td><td>${stv17[12].dim}</td><td>${stv17[12].val.toFixed(2)}</td><td>${obs17[12].dim}</td><td>${obs17[12].val.toFixed(2)}</td><td>${pos17[12].dim}</td><td>${pos17[12].val.toFixed(2)}</td></tr>
+<tr><td>14位</td><td>${stv17[13].dim}</td><td>${stv17[13].val.toFixed(2)}</td><td>${obs17[13].dim}</td><td>${obs17[13].val.toFixed(2)}</td><td>${pos17[13].dim}</td><td>${pos17[13].val.toFixed(2)}</td></tr>
+<tr><td>15位</td><td>${stv17[14].dim}</td><td>${stv17[14].val.toFixed(2)}</td><td>${obs17[14].dim}</td><td>${obs17[14].val.toFixed(2)}</td><td>${pos17[14].dim}</td><td>${pos17[14].val.toFixed(2)}</td></tr>
+<tr><td>16位</td><td>${stv17[15].dim}</td><td>${stv17[15].val.toFixed(2)}</td><td>${obs17[15].dim}</td><td>${obs17[15].val.toFixed(2)}</td><td>${pos17[15].dim}</td><td>${pos17[15].val.toFixed(2)}</td></tr>
+<tr><td>17位</td><td>${stv17[16].dim}</td><td>${stv17[16].val.toFixed(2)}</td><td>${obs17[16].dim}</td><td>${obs17[16].val.toFixed(2)}</td><td>${pos17[16].dim}</td><td>${pos17[16].val.toFixed(2)}</td></tr>
+</table>
+`;
+
+// (A) ラジオボタン（name属性で指定）
+// const ugoki = document.querySelector('input[name="sv_bodyugokishitsu"]:checked')?.value;
+// console.log("動きの質:", ugoki || "未選択");
+
+// (B) チェックボックス（クラス名で指定）
+// const coopElements = document.querySelectorAll('.sv_coop:checked');
+// const coopValues = Array.from(coopElements).map(el => el.value);
+// console.log("対人・協同:", coopValues);
+
+
+let labelText1 = '未入力'; let boxTexts1 = '未入力';
+let labelText2 = '未入力'; let boxTexts2 = '未入力';
+let labelText3 = '未入力'; 
+let labelText4 = '未入力'; 
+
+// (A) ラジオボタンからテキストを取得
+const radioInput1 = document.querySelector('input[name="sv_bodyugokishitsu"]:checked');
+if (radioInput1) {
+  // inputの親要素(label)のテキストを取得し、余計な空白を削除(trim)
+labelText1 = radioInput1.parentElement.textContent.trim();
+  console.log("選択されたテキスト:", labelText1); 
+  // 例: "動きがゆったり・慎重"
+}
+
+// (B) チェックボックスからテキストを配列で取得
+const checkedBoxes1 = document.querySelectorAll('.sv_coop:checked');
+boxTexts1 = Array.from(checkedBoxes1).map(el => el.parentElement.textContent.trim());
+console.log("チェックされたテキスト一覧:", boxTexts1);
+// boxTexts1 = ["模倣性", "協同性"] の場合
+
+console.log('boxTexts1',boxTexts1);
+if (boxTexts1.length > 0) {
+  // チェックが1つ以上ある場合
+  bout1 = boxTexts1.join(', ');
+} else {
+  // チェックが0個の場合
+  bout1 = '未入力';
+}
+
+// C
+const radioInput2 = document.querySelector('input[name="sv_materialdouguatsukai"]:checked');
+if (radioInput2) {labelText2 = radioInput2.parentElement.textContent.trim();}
+
+// D
+const radioInput3 = document.querySelector('input[name="sv_moodkurasufuniki"]:checked');
+if (radioInput3) {labelText3 = radioInput3.parentElement.textContent.trim();}
+
+// E
+const radioInput4 = document.querySelector('input[name="sv_groupmatomari"]:checked');
+if (radioInput4) {labelText4 = radioInput4.parentElement.textContent.trim();}
+
+// F
+const checkedBoxes2 = document.querySelectorAll('.sv_intent:checked');
+boxTexts2 = Array.from(checkedBoxes2).map(el => el.parentElement.textContent.trim());
+if (boxTexts2.length > 0) {
+  // チェックが1つ以上ある場合
+  bout2 = boxTexts2.join(', ');
+} else {
+  // チェックが0個の場合
+  bout2 = '未入力';
+}
+// G
+
+console.log(`【はじまり】 ${topDims[0].dim}（${THEMES[topDims[0].dim][0]}）を中心に物語が始まる。`);
+//    act2: `【ぼうけん】 ${topDims[1].dim} と ${topDims[2].dim} が課題シーンとなり、子ども達が挑戦する。`,
+//    act3: `【ゴール】 ${topDims[3].dim} をクライマックスにして、達成・ごほうび・フィナーレにつながる。`
+
+const targetElement = document.getElementById("qques");
+const newText=targetElement.value;
+
+let puronputo = `# 創作保育タロットから、運動会競技案生成依頼
+
+## 目的
+運動会競技をおはなし化するための象徴ベクトル計算(JSで計算済み)で、3枚カードから「強調テーマ」を抽出し、3～4シーンの競技案を作る。
+
+## ユーザー入力情報
+- クラス年齢・月
+『${userAge}歳児クラス, ${userMonth}月』
+`;
+
+if(newText!==''){puronputo += '- 自由入力テキスト: 『'+newText+'』';}
+
+puronputo += `
+
+### チェックボックス入力
+- 子どもの今の姿
+ ◆動きの質…${labelText1}
+ ◆対人・協同…${bout1}
+ ◆道具・素材の扱い…${labelText2}
+
+- クラスの傾向
+ ◆雰囲気…${labelText3}
+ ◆活動のまとまり…${labelText4}
+
+- 保育者の意図
+ ◆伸ばしたい力・その他…${bout2}
+
+
+## カード選出から導いたデータ
+- 選出カード象徴
+A「${selectedCards[0].name.slice(2)}」
+B「${selectedCards[1].name.slice(2)}」
+C「${selectedCards[2].name.slice(2)}」
+
+- 軸
+A軸:${pos17[0].dim}
+B軸:${pos17[1].dim}
+C軸:${pos17[2].dim}
+
+
+## 競技概要
+- トラックを1周する中に3つ以上の見せ場がある競技
+
+【コンセプト】
+A「${selectedCards[0].name.slice(2)}」または ${pos17[0].dim} を入り口に、
+B「${selectedCards[1].name.slice(2)}」または ${pos17[1].dim} で流れをつくり、
+C「${selectedCards[2].name.slice(2)}」または ${pos17[2].dim} で締める競技。
+
+------------------------------------
+
+# 出力形式
+
+## 競技名: ABC軸や象徴を混ぜた短い名前(参考: ${jidokekka.title})
+
+## ■ Act 1：導入（スタート場面）
+・シーン＝`;
+puronputo += getRandomValue(pos17[0].dim);
+puronputo += `
+・Aを象徴する導入文
+・Aのシーンを1つ入れる
+・スタートの意味づけ
+例: 「${jidokekka.act1}」「${pos17[0].dim}（${THEMES[pos17[0].dim][0]}）を中心に物語が始まる。」
+
+## ■ Act 2：展開（中盤のコーナー）
+・シーン＝`;
+
+let RDM1=getRandomValue(pos17[1].dim);
+let RDM2=getRandomValue(pos17[1].dim);
+if(RDM1===RDM2){RDM2=getRandomValue(pos17[1].dim);}
+if(RDM1===RDM2){RDM2=getRandomValue(pos17[1].dim);}
+if(RDM1===RDM2){RDM2=getRandomValue(pos17[1].dim);}
+
+puronputo += RDM1;
+puronputo += ', ';
+puronputo += RDM2;
+puronputo += `
+・Bの象徴的な動き・挑戦を入れる
+・ストーリーの“冒険感”や“課題”をつくる場面
+例: 「${jidokekka.act2}」「${pos17[1].dim} が課題シーンとなり、子ども達が挑戦する。」
+
+## ■ Act 3：結末（ゴール・締め）
+・シーン＝`;
+puronputo += getRandomValue(pos17[2].dim);
+puronputo += `
+・Cの象徴で締める
+・達成感や見せ場をつくる
+例：「${jidokekka.act3}」「${pos17[2].dim} をクライマックスにして、達成・ごほうび・フィナーレにつながる。」
+
+## ■ 必要な道具
+例: ${jidokekka.tools[0]}, ${jidokekka.tools[1]}, ${jidokekka.tools[2]}
+
+## ■ 保育者のねらい
+A・B・C 軸の意味を合成して3行生成。
+
+例: 
+- A軸：${jidokekka.goals[0]}
+- B軸：${jidokekka.goals[1]}
+- C軸：${jidokekka.goals[2]}
+
+## ■ 安全への配慮
+A・B・C 軸から2行生成。
+
+例: 
+- ${jidokekka.safety[0]}
+- ${jidokekka.safety[1]}
+- ${jidokekka.safety[2]}
+
+`;
+
+
+
+
+
+    document.getElementById('hozp2').innerHTML = puronputo;  // ← getElementByIdで取得
+    document.getElementById('textoo').innerHTML = puronputo;  // ← getElementByIdで取得
+
+// console.log('',);
+
+document.getElementById('kekka').innerHTML = CalcLOG;
+
+
+
+
+return;
+// 抜けます - - - - - - - - - - - - - - - -
+}
+
+
+
+
+
+function juunanavtable(v){
+const jnv = `<table border=0>
+<tr><td>
+<table border=1>
+<tr><td colspan=6 style="background:blue;color:white;">集団の力</td></tr>
+<tr><td width="50">次元</td><td width="70">協同性</td><td width="70">表現性</td><td width="70">刺激性</td><td width="70">対立性</td><td width="70">模倣性</td></tr>
+<tr><td>値</td><td>${v[0]}</td><td>${v[2]}</td><td>${v[6]}</td><td>${v[7]}</td><td>${v[11]}</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table border=1>
+<tr><td colspan=6 style="background:green;color:white;">個々の力</td></tr>
+<tr><td width="50">次元</td><td width="70">探索性</td><td width="70">身体性</td><td width="70">スピード</td><td width="70">慎重さ</td><td width="70">道具操作</td></tr>
+<tr><td>値</td><td>${v[1]}</td><td>${v[3]}</td><td>${v[8]}</td><td>${v[9]}</td><td>${v[10]}</td></tr>
+</table>
+</td></tr>
+<tr><td>
+<table border=1>
+<tr><td colspan=8 style="background:orange;color:white;">保育者の力</td></tr>
+<tr><td width="50">次元</td><td width="50">素材依存</td><td width="50">安全性</td><td width="50">ドラマ性</td><td width="50">没入感</td><td width="50">季節行事適性</td><td width="50">保護者への見せやすさ</td><td width="50">準備コスト</td></tr>
+<tr><td>値</td><td>${v[4]}</td><td>${v[5]}</td><td>${v[12]}</td><td>${v[13]}</td><td>${v[14]}</td><td>${v[15]}</td><td>${v[16]}</td></tr>
+</table>
+</td></tr>
+</table>
+`;
+
+return jnv;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // Fisher-Yatesシャッフルアルゴリズムで配列をシャッフル
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+</script>
+<!-- JS■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■┛ -->
+<hr>
+<h2><strong>プロンプト：</strong></h2>
+<textarea id="textoo" name="textoo" rows="5" cols="40" style="line-height:160%;"></textarea><br><button id="pcp" class="calc-btn" onclick="copyPrompt();">クリップボードにコピー</button><br>
+★<a href="https://chatgpt.com/">ChatGPT</a>、<a href="https://claude.ai/">Claude(クロード)</a>、<a href="https://gemini.google.com/app">Google Gemini</a>、<a href="https://www.perplexity.ai/">perplexity</a>、他に、リンクは貼れませんが、X(旧ツイッター)のGrok、Microsoft Copilot(コパイロット) 、でも動作します。<br>※Google検索のAIモードでは動作しませんでした。
+<hr>
+
+
+
+
+
+
+<hr>
+
+
+
+<div id="ksn" class="am2"></div>
+<script type="text/javascript">
+window.onload = function onLoad() {
+            target = document.getElementById("ksn"); target.innerHTML = kkk;
+}
+</script>
+
+
+<!--
+
+【テンプレ】上位3次元から運動会競技案をつくるフォーマット
+
+【競技名（自動生成可）】
+A軸の象徴 × B軸の象徴 × C軸の象徴 を混ぜた「短い名前」
+
+【コンセプト】
+A（軸の象徴テーマ）を入り口に、
+B（軸の象徴テーマ）で流れをつくり、
+C（軸の象徴テーマ）で締める競技。
+
+------------------------------------
+■ Act 1：導入（スタート場面）
+→ A軸（第1位）のシーン辞書から1つ選ぶ
+・Aを象徴する導入文
+・Aのシーンを1つ入れる
+・スタートの意味づけ
+
+テンプレ文：
+「まずは、Aの力を使って○○するよ。みんなで△△しながらスタート！」
+
+------------------------------------
+■ Act 2：展開（中盤のコーナー）
+→ B軸（第2位）のシーン辞書から1〜2個取る
+・Bの象徴的な動き・挑戦を入れる
+・ストーリーの“冒険感”や“課題”をつくる場面
+
+テンプレ文：
+「つぎは、Bの場面だよ。□□を見つけたり、☆☆に挑戦したりしよう！」
+
+------------------------------------
+■ Act 3：結末（ゴール・締め）
+→ C軸（第3位）のシーン辞書から1つ選ぶ
+・Cの象徴で締める
+・達成感や見せ場をつくる
+
+テンプレ文：
+「さいごは C の出番。○○をやりとげたら、ゴールだよ！」
+
+------------------------------------
+■ 必要な道具
+(AシーンとBシーンとCシーンで使われた道具を合成)
+
+------------------------------------
+■ 教師のねらい（自動生成）
+A・B・C 軸の意味を合成して3行生成。
+
+例文テンプレ：
+・A軸：〜〜することで、○○の姿を引き出す。
+・B軸：〜〜の挑戦を通して、□□を育む。
+・C軸：〜〜して、☆☆の達成感を味わう。
+
+------------------------------------
+■ 安全への配慮（自動生成）
+・身体性、安全性の次元から安全配慮を1行ずつ。
+------------------------------------
+
+
+-->
+</body>
+</html>
