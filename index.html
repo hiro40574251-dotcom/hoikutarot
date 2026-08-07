@@ -1,11 +1,78 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>保育プロンプト生成ツール ARCANA INFANTIA - AI連携タロット</title>
-<script src="./tarotlink.js?p=(new Date()).getTime()"></script>
-<script src="./hoikuisodic.js"></script>
+<script type="text/javascript">
+  var ksnum = 1; // JSが読み込まれる前に実行する（varを使う）
+
+const grkei = `<hr style=" background-color:#f56342; border:none; box-shadow:1px 0px 9px 5px #f56342;">
+<hr style=" background-color:#f5ad42; border:none; box-shadow:1px 0px 9px 5px #f5ad42;">
+<hr style=" background-color:#f5ce42; border:none; box-shadow:1px 0px 9px 5px #f5ce42;">
+<hr style=" background-color:#e9f542; border:none; box-shadow:1px 0px 9px 5px #e9f542;">
+<hr style=" background-color:#b3f542; border:none; box-shadow:1px 0px 9px 5px #b3f542;">
+<hr style=" background-color:#78f542; border:none; box-shadow:1px 0px 9px 5px #78f542;">
+<hr style=" background-color:#42f569; border:none; box-shadow:1px 0px 9px 5px #42f569;">`;
+
+function Dcadi(name, align){ // ex=('主体性', 'right')
+let jgnimg = '';
+     if (name==='主体性' || name==='探索性' || name==='協同性' || name==='表現性' || name==='身体性'){
+             jgnimg = 'vec1-5.png';
+     } else if (name==='計画性' || name==='柔軟性' || name==='安全性' || name==='素材依存' || name==='時間スケール'){
+             jgnimg = 'vec6-10.png';
+     } else if (name==='安定性' || name==='刺激性' || name==='葛藤性' || name==='達成感' || name==='繋がり性'){
+             jgnimg = 'vec11-15.png';
+     }
+const Dcrdisp = `<table border=0 align="rignt" style="background-image:url('./img/a_infantia/${jgnimg}');background-repeat:no-repeat;width:158px;height:260px;float:${align};margin:10px;"><tr><td style="width:158px;height:210px;">&nbsp;</td></tr><tr><td style="width:158px;height:50px;font-weight:bold;text-align:center;">${name}</td></tr></table>`;
+return Dcrdisp;
+};
+
+const jigenkaishaku = `<h3>15次元値の解釈ガイド</h3><small>プリセット同士の比較や文脈の把握などに。重み付けで1.00を超える場合もあり。</small><table border=1><tr><td>値の範囲</td><td>解釈</td><td>補足</td></tr>
+<tr><td><span style="color:#00BD89;background:white;">0.30</span><span style="color:#00BDB9;background:white;">～</span><span style="color:#00AEE1;background:white;">0.45</span></td>
+<td>非常に低い — この特性はほぼ不在</td><td>その次元は場面の本質でない</td>
+</tr>
+<tr><td><span style="color:#098AFF; background:#FFFEC1;">0.45</span><span style="color:#094DFF; background:#FFFEC1;">～</span><span style="color:#090FFF; background:#FFFEC1;">0.60</span></td>
+<td>低い — 背景的に存在する程度</td><td>意識的な働きかけは不要</td>
+</tr>
+<tr><td><span style="color:#4009FF; background:#C1FFF4;">0.60</span><span style="color:#7D09FF; background:#C1FFF4;">～</span><span style="color:#BB09FF; background:#C1FFF4;">0.75</span></td>
+<td>中程度 — 場面に適度に含まれる</td><td>状況に応じた対応で十分</td>
+</tr>
+<tr><td><span style="color:#F909FF; background:#FFD8AC;">0.75～</span><span style="color:#FF098A; background:#FFD8AC;">0.85</span></td>
+<td>高い — 場面を特徴づける主要因</td><td>保育者の意図的な設計が必要</td>
+</tr>
+<tr><td><span style="color:#FF098A; background:yellow;">0.85</span><span style="color:#FF094D; background:yellow;">～</span><span style="color:#FF090F; background:yellow;">1.00</span></td>
+<td>非常に高い — 場面の中核をなす</td><td>環境・教材・言葉かけの最優先事項</td>
+</tr>
+<tr><td colspan="3" style="font-size:15px;">注: 葛藤性・刺激性・素材依存など一部の次元は、高い＝良い／低い＝悪いではなく、<br>
+　場面の性質を示す記述的な指標です。</td>
+</tr>
+</table>
+`;
+
+function precadi(name, align){ // ex=('日常保育3', 'right')
+const pricrdisp = `<table border=0 align="rignt" style="background-image:url('./img/a_infantia/preset.png');background-repeat:no-repeat;width:158px;height:260px;float:${align};margin:10px;"><tr><td style="width:158px;height:210px;">&nbsp;</td></tr><tr><td style="width:158px;height:50px;font-weight:bold;text-align:center;">${name}</td></tr></table>`;
+return pricrdisp;
+};
+// ★次元カード表示
+// outppp += Dcadi(gaps[0].dimension, 'right'); ＠クロスオーバー
+function Dcadi(name, align){ // ex=('主体性', 'right')
+let jgnimg = '';
+     if (name==='主体性' || name==='探索性' || name==='協同性' || name==='表現性' || name==='身体性'){
+             jgnimg = 'vec1-5.png';
+     } else if (name==='計画性' || name==='柔軟性' || name==='安全性' || name==='素材依存' || name==='時間スケール'){
+             jgnimg = 'vec6-10.png';
+     } else if (name==='安定性' || name==='刺激性' || name==='葛藤性' || name==='達成感' || name==='繋がり性'){
+             jgnimg = 'vec11-15.png';
+     }
+const Dcrdisp = `<table border=0 align="rignt" style="background-image:url('./img/a_infantia/${jgnimg}');background-repeat:no-repeat;width:158px;height:260px;float:${align};margin:10px;"><tr><td style="width:158px;height:210px;">&nbsp;</td></tr><tr><td style="width:158px;height:50px;font-weight:bold;text-align:center;">${name}</td></tr></table>`;
+return Dcrdisp;
+};
+
+
+</script>
+<!-- その後にJSを読み込む -->
+<script src="./tarot/tarotlink.js?p=(new Date()).getTime()"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
@@ -255,14 +322,14 @@
         }
     </style>
 </head>
-<body style="background-image: url(../img/marseille/kabe.jpg);">
-<div style="margin:0px;position: absolute;width:520px;height:570px;right: 0px; top: 0px;background-image: url(../img/rtop.jpg); z-index: -1;"></div>
+<body style="background-image: url(./img/marseille/kabe.jpg);">
+<div style="margin:0px;position: absolute;width:520px;height:570px;right: 0px; top: 0px;background-image: url(./img/rtop.jpg); z-index: -1;"></div>
 <div class="container">
-<img src="../img/marseille/hobaybnr.png">
-<span style="font:8px;"><a href="https://jdp.zouri.jp/tarot/tarotindex.htm">
-<br>▲TAROT TOP</a>|<a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a></span><br>
+<img src="./img/marseille/hobaybnr.png">
+<span style="font:8px;">
+<br><a href="https://ameblo.jp/hiro40574251/" target="_blank">▲BLOG</a>|<a href="https://www.youtube.com/@JDPianism" target="_blank">▲Youtube</a>|<a href="./tarot/tarotindex.htm">▲普通のTAROT</a></span><br>
 
-<img src="../img/hoikutarot.png" align="right" width="200"><h1>保育AIプロンプト生成ツール</h1><br><br>
+<img src="./img/hoikutarot.png" align="right" width="200"><h1>保育AIプロンプト生成ツール</h1><br><br>
 ※ 占いではありません。タロット形式で、わかりやすい保育キーワード(保育象徴)を活用した、<ul><li>保育士用の便利ツール</li><li>保育の専門性を保つ実用的なAI連携ツール</li>
 です。<small>→…スプレッド集の下につづく</small></ul>
 </div>
@@ -270,7 +337,7 @@
     <header>
         <h2>保育タロットスプレッド紹介</h2>
     </header>
-<small>次元定義：<img src="../img/feature.png" height="14">…feature空間（活動の性質・15次元）／<img src="../img/taikyoku.png" height="14">…polarity空間（価値観の方向・5次元）／<img src="../img/isou.png" height="14">…hue空間（生成段階・1次元の環）／<img src="../img/zpd.png" height="14">…ZPD空間（ヴィゴツキーの発達の最近接領域 Zone of Proximal Development の理論を応用・15次元）</small><br>
+<small>次元定義：<img src="./img/feature.png" height="14">…feature空間（活動の性質・15次元）／<img src="./img/taikyoku.png" height="14">…polarity空間（価値観の方向・5次元）／<img src="./img/isou.png" height="14">…hue空間（生成段階・1次元の環）／<img src="./img/zpd.png" height="14">…ZPD空間（ヴィゴツキーの発達の最近接領域 Zone of Proximal Development の理論を応用・15次元）</small><br>
 <span class="card-title">スプレッド名</span><span class="usage-tag">用途</span>
 <span class="positions">ポジション配置</span>
 <span class="algorithm">アルゴリズム</span>
@@ -278,9 +345,9 @@
     <div class="spread-grid">
 
         <!-- ZPD発達ダイナミクス4 -->
-        <article class="spread-card" style="background-image: url('../img/tran.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/tran.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./developmental_dynamics4.htm" target="_blank">発達ダイナミクス4スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/developmental_dynamics4.htm" target="_blank">発達ダイナミクス4スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">気になる子の理解・対応・支援</span>
             </div>
             <div class="card-body">
@@ -303,8 +370,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./developmental_dynamics4.htm" target="_blank">
-                        <img src="../img/zpd4.png" alt="発達ダイナミクス4スプレッド">
+                    <a href="./tarot/developmental_dynamics4.htm" target="_blank">
+                        <img src="./img/zpd4.png" alt="発達ダイナミクス4スプレッド">
                     </a>
                     <div class="algorithm">ベクトル計算</div>
                 </div>
@@ -312,9 +379,9 @@
         </article>
 
         <!-- ZPD「活動→子ども」逆引きスプレッド -->
-        <article class="spread-card" style="background-image: url('../img/gyak.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/gyak.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./reverse_spread.htm" target="_blank">「活動→子ども」逆引きスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"> <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/reverse_spread.htm" target="_blank">「活動→子ども」逆引きスプレッド <img alt="ZPD" src="./img/zpd.png" height="20"> <img alt="活動" src="./img/feature.png" height="20"></a></h3>
                 <span class="usage-tag">活動から特定の子向け調整</span>
             </div>
             <div class="card-body">
@@ -336,8 +403,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./reverse_spread.htm" target="_blank">
-                        <img src="../img/rev.png" alt="「活動→子ども」逆引きスプレッド">
+                    <a href="./tarot/reverse_spread.htm" target="_blank">
+                        <img src="./img/rev.png" alt="「活動→子ども」逆引きスプレッド">
                     </a>
                     <div class="algorithm">活動を子どもQで評価</div>
                 </div>
@@ -345,9 +412,9 @@
         </article>
 
         <!-- ZPD保育環境デザインスプレッド -->
-        <article class="spread-card" style="background-image: url('../img/envd.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/envd.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./childcare_environment.htm" target="_blank">保育環境デザインスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/childcare_environment.htm" target="_blank">保育環境デザインスプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">環境構成の場・関係・時間を設計</span>
             </div>
             <div class="card-body">
@@ -372,8 +439,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./childcare_environment.htm" target="_blank">
-                        <img src="../img/envd.png" alt="保育環境デザインスプレッド">
+                    <a href="./tarot/childcare_environment.htm" target="_blank">
+                        <img src="./img/envd.png" alt="保育環境デザインスプレッド">
                     </a>
                     <div class="algorithm">D次元を起点に3軸展開</div>
                 </div>
@@ -383,9 +450,9 @@
 <!-- ★★★★★★★★★★★★★★★★★★★★★★★★ -->
         <!-- ZPDスプレッド -->
 <!-- 
-        <article class="spread-card" style="background-image: url('../img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./daily_living_skills.htm" target="_blank">スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/daily_living_skills.htm" target="_blank">スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">援助法</span>
             </div>
             <div class="card-body">
@@ -407,8 +474,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./daily_living_skills.htm" target="_blank">
-                        <img src="../img/lskill.png" alt="スプレッド">
+                    <a href="./tarot/daily_living_skills.htm" target="_blank">
+                        <img src="./img/lskill.png" alt="スプレッド">
                     </a>
                     <div class="algorithm">空間</div>
                 </div>
@@ -418,9 +485,9 @@
 <!-- ★★★★★★★★★★★★★★★★★★★★★★★★ -->
 
         <!-- ZPD遊びの拡張スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/plex.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/plex.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./play_expand_spread.htm" target="_blank">遊びの拡張スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/play_expand_spread.htm" target="_blank">遊びの拡張スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">援助法</span>
             </div>
             <div class="card-body">
@@ -442,8 +509,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./play_expand_spread.htm" target="_blank">
-                        <img src="../img/ply.png" alt="遊びの拡張スプレッド">
+                    <a href="./tarot/play_expand_spread.htm" target="_blank">
+                        <img src="./img/ply.png" alt="遊びの拡張スプレッド">
                     </a>
                     <div class="algorithm">A5運動意欲×C2他児関係×B2表出言語</div>
                 </div>
@@ -451,9 +518,9 @@
         </article>
 
         <!-- ZPD保育者協働スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/col.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/col.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./collab_spread.htm" target="_blank">保育者協働スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/collab_spread.htm" target="_blank">保育者協働スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">保育者チーム協働プラン</span>
             </div>
             <div class="card-body">
@@ -479,8 +546,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./collab_spread.htm" target="_blank">
-                        <img src="../img/kyod.png" alt="保育者協働スプレッド">
+                    <a href="./tarot/collab_spread.htm" target="_blank">
+                        <img src="./img/kyod.png" alt="保育者協働スプレッド">
                     </a>
                     <div class="algorithm">C3大人信頼・D1家庭連携を複数人格に分解</div>
                 </div>
@@ -488,9 +555,9 @@
         </article>
 
         <!-- ZPD育ちの時系列スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/grow.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/grow.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./timeline_spread.htm" target="_blank">育ちの時系列スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/timeline_spread.htm" target="_blank">育ちの時系列スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">子どもの育ちの時系列分析</span>
             </div>
             <div class="card-body">
@@ -514,8 +581,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./timeline_spread.htm" target="_blank">
-                        <img src="../img/grow.png" alt="育ちの時系列スプレッド">
+                    <a href="./tarot/timeline_spread.htm" target="_blank">
+                        <img src="./img/grow.png" alt="育ちの時系列スプレッド">
                     </a>
                     <div class="algorithm">全次元×時間スケール変形</div>
                 </div>
@@ -523,9 +590,9 @@
         </article>
 
         <!-- ZPD言語・コミュニケーションスプレッド -->
-        <article class="spread-card" style="background-image: url('../img/com.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/com.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./lang_spread.htm" target="_blank">言語・コミュニケーションスプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/lang_spread.htm" target="_blank">言語・コミュニケーションスプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">言葉の育ちに困難のある子への対応</span>
             </div>
             <div class="card-body">
@@ -547,8 +614,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./lang_spread.htm" target="_blank">
-                        <img src="../img/lang.png" alt="言語・コミュニケーションスプレッド">
+                    <a href="./tarot/lang_spread.htm" target="_blank">
+                        <img src="./img/lang.png" alt="言語・コミュニケーションスプレッド">
                     </a>
                     <div class="algorithm">B次元主軸＋C3大人信頼補助</div>
                 </div>
@@ -556,9 +623,9 @@
         </article>
 
         <!-- ZPD感覚・身体スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/kankaku.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/kankaku.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./sensory_spread.htm" target="_blank">感覚・身体スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/sensory_spread.htm" target="_blank">感覚・身体スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">感覚統合・身体発達に困難のある子への対応</span>
             </div>
             <div class="card-body">
@@ -580,8 +647,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./sensory_spread.htm" target="_blank">
-                        <img src="../img/kank.png" alt="感覚・身体スプレッド">
+                    <a href="./tarot/sensory_spread.htm" target="_blank">
+                        <img src="./img/kank.png" alt="感覚・身体スプレッド">
                     </a>
                     <div class="algorithm">A次元（5次元）のみ＋A3感覚統合に超高ウェイト</div>
                 </div>
@@ -589,9 +656,9 @@
         </article>
 
         <!-- ZPD情緒安定スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/emo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/emo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./emotion_spread.htm" target="_blank">情緒安定スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/emotion_spread.htm" target="_blank">情緒安定スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">感情的に不安定な子への対応</span>
             </div>
             <div class="card-body">
@@ -614,8 +681,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./emotion_spread.htm" target="_blank">
-                        <img src="../img/joucho.png" alt="情緒安定スプレッド">
+                    <a href="./tarot/emotion_spread.htm" target="_blank">
+                        <img src="./img/joucho.png" alt="情緒安定スプレッド">
                     </a>
                     <div class="algorithm">C次元主軸で低スコア側から選出</div>
                 </div>
@@ -623,9 +690,9 @@
         </article>
 
         <!-- ZPD生活スキル習得スプレッド -->
-        <article class="spread-card" style="background-image: url('../img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/skill.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./daily_living_skills.htm" target="_blank">生活スキル習得スプレッド <img alt="ZPD" src="../img/zpd.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/daily_living_skills.htm" target="_blank">生活スキル習得スプレッド <img alt="ZPD" src="./img/zpd.png" height="20"></a></h3>
                 <span class="usage-tag">着替え・排泄・などの特定スキルに絞った援助法</span>
             </div>
             <div class="card-body">
@@ -647,8 +714,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./daily_living_skills.htm" target="_blank">
-                        <img src="../img/lskill.png" alt="生活スキル習得スプレッド">
+                    <a href="./tarot/daily_living_skills.htm" target="_blank">
+                        <img src="./img/lskill.png" alt="生活スキル習得スプレッド">
                     </a>
                     <div class="algorithm">A4協調×B4模倣 を強調したプラス次元抽出</div>
                 </div>
@@ -657,9 +724,9 @@
 
 
         <!-- ケルト十字法 -->
-        <article class="spread-card" class="spread-card" style="background-image: url('../img/celt.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" class="spread-card" style="background-image: url('./img/celt.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./hoikutarotceltic.htm" target="_blank">保育活動案生成 ケルト十字法 <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/hoikutarotceltic.htm" target="_blank">保育活動案生成 ケルト十字法 <img alt="活動" src="./img/feature.png" height="20"></a></h3>
                 <span class="usage-tag">月案・行事・指導案・週案・日案</span>
             </div>
             <div class="card-body">
@@ -673,8 +740,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./hoikutarotceltic.htm" target="_blank">
-                        <img src="../img/marseille/celt.png" alt="保育ケルト十字法">
+                    <a href="./tarot/hoikutarotceltic.htm" target="_blank">
+                        <img src="./img/marseille/celt.png" alt="保育ケルト十字法">
                     </a>
                     <div class="algorithm">ベイズ更新・モンテカルロ法</div>
                 </div>
@@ -682,9 +749,9 @@
         </article>
 
         <!-- 即興5枚引き -->
-        <article class="spread-card" class="spread-card" style="background-image: url('../img/sokyo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" class="spread-card" style="background-image: url('./img/sokyo.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./hoikutarot5cards.htm" target="_blank">保育活動案 即興5枚引きスプレッド <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/hoikutarot5cards.htm" target="_blank">保育活動案 即興5枚引きスプレッド <img alt="活動" src="./img/feature.png" height="20"></a></h3>
                 <span class="usage-tag">週案・日案・即興活動</span>
             </div>
             <div class="card-body">
@@ -701,8 +768,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./hoikutarot5cards.htm" target="_blank">
-                        <img src="../img/sokkyo5.png" alt="即興5枚引きスプレッド">
+                    <a href="./tarot/hoikutarot5cards.htm" target="_blank">
+                        <img src="./img/sokkyo5.png" alt="即興5枚引きスプレッド">
                     </a>
                     <div class="algorithm">グループ制御ランダム</div>
                 </div>
@@ -710,9 +777,9 @@
         </article>
 
         <!-- ズレ→環境構成 -->
-        <article class="spread-card" style="background-image: url('../img/zrk.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/zrk.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./hoikutarotzure.htm" target="_blank">ズレ→環境構成スプレッド <img alt="活動" src="../img/feature.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/hoikutarotzure.htm" target="_blank">ズレ→環境構成スプレッド <img alt="活動" src="./img/feature.png" height="20"></a></h3>
                 <span class="usage-tag">環境構成の見落としチェック・気付き</span>
             </div>
             <div class="card-body">
@@ -728,8 +795,8 @@
 <li>カイ2乗の考え方を保育領域向けにカスタマイズした重み付き残差分析</li>
 </ul>                </div>
                 <div class="card-image-container">
-                    <a href="./hoikutarotzure.htm" target="_blank">
-                        <img src="../img/zk.png" alt="ズレ→環境構成">
+                    <a href="./tarot/hoikutarotzure.htm" target="_blank">
+                        <img src="./img/zk.png" alt="ズレ→環境構成">
                     </a>
                     <div class="algorithm">ベクトル内積計算</div>
                 </div>
@@ -737,9 +804,9 @@
         </article>
 
         <!-- 保育位相スペクトラム -->
-        <article class="spread-card" style="background-image: url('../img/isos.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/isos.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./childcarephasespectrum.htm" target="_blank">保育位相スペクトラム ～6相診断～<br> <img alt="活動" src="../img/feature.png" height="20"> <img alt="対極性" src="../img/taikyoku.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> </a></h3>
+                <h3 class="card-title"><a href="./tarot/childcarephasespectrum.htm" target="_blank">保育位相スペクトラム ～6相診断～<br> <img alt="活動" src="./img/feature.png" height="20"> <img alt="対極性" src="./img/taikyoku.png" height="20"> <img alt="位相" src="./img/isou.png" height="20"> </a></h3>
                 <span class="usage-tag">活動の方向性確認・保育観共有・<br>子どもの欲求、ズレ、安全性整理</span>
             </div>
             <div class="card-body">
@@ -759,8 +826,8 @@
 <li>位相補正＝Hue位相差60°のガウス</li></ol>
                 </div>
                 <div class="card-image-container">
-                    <a href="./childcarephasespectrum.htm" target="_blank">
-                        <img src="../img/6so.png" alt="保育位相スペクトラム">
+                    <a href="./tarot/childcarephasespectrum.htm" target="_blank">
+                        <img src="./img/6so.png" alt="保育位相スペクトラム">
                     </a>
                     <div class="algorithm">各ポジごと独自アルゴリズム＋弱揺らぎ</div>
                 </div>
@@ -768,9 +835,9 @@
         </article>
 
         <!-- おはなし生成 -->
-        <article class="spread-card" class="spread-card" style="background-image: url('../img/ehon.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" class="spread-card" style="background-image: url('./img/ehon.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./story3actspread.htm" target="_blank">おはなし生成“3アクト法”フラクタルスプレッド<br><img alt="活動" src="../img/feature.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> → <img alt="物語" src="../img/story.png" height="20"></a></h3>
+                <h3 class="card-title"><a href="./tarot/story3actspread.htm" target="_blank">おはなし生成“3アクト法”フラクタルスプレッド<br><img alt="活動" src="./img/feature.png" height="20"> <img alt="位相" src="./img/isou.png" height="20"> → <img alt="物語" src="./img/story.png" height="20"></a></h3>
                 <span class="usage-tag">幼保で活用するお話の骨格作り</span>
             </div>
             <div class="card-body">
@@ -784,8 +851,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./story3actspread.htm" target="_blank">
-                        <img src="../img/3act.png" alt="おはなし生成フラクタルスプレッド">
+                    <a href="./tarot/story3actspread.htm" target="_blank">
+                        <img src="./img/3act.png" alt="おはなし生成フラクタルスプレッド">
                     </a>
                     <div class="algorithm">ベクトル差分ベース・フラクタル展開</div>
                 </div>
@@ -793,9 +860,9 @@
         </article>
 
         <!-- 運動会種目生成 -->
-        <article class="spread-card" class="spread-card" style="background-image: url('../img/und.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" class="spread-card" style="background-image: url('./img/und.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./undokaiact3.htm" target="_blank">運動会種目生成おはなし“3アクト法”<br><img alt="活動" src="../img/feature.png" height="20"> → <img alt="物語" src="../img/story.png" height="20"> </a></h3>
+                <h3 class="card-title"><a href="./tarot/undokaiact3.htm" target="_blank">運動会種目生成おはなし“3アクト法”<br><img alt="活動" src="./img/feature.png" height="20"> → <img alt="物語" src="./img/story.png" height="20"> </a></h3>
                 <span class="usage-tag">運動会競技アイデア・意味付け</span>
             </div>
             <div class="card-body">
@@ -811,8 +878,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./undokaiact3.htm" target="_blank">
-                        <img src="../img/undact.png" alt="運動会種目生成おはなし“3アクト法”">
+                    <a href="./tarot/undokaiact3.htm" target="_blank">
+                        <img src="./img/undact.png" alt="運動会種目生成おはなし“3アクト法”">
                     </a>
                     <div class="algorithm">ベイズ更新</div>
                 </div>
@@ -820,9 +887,9 @@
         </article>
 
         <!-- クロスオーバースプレッド -->
-        <article class="spread-card" style="background-image: url('../img/crov.jpg'); background-repeat:no-repeat;background-position:left bottom;">
+        <article class="spread-card" style="background-image: url('./img/crov.jpg'); background-repeat:no-repeat;background-position:left bottom;">
             <div class="card-header">
-                <h3 class="card-title"><a href="./crossoverspread.htm" target="_blank">クロスオーバースプレッド<br> <img alt="活動" src="../img/feature.png" height="20"> <img alt="対極性" src="../img/taikyoku.png" height="20"> <img alt="位相" src="../img/isou.png" height="20"> </a></h3>
+                <h3 class="card-title"><a href="./tarot/crossoverspread.htm" target="_blank">クロスオーバースプレッド<br> <img alt="活動" src="./img/feature.png" height="20"> <img alt="対極性" src="./img/taikyoku.png" height="20"> <img alt="位相" src="./img/isou.png" height="20"> </a></h3>
                 <span class="usage-tag">保育アイデア・遊びの創出</span>
             </div>
             <div class="card-body">
@@ -836,8 +903,8 @@
                     </div>
                 </div>
                 <div class="card-image-container">
-                    <a href="./crossoverspread.htm" target="_blank">
-                        <img src="../img/covr.png" alt="クロスオーバースプレッド">
+                    <a href="./tarot/crossoverspread.htm" target="_blank">
+                        <img src="./img/covr.png" alt="クロスオーバースプレッド">
                     </a>
                     <div class="algorithm">差分次元計算</div>
                 </div>
@@ -845,20 +912,16 @@
         </article>
     </div>
 
-    <section class="footer-links" style="background-image: url('../img/foo.jpg'); background-repeat:no-repeat;background-size:cover ;">
+    <section class="footer-links" style="background-image: url('./img/foo.jpg'); background-repeat:no-repeat;background-size:cover ;">
         <h2>おまけ・関連リソース</h2>
         <ul>
             <li>
-                <a href="./arcana-compatibility-matrix.htm">保育タロット象徴・ペア相性マトリックス</a>
+                <a href="./tarot/arcana-compatibility-matrix.htm">保育タロット象徴・ペア相性マトリックス</a>
                 <span>946通りのペアを掲載。連想ゲームのように楽しめます。</span>
             </li>
             <li>
-                <a href="./arcana-celtic-mvp.htm">活動案 ケルト十字法MVP版(反則)</a>
+                <a href="./tarot/arcana-celtic-mvp.htm">活動案 ケルト十字法MVP版(反則)</a>
                 <span>初期のカード選出ロジックを採用した、最小機能版です。</span>
-            </li>
-            <li>
-                <a href="./zpd.htm"> 発達ダイナミクス4 プロトタイプ</a>
-                <span>初期のカード選出ロジック(①同。ただし逆位置なし, ②位相+60°回転→Givens回転の連鎖, ③符号反転, ④1と3の中間)を採用した、試作版。(要Claudeアカウント)</span>
             </li>
         </ul>
     </section>
@@ -869,15 +932,15 @@
 <hr>
 <div class="container">
 
-<small>→冒頭の続き</small>
+<small>→冒頭の説明の続き</small>
 ※ タロットと言っても、占いではなく、
 <ul>
-<li>ベテラン保育士の「経験則や優れた直感、保育のセンス」としか表現しようがなかった「保育の専門性」を、ざっくりとでいいからいったん数値化すると、数学的に根拠を持った計算ができ、それなりに正しい方向性の推測が出せる構造</li>
+<li>今まで、「経験則」「優れた直感」「保育のセンス」としか表現しようがなかったベテラン保育士の「保育の専門性」を数値化すると、数学的に根拠を持った計算ができ、それなりに正しい方向性の推測が出せる構造</li>
 <li>保育文脈と象徴の距離を推定し、ベクトルや類似度計算・ベイズ更新するだけで活動・アドバイス・分析が出てくる構造</li><li>保育専用計算論的AI連携推論エンジン</li><li>保育の専門性のレールを敷き、AIを制御して賢く使う保育専用の推論ツール</li><li>発達心理、保育観、活動の性質、数学、統計学、…などを統合した計算論的保育モデル</li><li>多次元の座標空間(15次元ベクトル + 5対極軸 + 1位相)で、次の最適解をシミュレートするエンジン</li><li>保育という極めて不確定な事象を、数学的に制御・支援可能にしたフレームワーク</li>
 です。</ul>
 
-実際に活用する際は、「タロット」「象徴」「カード」「ポジション」といった言葉は使わず「保育キーワード」か「キーワード」に変えると自然です。<ul>（例）：
-<li>発達の壁は「変容」のカード → 発達の壁のキーワードは「変容」</li><li>活動のねらいのポジションは「意欲」カード → 活動のねらいは「意欲」がキーワード。</li><li></li></ul>
+タロットっぽい外観で親しみやすく、わかりやすくしていますが、実際に活用する際は、「タロット」「象徴」「カード」「ポジション」といった言葉は使わず「保育キーワード」や「キーワード」に変えると自然に説明できます。<ul>（例）：
+<li>発達の壁は「変容」のカード → 発達の壁のキーワードは「変容」</li><li>活動のねらいのポジションは「意欲」カード → 活動のねらいは「意欲」がキーワード。</li>…など。</ul>
 
 <br><br>
 
@@ -893,7 +956,7 @@ document.getElementById("purs").innerHTML = pupu;
 
 
 <ul>スプレッドにより違いはありますが、だいたいこのような流れです。
-<li><img alt="活動" src="../img/feature.png" height="20">ベクトルのスプレッド<ol>
+<li><img alt="活動" src="./img/feature.png" height="20">ベクトルのスプレッド<ol>
 <li><span style="background:yellow;">年齢・月</span>を選択</li>
 <li><span style="background:yellow;">保育活動プリセット</span>を選択</li>
 <li><span style="background:yellow;">カードをひく</span>ボタン押下</li>
@@ -901,7 +964,7 @@ document.getElementById("purs").innerHTML = pupu;
 <li>ChatGPTなどの<span style="background:yellow;">会話型AIに貼り付け</span></li>
 </ol>
 </li>
-<li><img alt="ZPD" src="../img/zpd.png" height="20">ベクトルのスプレッド<small>(AIによる自然言語のベクトル値解析が入ります。活動ベクトルのプリセット化と比べ、「子どもの事例の多様さ＆保育者の主観が入る」ため、個別の事例のベクトル化難易度が高い。)</small><ol>
+<li><img alt="ZPD" src="./img/zpd.png" height="20">ベクトルのスプレッド<small>(AIによる自然言語のベクトル値解析が入ります。活動ベクトルのプリセット化と比べ、「子どもの事例の多様さ＆保育者の主観が入る」ため、個別の事例のベクトル化難易度が高い。)</small><ol>
 <li><span style="background:yellow;">年齢</span>(2～5歳児クラス)を選択</li>
 <li><span style="background:yellow;">似た事例</span>を選択</li>
 <li><span style="background:yellow;">自由テキスト</span>を編集</li>
@@ -984,7 +1047,7 @@ document.getElementById("jgksk").innerHTML = jigenkaishaku;
 
 </li><!-- 2 -->
 <li><!-- 2 -->
-<img src="../img/vigo.jpg" align="right" alt="ヴィコツキー"><h3>【ZPD用】子どもの発達を捉える次元（15次元）(-1～1の値)<br><small>ヴィゴツキーの「発達の最近接領域」の理論を応用しています。</small></h3>
+<img src="./img/vigo.jpg" align="right" alt="ヴィコツキー"><h3>【ZPD用】子どもの発達を捉える次元（15次元）(-1～1の値)<br><small>ヴィゴツキーの「発達の最近接領域」の理論を応用しています。</small></h3>
 <ul>
 <li>領域A 身体・運動（5次元）
 <ul>
@@ -1024,7 +1087,7 @@ document.getElementById("jgksk").innerHTML = jigenkaishaku;
 
 <li><span style="color:green;font-weight:bold;font-size:20px;">5次元の対極軸</span>
 <h3>保育の価値観の方向性を表す（5次元）(-1～1の値)</h3>
-<ol><img src="../img/pol.png" align="right" alt="対極軸">
+<ol><img src="./img/pol.png" align="right" alt="対極軸">
 <li>養護↔教育</li>
 子どもの安全・安心を守る←→発達・学びを促す
 <li>個別↔集団</li>
@@ -1043,7 +1106,7 @@ document.getElementById("jgksk").innerHTML = jigenkaishaku;
 <li><span style="color:green;font-weight:bold;font-size:20px;">6位相環</span>
 
 <h3>活動の流れの可視化（1次元の環）(0°～360°)</h3>
-<ol><img src="../img/iso.png" align="right" alt="位相環">
+<ol><img src="./img/iso.png" align="right" alt="位相環">
 注：近傍区分での境界<li>きっかけ（中心0°: 330°～ 30°未満）trigger</li><li>模倣（中心60°: 30°～ 90°未満）imitation</li><li>構造化（中心120°: 90°～150°未満）structure</li><li>協働（中心180°: 150°～210°未満）  collaboration</li><li>創造（中心240°: 210°～270°未満）creation</li><li>省察（中心300°: 270°～330°未満）reflection</li>
 </ol>
 
@@ -1150,6 +1213,7 @@ document.getElementById("jgksk").innerHTML = jigenkaishaku;
 
 <script type="text/javascript">
 window.onload = function onLoad() {
+ksnum=1; // インデックスhtmlだけ
             target = document.getElementById("ksn"); target.innerHTML = kkk;
 }
 </script>
